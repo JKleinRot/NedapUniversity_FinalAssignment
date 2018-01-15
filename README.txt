@@ -1,0 +1,1 @@
+Instructions for installing and starting the game Go
