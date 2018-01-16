@@ -12,7 +12,9 @@ import stone.StoneColor;
  */
 public class StoneColorTest {
 	
-	/** Tests that StoneColor.WHITE and StoneColor.BLACK are present in StoneColor. */
+	/** 
+	 * Tests that StoneColor.WHITE and StoneColor.BLACK are present in StoneColor. 
+	 */
 	@Test
 	public void testPossibleValues() {
 		assertNotNull(StoneColor.valueOf("WHITE"));

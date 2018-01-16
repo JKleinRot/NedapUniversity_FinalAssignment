@@ -20,7 +20,9 @@ public class StoneTest {
 	/** Test variable for a Stone object. */
 	private Stone whiteStone;
 	
-	/** Creates a black and a white stone. */
+	/** 
+	 * Creates a black and a white stone. 
+	 */
 	@Before
 	public void setUp() {
 		blackStone = new Stone(StoneColor.BLACK);
@@ -37,7 +39,9 @@ public class StoneTest {
 		assertEquals(StoneColor.WHITE, whiteStone.getColor());
 	}
 	
-	/** Tests setting the liberties to a new value. */
+	/** 
+	 * Tests setting the liberties to a new value. 
+	 */
 	@Test
 	public void testSetLiberties() {
 		blackStone.setLiberties(2);
