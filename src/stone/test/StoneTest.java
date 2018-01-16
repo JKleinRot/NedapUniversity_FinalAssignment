@@ -28,11 +28,13 @@ public class StoneTest {
 	}
 	
 	/**
-	 * Tests that a stone has initial 4 liberties.
+	 * Tests that a stone has initial 4 liberties and that the color is correct.
 	 */
 	@Test
-	public void testGetLiberties() {
+	public void testInitialState() {
 		assertEquals(4, blackStone.getLiberties());
+		assertEquals(StoneColor.BLACK, blackStone.getColor());
+		assertEquals(StoneColor.WHITE, whiteStone.getColor());
 	}
 	
 	/** Tests setting the liberties to a new value. */
@@ -40,13 +42,6 @@ public class StoneTest {
 	public void testSetLiberties() {
 		blackStone.setLiberties(2);
 		assertEquals(2, blackStone.getLiberties());
-	}
-	
-	/** Tests that a stone has the correct color. */
-	@Test
-	public void testGetColor() {
-		assertEquals(StoneColor.BLACK, blackStone.getColor());
-		assertEquals(StoneColor.WHITE, whiteStone.getColor());
 	}
 
 }
