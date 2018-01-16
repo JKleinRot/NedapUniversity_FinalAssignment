@@ -1,5 +1,5 @@
 package player;
 
-public interface Player {
+public abstract class Player {
 
 }
