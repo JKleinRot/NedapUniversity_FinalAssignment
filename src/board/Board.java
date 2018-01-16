@@ -10,7 +10,7 @@ import stone.StoneColor;
 public class Board {
 	
 	/** Two-dimensional array of intersections of the board. */
-	private Intersection[] [] intersections;
+	private Intersection[][] intersections;
 	
 	/** 
 	 * Initialize a Go board with the given width.
@@ -19,10 +19,10 @@ public class Board {
 	 * 			The width of the board.
 	 */
 	public Board(int size) {
-		intersections = new Intersection[size - 1] [size - 1];
+		intersections = new Intersection[size - 1][size - 1];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				intersections[i] [j] = new Intersection();
+				intersections[i][j] = new Intersection();
 			}
 		}
 	}
@@ -37,11 +37,11 @@ public class Board {
 	 * 			The intersection at the board at the provided coordinates.
 	 */
 	public Intersection getIntersection(int x, int y) {
-		return intersections[x] [y];
+		return intersections[x][y];
 	}
 	
 	/**
-	 * Set a stone with the provided color at the intersection at the provided x and y coordinate of the board.
+	 * Set a stone with the provided color at the intersection at the provided x and y coordinate.
 	 * @param x
 	 * 			The x coordinate of the intersection at the board.
 	 * @param y

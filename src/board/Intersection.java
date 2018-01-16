@@ -35,7 +35,7 @@ public class Intersection {
 	}
 	
 	/**
-	 * Returns the stone at the intersection
+	 * Returns the stone at the intersection.
 	 * @return
 	 * 			The stone at the intersection.
 	 */
@@ -59,7 +59,5 @@ public class Intersection {
 	public boolean isOccupied() {
 		return isOccupied;
 	}
-	
-	
 
 }
