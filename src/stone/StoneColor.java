@@ -7,6 +7,6 @@ package stone;
  */
 public enum StoneColor {
 	
-	WHITE, BLACK;
+	BLACK, WHITE;
 
 }
