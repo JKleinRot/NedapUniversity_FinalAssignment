@@ -12,16 +12,30 @@ public class Board {
 	/** Two-dimensional array of intersections of the board. */
 	private Intersection[][] intersections;
 	
+	/** The size of the board. */
+	private final int SIZE;
+	
 	/** 
 	 * Initialize a Go board with the given width.
+	 * The minimum size is 5 x 5. If the given size is smaller than 5, the size is set to 5.
+	 * The maximum size is 19 x 19. If the given size is larger than 19, the size is set to 19.
 	 * Initially all intersections are unoccupied.
 	 * @param width
 	 * 			The width of the board.
 	 */
 	public Board(int size) {
-		intersections = new Intersection[size - 1][size - 1];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		if (size < 5) {
+			intersections = new Intersection[5][5];
+			SIZE = 5;
+		} else if (size > 19) {
+			intersections = new Intersection[19][19];
+			SIZE = 19;
+		} else {
+			intersections = new Intersection[size][size];
+			SIZE = size;
+		}
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
 				intersections[i][j] = new Intersection();
 			}
 		}
@@ -75,6 +89,10 @@ public class Board {
 	 */
 	public void removeStone(int x, int y) {
 		this.getIntersection(x, y).removeStone();
+	}
+	
+	public int getSize() {
+		return SIZE;
 	}
 
 }
