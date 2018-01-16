@@ -91,6 +91,11 @@ public class Board {
 		this.getIntersection(x, y).removeStone();
 	}
 	
+	/**
+	 * Get the size of the Go board.
+	 * @return
+	 * 			The size of the board.
+	 */
 	public int getSize() {
 		return size;
 	}
