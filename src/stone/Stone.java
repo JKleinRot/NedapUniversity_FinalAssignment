@@ -1,4 +1,4 @@
-package game;
+package stone;
 
 /**
  * A stone on the Go board.

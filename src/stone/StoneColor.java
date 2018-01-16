@@ -1,4 +1,4 @@
-package game;
+package stone;
 
 /** 
  * The color of the stone on the Go board.
