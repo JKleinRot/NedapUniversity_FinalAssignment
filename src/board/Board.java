@@ -13,7 +13,7 @@ public class Board {
 	private Intersection[][] intersections;
 	
 	/** The size of the board. */
-	private final int SIZE;
+	private int size;
 	
 	/** 
 	 * Initialize a Go board with the given width.
@@ -26,16 +26,16 @@ public class Board {
 	public Board(int size) {
 		if (size < 5) {
 			intersections = new Intersection[5][5];
-			SIZE = 5;
+			this.size = 5;
 		} else if (size > 19) {
 			intersections = new Intersection[19][19];
-			SIZE = 19;
+			this.size = 19;
 		} else {
 			intersections = new Intersection[size][size];
-			SIZE = size;
+			this.size = size;
 		}
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
 				intersections[i][j] = new Intersection();
 			}
 		}
@@ -92,7 +92,7 @@ public class Board {
 	}
 	
 	public int getSize() {
-		return SIZE;
+		return size;
 	}
 
 }
