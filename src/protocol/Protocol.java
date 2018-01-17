@@ -4,7 +4,12 @@ package protocol;
 public class Protocol {
 	/**
 	 * @author Rosalyn.Sleurink
-	 * @version 1
+	 * @version 2
+	 */
+	
+	/**
+	 * Aanpassing versie 1 -> 2:
+	 * Bij START worden de namen van de spelers niet meegegeven, dit is wel handig om te doen.
 	 */
 	
 	/**
@@ -16,8 +21,8 @@ public class Protocol {
 		/**
 		 * Het eerste commando wat de client naar de server stuurt. Gaat om versie
 		 * van het protocol. De volgorde van de extensions is als volgt: 
-		 * chat challenge leaderboard security 2+ simultaneous multiplemoves.
-		 * Format: NAME clientnaam VERSION versienummer EXTENSIONS boolean boolean boolean etc
+		 * chat challenge leaderboard security 2+ simultaneous multiplemoves.<br>
+		 * Format: NAME clientnaam VERSION versienummer EXTENSIONS boolean boolean boolean etc<br>
 		 * Voorbeeld: NAME piet VERSION 2 EXTENSIONS 0 0 1 1 0 0 0
 		 */
 		public static final String NAME = "NAME";
@@ -25,8 +30,8 @@ public class Protocol {
 		public static final String EXTENSIONS = "EXTENSIONS";
 		
 		/**
-		 * Om een move te communiceren. Bord begint linksboven met 0,0.
-		 * Format: MOVE rij_kolom of MOVE PASS
+		 * Om een move te communiceren. Bord begint linksboven met 0,0.<br>
+		 * Format: MOVE rij_kolom of MOVE PASS<br>
 		 * Voorbeeld: MOVE 1_3
 		 */
 		public static final String MOVE = "MOVE";
@@ -35,16 +40,16 @@ public class Protocol {
 		/**
 		 * Als de server een START met aantal spelers heeft gestuurd mag je je voorkeur doorgeven 
 		 * voor kleur en grootte van het bord. Dit wordt gevraagd aan de speler die er als eerst 
-		 * was.
-		 * Format: SETTINGS kleur bordgrootte
+		 * was.<br>
+		 * Format: SETTINGS kleur bordgrootte<br>
 		 * Voorbeeld: SETTINGS BLACK 19
 		 */
 		public static final String SETTINGS = "SETTINGS";
 		
 		/**
 		 * Als je midden in een spel zit en wil stoppen. Wordt niet gestuurd als client abrupt 
-		 * afgesloten wordt.
-		 * Format: QUIT
+		 * afgesloten wordt.<br>
+		 * Format: QUIT<br>
 		 * Voorbeeld: QUIT
 		 */
 		public static final String QUIT = "QUIT";
@@ -52,7 +57,8 @@ public class Protocol {
 		/**
 		 * Sturen als je een spel wilt spelen. De eerste keer en als een spel afgelopen is opnieuw.
 		 * Als je de Challenge extensie niet ondersteunt, stuur dan RANDOM in plaats van een naam.
-		 * Format: REQUESTGAME aantalspelers naamtegenspeler (RANDOM als je geen challenge doet)
+		 * <br>
+		 * Format: REQUESTGAME aantalspelers naamtegenspeler (RANDOM als je geen challenge doet)<br>
 		 * Voorbeeld: REQUESTGAME 2 RANDOM of REQUESTGAME 2 piet
 		 */
 		public static final String REQUESTGAME = "REQUESTGAME";
@@ -62,38 +68,38 @@ public class Protocol {
 		// -------------- EXTENSIES ------------ //
 		
 		/**
-		 * Als je de uitdaging wil accepteren.
-		 * Format: ACCEPTGAME naamuitdager
+		 * Als je de uitdaging wil accepteren.<br>
+		 * Format: ACCEPTGAME naamuitdager<br>
 		 * Voorbeeld: ACCEPTGAME piet
 		 */
 		public static final String ACCEPTGAME = "ACCEPTGAME";
 		
 		/**
-		 * Als je de uitdaging niet accepteert.
-		 * Format: DECLINEGAME naamuitdager
+		 * Als je de uitdaging niet accepteert.<br>
+		 * Format: DECLINEGAME naamuitdager<br>
 		 * Voorbeeld: DECLINEGAME piet
 		 */
 		public static final String DECLINEGAME = "DECLINEGAME";
 		
 		/**
-		 * Om op te vragen wie je allemaal kan uitdagen.
-		 * Format: LOBBY
+		 * Om op te vragen wie je allemaal kan uitdagen.<br>
+		 * Format: LOBBY<br>
 		 * Voorbeeld: LOBBY
 		 */
 		public static final String LOBBY = "LOBBY";
 		
 		/**
 		 * Om een chatbericht te sturen. Als je in een spel zit mogen alleen de spelers het zien. 
-		 * Als je in de lobby zit mag iedereen in de lobby het zien.
-		 * Format: CHAT bericht
+		 * Als je in de lobby zit mag iedereen in de lobby het zien.<br>
+		 * Format: CHAT bericht<br>
 		 * Voorbeeld: CHAT hoi ik ben piet
 		 */
 		public static final String CHAT = "CHAT";
 		
 		/**
 		 * Om de leaderboard op te vragen. Overige queries moet je afspreken met anderen die ook 
-		 * leaderboard willen implementeren.
-		 * Format: LEADERBOARD
+		 * leaderboard willen implementeren.<br>
+		 * Format: LEADERBOARD<br>
 		 * Voorbeeld: LEADERBOARD
 		 */
 		public static final String LEADERBOARD = "LEADERBOARD";
@@ -103,8 +109,8 @@ public class Protocol {
 		/**
 		 * Het eerste commando wat de server naar de client stuurt. Gaat om versie
 		 * van het protocol. De volgorde van de extensions is als volgt: 
-		 * chat challenge leaderboard security 2+ simultaneous multiplemoves.
-		 * Format: NAME clientnaam VERSION versienummer EXTENSIONS boolean boolean boolean etc
+		 * chat challenge leaderboard security 2+ simultaneous multiplemoves.<br>
+		 * Format: NAME clientnaam VERSION versienummer EXTENSIONS boolean boolean boolean etc<br>
 		 * Voorbeeld: NAME serverpiet VERSION 2 EXTENSIONS 0 0 1 1 0 0 0
 		 */
 		public static final String NAME = "NAME";
@@ -112,9 +118,10 @@ public class Protocol {
 		public static final String EXTENSIONS = "EXTENSIONS";
 		
 		/**
-		 * Een spel starten. Dit stuur je naar de eerste speler. 
-		 * Format: START aantalspelers (speler 1)
-		 * Format: START kleur bordgrootte (naar andere speler(s))
+		 * Een spel starten. Dit stuur je naar de eerste speler. <br>
+		 * Format: START aantalspelers (naar speler 1)<br>
+		 * Format: START aantalspelers kleur bordgrootte speler1 speler2 (3, etc..) 
+		 * (naar alle spelers)<br>
 		 * Voorbeeld: START 2 of START BLACK 19
 		 */
 		public static final String START = "START";
@@ -123,16 +130,16 @@ public class Protocol {
 		 * Vertelt aan de spelers welke beurt er gedaan is. Speler1 is de speler die de beurt heeft
 		 * gedaan, speler 2 de speler die nu aan de beurt is om een MOVE door te geven. Als dit de
 		 * eerste beurt is zijn speler1 en speler2 allebei de speler die nu aan de beurt is, en dan
-		 * stuur je FIRST i.p.v. de integers.
-		 * Format: TURN speler1 rij_kolom speler2
+		 * stuur je FIRST i.p.v. de integers.<br>
+		 * Format: TURN speler1 rij_kolom speler2<br>
 		 * Voorbeeld: TURN piet 1_3 jan of TURN piet FIRST piet
 		 */
 		public static final String TURN = "TURN";
 		
 		/**
 		 * Als het spel klaar is om welke reden dan ook. Reden kan zijn FINISHED (normaal einde), 
-		 * ABORTED (abrupt einde) of TIMEOUT (geen respons binnen redelijke tijd)
-		 * Format: ENDGAME reden winspeler score verliesspeler score
+		 * ABORTED (abrupt einde) of TIMEOUT (geen respons binnen redelijke tijd)<br>
+		 * Format: ENDGAME reden winspeler score verliesspeler score<br>
 		 * Voorbeeld: ENDGAME FINISHED piet 12 jan 10
 		 */
 		public static final String ENDGAME = "ENDGAME";
@@ -142,8 +149,8 @@ public class Protocol {
 		
 		/**
 		 * Errortypes die we gedefinieerd hebben: UNKNOWNCOMMAND, INVALIDMOVE, NAMETAKEN, 
-		 * INCOMPATIBLEPROTOCOL, OTHER.
-		 * Format: ERROR type bericht
+		 * INCOMPATIBLEPROTOCOL, OTHER.<br>
+		 * Format: ERROR type bericht<br>
 		 * Voorbeeld: ERROR NAMETAKEN de naam piet is al bezet
 		 */
 		public static final String ERROR = "ERROR";
@@ -156,30 +163,30 @@ public class Protocol {
 		// -------------- EXTENSIES ------------ //
 
 		/**
-		 * Stuurt aan één client wie hem heeft uitgedaagd.
-		 * Format: REQUESTGAME uitdager
+		 * Stuurt aan één client wie hem heeft uitgedaagd.<br>
+		 * Format: REQUESTGAME uitdager<br>
 		 * Voorbeeld: REQUESTGAME piet
 		 */
 		public static final String REQUESTGAME = "REQUESTGAME";
 		
 		/**
-		 * Stuurt aan de uitdager dat de uitdaging is geweigerd en door wie.
-		 * Format: DECLINED uitgedaagde
+		 * Stuurt aan de uitdager dat de uitdaging is geweigerd en door wie.<br>
+		 * Format: DECLINED uitgedaagde<br>
 		 * Voorbeeld: DECLINED piet
 		 */
 		public static final String DECLINED = "DECLINED";
 		
 		/**
 		 * Reactie op LOBBY van de client. Stuurt alle spelers die uitgedaagd kunnen worden 
-		 * (in de lobby zitten).
-		 * Format: LOBBY naam1_naam2_naam3
+		 * (in de lobby zitten).<br>
+		 * Format: LOBBY naam1_naam2_naam3<br>
 		 * Voorbeeld: LOBBY piet jan koos
 		 */
 		public static final String LOBBY = "LOBBY";
 
 		/**
-		 * Stuurt chatbericht naar relevante clients (in spel of in lobby).
-		 * Format: CHAT naam bericht
+		 * Stuurt chatbericht naar relevante clients (in spel of in lobby).<br>
+		 * Format: CHAT naam bericht<br>
 		 * Voorbeeld: CHAT piet hallo ik ben piet (Met correcte delimiter ziet dat er dus uit als:
 		 * CHAT$piet$hallo ik ben piet)
 		 */
@@ -188,8 +195,8 @@ public class Protocol {
 		/**
 		 * Reactie op LEADERBOARD van client. Stuurt de beste 10 scores naar één client.
 		 * Overige queries moet je afspreken met anderen die ook 
-		 * leaderboard willen implementeren.
-		 * Format: LEADERBOARD naam1 score1 naam2 score2 naam3 score3 enz
+		 * leaderboard willen implementeren.<br>
+		 * Format: LEADERBOARD naam1 score1 naam2 score2 naam3 score3 enz<br>
 		 * Voorbeeld: LEADERBOARD piet 1834897 jan 2 koos 1
 		 */
 		public static final String LEADERBOARD = "LEADERBOARD";
