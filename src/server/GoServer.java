@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import client.GoClientHandler;
 
 /**
  * Server to play a game of Go.
@@ -21,15 +25,20 @@ public class GoServer {
 	/**	A scanner to read input. */
 	private Scanner in;
 	
+	/** The list of client handlers. */
+	private List<GoClientHandler> goClientHandlers;
+	
 	/**
-	 * Create a new server to play a game of Go. 
-	 * Standard input is read using the initialized scanner.
+	 * Creates a new server with the provided port number to play a game of Go. 
+	 * Reads standard input using the initialized scanner.
+	 * Initializes a list of client handlers.
 	 * @param port
 	 * 			The port of the server.
 	 */
 	public GoServer(int port) {
 		this.port = port;
 		this.in = new Scanner(System.in);
+		this.goClientHandlers = new ArrayList<GoClientHandler>();
 	}
 	
 	/**
@@ -38,9 +47,14 @@ public class GoServer {
 	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("Go server initialized at port " + port);
+			System.out.println("GO SERVER: initialized at port " + port);
 			while (true) {
+				System.out.println("GO SERVER: waiting for clients to connect...");
 				Socket socket = serverSocket.accept();
+				GoClientHandler goClientHandler = new GoClientHandler(this, socket);
+				goClientHandler.start();
+				this.addGoClientHandler(goClientHandler);
+				System.out.println("Client connected");
 			}
 		} catch (BindException e) {
 			System.out.println("ERROR: Port " + port + " already in use.");
@@ -50,6 +64,24 @@ public class GoServer {
 			System.out.println("ERROR: Could not set up a Go server.");
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Adds the goClientHandler to the list of client handlers.
+	 * @param goClientHandler
+	 * 			The added client handler.
+	 */
+	public void addGoClientHandler(GoClientHandler goClientHandler) {
+		goClientHandlers.add(goClientHandler);
+	}
+	
+	/**
+	 * Removes the goClientHandler of the list of client handlers.
+	 * @param goClientHandler
+	 * 			The removed client handler.
+	 */
+	public void removeGoClientHandler(GoClientHandler goClientHandler) {
+		goClientHandlers.remove(goClientHandler);
 	}
 	
 	/**
@@ -69,7 +101,7 @@ public class GoServer {
 	}
 	
 	/**
-	 * Start a new server to play a game of Go.
+	 * Start a new server with the provided port number to play a game of Go.
 	 * @param args
 	 * 			The port number of the Go server.
 	 */
