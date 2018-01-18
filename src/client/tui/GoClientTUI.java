@@ -4,8 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
-import client.GoClient;
-
+import client.GoClientActor;
 /**
  * A TUI for the client connected to a Go server.
  * @author janine.kleinrot
@@ -13,7 +12,7 @@ import client.GoClient;
 public class GoClientTUI implements Observer, Runnable {
 	
 	/** The client using the TUI. */
-	private GoClient goClient;
+	private GoClientActor goClientActor;
 	
 	/** A scanner to read input. */
 	private Scanner in;
@@ -24,9 +23,9 @@ public class GoClientTUI implements Observer, Runnable {
 	 * @param goClient
 	 * 			The client using this TUI.
 	 */
-	public GoClientTUI(GoClient goClient) {
-		this.goClient = goClient;
-		goClient.addObserver(this);
+	public GoClientTUI(GoClientActor goClientActor) {
+		this.goClientActor = goClientActor;
+		((Observable) goClientActor).addObserver(this);
 		in = new Scanner(System.in);
 	}
 	
@@ -45,7 +44,7 @@ public class GoClientTUI implements Observer, Runnable {
 			String input = readString("Enter your command: ");
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
-				goClient.connect(words[1], words[2]);
+				goClientActor.connect(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("REQUEST_GAME")) {
 				
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {

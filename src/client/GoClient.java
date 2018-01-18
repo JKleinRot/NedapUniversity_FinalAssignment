@@ -3,17 +3,11 @@ package client;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Observable;
 
 import client.tui.GoClientTUI;
-import protocol.Protocol.Client;
 import protocol.Protocol.General;
-import protocol.Protocol.Server;
 
 /** 
  * Client able to connect to the Go server.
@@ -37,7 +31,9 @@ public class GoClient extends Observable implements Runnable {
 	private BufferedWriter out;
 	
 	/**	If the Go client is connected to the Go server. */
-	private boolean isConnected;
+	public boolean isConnected;
+	
+	private GoClientActor goClientActor;
 	
 	/**
 	 * Creates a new client with the provided name that can connect to the Go server.
@@ -49,44 +45,11 @@ public class GoClient extends Observable implements Runnable {
 	 */
 	public GoClient(String name) {
 		this.name = name;
-		goClientTUI = new GoClientTUI(this);
+		goClientActor = new GoClientActorImpl(this);
+		goClientTUI = new GoClientTUI(goClientActor);
 		Thread goClientTUIThread = new Thread(goClientTUI);
 		goClientTUIThread.start();
 		isConnected = false;
-	}
-	
-	/**
-	 * Attempts to connect to the Go server with the provided IP address and port number.
-	 * Opens the input and output stream of the socket if connected.
-	 * @param ipAddress
-	 * 			IP address of the server.
-	 * @param port
-	 * 			Port number of the server
-	 */
-	public synchronized void connect(String ipAddress, String port) {
-		try {
-			socket = new Socket(InetAddress.getByName(ipAddress), Integer.parseInt(port));
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			sendMessage(Client.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
-					Client.VERSION + General.DELIMITER1 +  Client.VERSIONNO + General.DELIMITER1 + 
-					Client.EXTENSIONS + General.DELIMITER1 + 0 + General.DELIMITER1 + 
-					0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 
-					0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.COMMAND_END);
-			isConnected = true;
-			notifyAll();
-			setChanged();
-			notifyObservers("Connected");
-		} catch (NumberFormatException e) {
-			System.out.println("ERROR: Not a valid port number");
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			System.out.println("ERROR: Not a valid host");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("ERROR: Could not connect to Go server");
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -134,6 +97,31 @@ public class GoClient extends Observable implements Runnable {
 	 */
 	public void run() {
 		readMessage();
+	}
+	
+	public Socket getSocket() {
+		return socket;
+	}
+	
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+	
+	public void setReader(BufferedReader inActor) {
+		in = inActor;
+	}
+	
+	public void setWriter(BufferedWriter outActor) {
+		out = outActor;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public synchronized void setIsConnected() {
+		isConnected = true;
+		notifyAll();
 	}
 	
 	/** 

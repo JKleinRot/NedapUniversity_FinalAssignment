@@ -25,6 +25,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The name of the server. */
 	private String name;
 	
+	private GoClientHandlerActor goClientHandlerActor;
+	
 	/**
 	 * Creates a new client handler.
 	 * @param socket
@@ -32,6 +34,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	 */
 	public GoClientHandlerImpl(Socket socket) {
 		this.name = "Go Server";
+		goClientHandlerActor = new GoClientHandlerActorImpl(this);
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -57,13 +60,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12) {
-					System.out.println(message); 
-					sendMessage(Server.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
-							Server.VERSION + General.DELIMITER1 +  Server.VERSIONNO + 
-							General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
-							General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 
-							0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
-							General.DELIMITER1 + 0 + General.COMMAND_END);
+					System.out.println(message);
+					goClientHandlerActor.confirmConnection(words, name);
 				}
 			}
 		} catch (IOException e) {

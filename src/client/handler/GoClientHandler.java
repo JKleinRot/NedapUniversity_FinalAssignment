@@ -1,5 +1,9 @@
 package client.handler;
 
+/**
+ * A client handler for the communication between the server and the clients.
+ * @author janine.kleinrot
+ */
 public interface GoClientHandler extends Runnable {
 
 	/**
