@@ -9,8 +9,14 @@ import protocol.Protocol.Server;
  */
 public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	
+	/** The GoClientHandler. */
 	private GoClientHandler goClientHandler;
 	
+	/**
+	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
+	 * @param goClientHandler
+	 * 			The goClientHandler.
+	 */
 	public GoClientHandlerActorImpl(GoClientHandler goClientHandler) {
 		this.goClientHandler = goClientHandler;
 	}

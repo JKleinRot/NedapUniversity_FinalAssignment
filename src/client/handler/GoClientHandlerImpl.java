@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import protocol.Protocol.General;
-import protocol.Protocol.Server;
 
 /**
  * A client handler for the communication between the server and the clients.
@@ -25,10 +24,12 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The name of the server. */
 	private String name;
 	
+	/** The actor of the client. */
 	private GoClientHandlerActor goClientHandlerActor;
 	
 	/**
 	 * Creates a new client handler.
+	 * Initializes the actor.
 	 * @param socket
 	 * 			The socket of the client.
 	 */

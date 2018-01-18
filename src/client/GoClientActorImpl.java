@@ -39,18 +39,15 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				goClient.setWriter(new BufferedWriter(new OutputStreamWriter(
 						goClient.getSocket().getOutputStream())));
 				goClient.sendMessage(Client.NAME + General.DELIMITER1 + goClient.getName() + 
-						General.DELIMITER1 + Client.VERSION + General.DELIMITER1 +  Client.VERSIONNO + 
-						General.DELIMITER1 + Client.EXTENSIONS + General.DELIMITER1 + 0 + 
+						General.DELIMITER1 + Client.VERSION + General.DELIMITER1 +  
+						Client.VERSIONNO + General.DELIMITER1 + Client.EXTENSIONS + 
 						General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
 						General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
-						General.COMMAND_END);
+						General.DELIMITER1 + 0 + General.COMMAND_END);
 				goClient.setIsConnected();
 			} else {
 				alreadyConnected();
 			}
-			
-//			setChanged();
-//			notifyObservers("Connected");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: Not a valid port number");
 			e.printStackTrace();
@@ -74,6 +71,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		notifyObservers("Connected");
 	}
 	
+	@Override
 	public void alreadyConnected() {
 		setChanged();
 		notifyObservers("Already connected");

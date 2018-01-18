@@ -15,10 +15,26 @@ public interface GoClientActor {
 	 * @param port
 	 * 			Port number of the server
 	 */
-	public void connect (String ipAddress, String port);
+	public void connect(String ipAddress, String port);
 	
+	/**
+	 * Returns the name of the Go client.
+	 * @return
+	 * 			The name of the Go client.
+	 */
 	public String getName();
 	
+	/**
+	 * Notifies GoClientTUI that the connection is confirmed.
+	 * @param words
+	 * 			The input received over the socket from the Go server.
+	 */
 	public void showConnectionConfirmed(String[] words);
+	
+	
+	/**
+	 * Notifies GoClientTUI that the client is already connected.
+	 */
+	public void alreadyConnected();
 
 }
