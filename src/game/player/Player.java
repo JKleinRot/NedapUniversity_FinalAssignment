@@ -1,6 +1,6 @@
-package player;
+package game.player;
 
-import stone.StoneColor;
+import game.board.stone.StoneColor;
 /**
  * Abstract player for Go.
  * @author janine.kleinrot

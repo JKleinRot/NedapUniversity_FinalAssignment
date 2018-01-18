@@ -1,7 +1,7 @@
-package board;
+package game.board;
 
-import stone.Stone;
-import stone.StoneColor;
+import game.board.stone.Stone;
+import game.board.stone.StoneColor;
 
 /**
  * Intersection at the Go board.

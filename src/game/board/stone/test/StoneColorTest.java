@@ -1,10 +1,10 @@
-package stone.test;
+package game.board.stone.test;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import game.board.stone.StoneColor;
 
-import stone.StoneColor;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test program for StoneColor.

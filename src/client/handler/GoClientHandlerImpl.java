@@ -1,4 +1,4 @@
-package client;
+package client.handler;
 
 import java.net.Socket;
 
@@ -8,7 +8,7 @@ import server.GoServer;
  * A client handler for the communication between the server and the clients.
  * @author janine.kleinrot
  */
-public class GoClientHandler extends Thread {
+public class GoClientHandlerImpl implements GoClientHandler {
 	
 	/**
 	 * Creates a new client handler.
@@ -17,8 +17,12 @@ public class GoClientHandler extends Thread {
 	 * @param socket
 	 * 			The socket of the client.
 	 */
-	public GoClientHandler(GoServer goServer, Socket socket) {
+	public GoClientHandlerImpl(GoServer goServer, Socket socket) {
 		
+		
+	}
+	
+	public void run() {
 		
 	}
 

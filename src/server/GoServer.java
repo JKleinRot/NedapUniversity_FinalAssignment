@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import client.GoClientHandler;
+import client.handler.GoClientHandler;
+import client.handler.GoClientHandlerImpl;
 
 /**
  * Server to play a game of Go.
@@ -51,8 +52,9 @@ public class GoServer {
 			while (true) {
 				System.out.println("GO SERVER: waiting for clients to connect...");
 				Socket socket = serverSocket.accept();
-				GoClientHandler goClientHandler = new GoClientHandler(this, socket);
-				goClientHandler.start();
+				GoClientHandler goClientHandler = new GoClientHandlerImpl(this, socket);
+				Thread goClientHandlerThread = new Thread(goClientHandler);
+				goClientHandlerThread.start();
 				this.addGoClientHandler(goClientHandler);
 				System.out.println("Client connected");
 			}

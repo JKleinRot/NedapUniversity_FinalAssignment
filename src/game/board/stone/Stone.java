@@ -1,4 +1,4 @@
-package stone;
+package game.board.stone;
 
 /**
  * A stone on the Go board.

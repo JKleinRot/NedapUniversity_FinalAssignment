@@ -1,4 +1,4 @@
-package stone;
+package game.board.stone;
 
 /** 
  * The color of the stone on the Go board.

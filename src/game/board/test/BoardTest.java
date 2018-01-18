@@ -1,13 +1,13 @@
-package board.test;
+package game.board.test;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import game.board.Board;
+import game.board.stone.StoneColor;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-
-import board.Board;
-import stone.StoneColor;
 
 /**
  * Test program for Board.
