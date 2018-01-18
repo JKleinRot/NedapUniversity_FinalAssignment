@@ -12,7 +12,7 @@ import client.tui.GoClientTUI;
  * Client able to connect to the Go server.
  * @author janine.kleinrot
  */
-public class GoClient extends Observable {//implements Runnable {
+public class GoClient extends Observable { 
 	
 	/** The name of the client. */
 	private String name;
