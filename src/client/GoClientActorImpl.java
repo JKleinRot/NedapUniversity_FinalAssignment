@@ -31,22 +31,26 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	@Override
 	public void connect(String ipAddress, String port) {
 		try {
-			goClient.setSocket(new Socket(InetAddress.getByName(ipAddress), 
-					Integer.parseInt(port)));
-			goClient.setReader(new BufferedReader(new InputStreamReader(
-					goClient.getSocket().getInputStream())));
-			goClient.setWriter(new BufferedWriter(new OutputStreamWriter(
-					goClient.getSocket().getOutputStream())));
-			goClient.sendMessage(Client.NAME + General.DELIMITER1 + goClient.getName() + 
-					General.DELIMITER1 + Client.VERSION + General.DELIMITER1 +  Client.VERSIONNO + 
-					General.DELIMITER1 + Client.EXTENSIONS + General.DELIMITER1 + 0 + 
-					General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
-					General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
-					General.COMMAND_END);
-			goClient.setIsConnected();
-//			notifyAll();
-			setChanged();
-			notifyObservers("Connected");
+			if (goClient.getSocket() == null) {
+				goClient.setSocket(new Socket(InetAddress.getByName(ipAddress), 
+						Integer.parseInt(port)));
+				goClient.setReader(new BufferedReader(new InputStreamReader(
+						goClient.getSocket().getInputStream())));
+				goClient.setWriter(new BufferedWriter(new OutputStreamWriter(
+						goClient.getSocket().getOutputStream())));
+				goClient.sendMessage(Client.NAME + General.DELIMITER1 + goClient.getName() + 
+						General.DELIMITER1 + Client.VERSION + General.DELIMITER1 +  Client.VERSIONNO + 
+						General.DELIMITER1 + Client.EXTENSIONS + General.DELIMITER1 + 0 + 
+						General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
+						General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
+						General.COMMAND_END);
+				goClient.setIsConnected();
+			} else {
+				alreadyConnected();
+			}
+			
+//			setChanged();
+//			notifyObservers("Connected");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: Not a valid port number");
 			e.printStackTrace();
@@ -57,6 +61,22 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			System.out.println("ERROR: Could not connect to Go server");
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public String getName() {
+		return goClient.getName();
+	}
+
+	@Override
+	public void showConnectionConfirmed(String[] words) {
+		setChanged();
+		notifyObservers("Connected");
+	}
+	
+	public void alreadyConnected() {
+		setChanged();
+		notifyObservers("Already connected");
 	}
 
 }

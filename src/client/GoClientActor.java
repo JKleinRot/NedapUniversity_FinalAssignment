@@ -16,5 +16,9 @@ public interface GoClientActor {
 	 * 			Port number of the server
 	 */
 	public void connect (String ipAddress, String port);
+	
+	public String getName();
+	
+	public void showConnectionConfirmed(String[] words);
 
 }

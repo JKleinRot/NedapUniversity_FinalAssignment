@@ -60,8 +60,10 @@ public class GoClientHandlerImpl implements GoClientHandler {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12) {
+					System.out.println("GO SERVER: Client " + words[1] + " connected");
 					System.out.println(message);
 					goClientHandlerActor.confirmConnection(words, name);
+					System.out.println("GO SERVER: Waiting for clients to connect...");
 				}
 			}
 		} catch (IOException e) {

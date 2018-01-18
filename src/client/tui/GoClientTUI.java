@@ -5,6 +5,7 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import client.GoClientActor;
+import protocol.Protocol.Server;
 /**
  * A TUI for the client connected to a Go server.
  * @author janine.kleinrot
@@ -16,6 +17,8 @@ public class GoClientTUI implements Observer, Runnable {
 	
 	/** A scanner to read input. */
 	private Scanner in;
+	
+	private String name;
 
 	/**
 	 * Creates a new TUI for the client.
@@ -27,6 +30,7 @@ public class GoClientTUI implements Observer, Runnable {
 		this.goClientActor = goClientActor;
 		((Observable) goClientActor).addObserver(this);
 		in = new Scanner(System.in);
+		name = goClientActor.getName().toUpperCase();
 	}
 	
 	/**
@@ -40,8 +44,8 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	public void start() {
 		boolean running = true;
+		String input = readString(name + ": Waiting for command... ");
 		while (running) {
-			String input = readString("Enter your command: ");
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
 				goClientActor.connect(words[1], words[2]);
@@ -65,12 +69,14 @@ public class GoClientTUI implements Observer, Runnable {
 				System.out.println(String.format("%-80s" + "%-30s", 
 						"Make a move by placing a stone at a coordinate of the board or pass", 
 						"MOVE <row_column> or MOVE PASS"));
+				System.out.println(name + ": Waiting for command... ");
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
 				running = false;
 				System.out.println("Goodbye");
 			} else {
 				System.out.println("Unknown command. Enter 'HELP' for a list of commands");
 			}
+			input = readString("");
 		}
 	}
 	
@@ -95,7 +101,11 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	public void update(Observable observable, Object object) {
 		if (object.equals("Connected")) {
-			System.out.println("Connected to Go server");
+			System.out.println(name + ": Connected to Go server");
+			System.out.println(name + ": Waiting for command... ");
+		} else if (object.equals("Already connected")) {
+			System.out.println(name + ": Already connected to " + goClientActor.getName());
+			System.out.println(name + ": Waiting for command... ");
 		}
 		
 	}

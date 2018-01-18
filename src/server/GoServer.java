@@ -48,15 +48,14 @@ public class GoServer {
 	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("GO SERVER: initialized at port " + port);
+			System.out.println("GO SERVER: Initialized at port " + port);
+			System.out.println("GO SERVER: Waiting for clients to connect...");
 			while (true) {
-				System.out.println("GO SERVER: waiting for clients to connect...");
 				Socket socket = serverSocket.accept();
 				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket);
 				Thread goClientHandlerThread = new Thread(goClientHandler);
 				goClientHandlerThread.start();
 				this.addGoClientHandler(goClientHandler);
-				System.out.println("Client connected");
 			}
 		} catch (BindException e) {
 			System.out.println("ERROR: Port " + port + " already in use.");

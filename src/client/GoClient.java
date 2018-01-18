@@ -31,7 +31,7 @@ public class GoClient extends Observable implements Runnable {
 	private BufferedWriter out;
 	
 	/**	If the Go client is connected to the Go server. */
-	public boolean isConnected;
+	private boolean isConnected;
 	
 	private GoClientActor goClientActor;
 	
@@ -82,6 +82,7 @@ public class GoClient extends Observable implements Runnable {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12) {
+					goClientActor.showConnectionConfirmed(words);
 					System.out.println(message); 
 				}
 			}
