@@ -52,7 +52,7 @@ public class GoServer {
 			while (true) {
 				System.out.println("GO SERVER: waiting for clients to connect...");
 				Socket socket = serverSocket.accept();
-				GoClientHandler goClientHandler = new GoClientHandlerImpl(this, socket);
+				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket);
 				Thread goClientHandlerThread = new Thread(goClientHandler);
 				goClientHandlerThread.start();
 				this.addGoClientHandler(goClientHandler);

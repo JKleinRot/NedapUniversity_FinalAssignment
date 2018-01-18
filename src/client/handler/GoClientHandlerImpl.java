@@ -17,7 +17,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	 * @param socket
 	 * 			The socket of the client.
 	 */
-	public GoClientHandlerImpl(GoServer goServer, Socket socket) {
+	public GoClientHandlerImpl(Socket socket) {
 		
 		
 	}
