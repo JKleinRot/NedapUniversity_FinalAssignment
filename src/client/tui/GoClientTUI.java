@@ -10,7 +10,7 @@ import client.GoClient;
  * A TUI for the client connected to a Go server.
  * @author janine.kleinrot
  */
-public class GoClientTUI implements Observer {
+public class GoClientTUI implements Observer, Runnable {
 	
 	/** The client using the TUI. */
 	private GoClient goClient;
@@ -30,6 +30,12 @@ public class GoClientTUI implements Observer {
 		in = new Scanner(System.in);
 	}
 	
+	/**
+	 * Runs continuously while the thread is running.
+	 */
+	public void run() {
+		start();
+	}
 	/**
 	 * Start the TUI.
 	 */
