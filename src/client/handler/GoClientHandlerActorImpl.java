@@ -43,7 +43,7 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void setGoClientState(GoClientState goClientState) {
 		goClientHandler.setGoClientState(goClientState);
-		gameManager.stateChanged(goClientHandler, goClientState);
+		gameManager.goClientStateChanged(goClientHandler, goClientState);
 	}
 	
 	@Override
