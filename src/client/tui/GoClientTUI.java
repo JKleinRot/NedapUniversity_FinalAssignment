@@ -5,7 +5,7 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import client.GoClientActor;
-import protocol.Protocol.Server;
+
 /**
  * A TUI for the client connected to a Go server.
  * @author janine.kleinrot
@@ -56,7 +56,7 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
-				
+				System.out.println("MAKE MOVE ACTION");
 			} else if (words.length == 1 && words[0].equals("HELP")) {
 				System.out.println(String.format("%-80s" + "%-30s", "Action", "Command"));
 				System.out.println(String.format("%-80s" + "%-30s", 

@@ -62,7 +62,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				alreadyConnected();
 			}
 		} catch (ConnectException e) {
-			System.out.println("ERROR: No Go server at this combination of IP address and port number");
+			System.out.println("ERROR: No Go server at this combination of "
+					+ "IP address and port number");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: Not a valid port number");
 			e.printStackTrace();
@@ -139,9 +140,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 
 	@Override
-	public void setReceivedGameSettings(String stoneColor, String boardSize) {
-		this.stoneColor = stoneColor;
-		this.boardSize = boardSize;
+	public void setReceivedGameSettings(String aStoneColor, String aBoardSize) {
+		this.stoneColor = aStoneColor;
+		this.boardSize = aBoardSize;
 		setChanged();
 		notifyObservers("Game settings received " + stoneColor);
 	}

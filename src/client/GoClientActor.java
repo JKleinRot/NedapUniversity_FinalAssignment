@@ -64,6 +64,6 @@ public interface GoClientActor {
 	 * @param boardSize
 	 * 			The board size.
 	 */
-	public void setReceivedGameSettings(String stoneColor, String boardSize);
+	public void setReceivedGameSettings(String aStoneColor, String aBoardSize);
 	
 }

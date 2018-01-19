@@ -22,8 +22,6 @@ public class GameManager implements GoClientStateListener {
 	/**	The GoClientHandlers corresponding to the GoClients that play a game. */
 	private List<GoClientHandler> goClientHandlersPlayingGame;
 	
-	private Game game;
-	
 	/**
 	 * Creates a GameManager.
 	 */
