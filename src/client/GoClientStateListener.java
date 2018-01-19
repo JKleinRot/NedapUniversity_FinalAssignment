@@ -13,6 +13,6 @@ public interface GoClientStateListener {
 	 * @param goClientState
 	 * 			The current GoClientState.
 	 */
-	public void stateChanged(GoClientHandler goClientHandler, GoClientState goClientState);
+	public void goClientStateChanged(GoClientHandler goClientHandler, GoClientState goClientState);
 
 }

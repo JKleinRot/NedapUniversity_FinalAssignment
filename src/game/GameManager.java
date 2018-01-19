@@ -29,7 +29,7 @@ public class GameManager implements GoClientStateListener {
 	}
 	
 	@Override
-	public void stateChanged(GoClientHandler goClientHandler, GoClientState goClientState) {
+	public void goClientStateChanged(GoClientHandler goClientHandler, GoClientState goClientState) {
 		if (goClientState == GoClientState.GAME_REQUESTED) {
 			goClientHandlersGameRequested.add(goClientHandler);
 		} else if (goClientState == GoClientState.PLAYING_GAME) {
