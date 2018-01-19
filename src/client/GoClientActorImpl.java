@@ -21,7 +21,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	private GoClient goClient;
 	
-	private String playerType;
+	private String playerType = "";
 	
 	/**
 	 * Creates a new Go client actor.
@@ -81,11 +81,16 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	@Override
 	public void requestGame(String goPlayerType) {
-		this.playerType = goPlayerType;
-		goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
-				General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
-		setChanged();
-		notifyObservers("Game requested " + playerType);
+		if (playerType.isEmpty()) {
+			this.playerType = goPlayerType;
+			goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
+					General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
+			setChanged();
+			notifyObservers("Game requested " + playerType);
+		} else {
+			setChanged();
+			notifyObservers("Already requested game " + playerType);
+		}
 	}
 
 }
