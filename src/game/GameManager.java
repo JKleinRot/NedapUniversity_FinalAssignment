@@ -20,6 +20,8 @@ public class GameManager implements GoClientStateListener {
 	/**	The GoClientHandlers corresponding to the GoClients that play a game. */
 	private List<GoClientHandler> goClientHandlersPlayingGame;
 	
+	private Game game;
+	
 	/**
 	 * Creates a GameManager.
 	 */
@@ -32,6 +34,11 @@ public class GameManager implements GoClientStateListener {
 	public void goClientStateChanged(GoClientHandler goClientHandler, GoClientState goClientState) {
 		if (goClientState == GoClientState.GAME_REQUESTED) {
 			goClientHandlersGameRequested.add(goClientHandler);
+			if (goClientHandlersGameRequested.size() % 2 == 0 && !goClientHandlersGameRequested.isEmpty()) {
+				game = new GameImpl(goClientHandlersGameRequested.get(0), goClientHandlersGameRequested.get(1));
+				Thread gameThread = new Thread(game);
+				gameThread.start();
+			}
 		} else if (goClientState == GoClientState.PLAYING_GAME) {
 			goClientHandlersGameRequested.remove(goClientHandler);
 			goClientHandlersPlayingGame.add(goClientHandler);
