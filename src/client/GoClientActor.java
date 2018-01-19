@@ -37,4 +37,8 @@ public interface GoClientActor {
 	 */
 	public void alreadyConnected();
 
+	/**
+	 * Requests to play a game of Go.
+	 */
+	public void requestGame();
 }

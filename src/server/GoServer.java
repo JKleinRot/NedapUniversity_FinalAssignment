@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import client.GoClientStateListener;
 import client.handler.GoClientHandler;
 import client.handler.GoClientHandlerImpl;
+import game.GameManager;
 
 /**
  * Server to play a game of Go.
@@ -29,10 +31,13 @@ public class GoServer {
 	/** The list of client handlers. */
 	private List<GoClientHandler> goClientHandlers;
 	
+	/** The GameManager. */
+	private GoClientStateListener gameManager;
+	
 	/**
 	 * Creates a new server with the provided port number to play a game of Go. 
 	 * Reads standard input using the initialized scanner.
-	 * Initializes a list of client handlers.
+	 * Initializes a list of client handlers and a GameManager.
 	 * @param port
 	 * 			The port of the server.
 	 */
@@ -40,6 +45,7 @@ public class GoServer {
 		this.port = port;
 		this.in = new Scanner(System.in);
 		this.goClientHandlers = new ArrayList<GoClientHandler>();
+		this.gameManager = new GameManager();
 	}
 	
 	/**
@@ -52,7 +58,7 @@ public class GoServer {
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket);
+				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket, gameManager);
 				Thread goClientHandlerThread = new Thread(goClientHandler);
 				goClientHandlerThread.start();
 				this.addGoClientHandler(goClientHandler);

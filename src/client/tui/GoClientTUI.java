@@ -49,8 +49,8 @@ public class GoClientTUI implements Observer, Runnable {
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
 				goClientActor.connect(words[1], words[2]);
-			} else if (words.length == 2 && words[0].equals("REQUEST_GAME")) {
-				
+			} else if (words.length == 1 && words[0].equals("REQUEST_GAME")) {
+				goClientActor.requestGame();
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
@@ -61,8 +61,8 @@ public class GoClientTUI implements Observer, Runnable {
 						"Connect to Go server with this IP address and port number", 
 						"CONNECT <IP address> <port number>"));
 				System.out.println(String.format("%-80s" + "%-30s", 
-						"Request to play a game with this amount of players", 
-						"REQUEST_GAME <number of players>"));
+						"Request to play a game", 
+						"REQUEST_GAME"));
 				System.out.println(String.format("%-80s" + "%-30s", 
 						"Choose settings for the requested game", 
 						"SETTINGS <stone color> <board size>"));
@@ -104,8 +104,11 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Connected to Go server");
 			System.out.println(name + ": Waiting for command... ");
 		} else if (object.equals("Already connected")) {
-			System.out.println(name + ": Already connected to " + goClientActor.getName());
+			System.out.println(name + ": Already connected to Go server");
 			System.out.println(name + ": Waiting for command... ");
+		} else if (object.equals("Game requested")) {
+			System.out.println(name + ": Game requested");
+			System.out.println(name + ": Waiting for opponent...");
 		}
 		
 	}

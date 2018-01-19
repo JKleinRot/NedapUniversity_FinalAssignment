@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import client.GoClientState;
+import client.GoClientStateListener;
+import protocol.Protocol.Client;
 import protocol.Protocol.General;
 
 /**
@@ -27,15 +30,21 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The actor of the client. */
 	private GoClientHandlerActor goClientHandlerActor;
 	
+	/** The GoClientState. */
+	private GoClientState goClientState;
+	
 	/**
 	 * Creates a new client handler.
 	 * Initializes the actor.
+	 * Initializes the GoClientState to UNCONNECTED and add GoClientStateListener.
 	 * @param socket
 	 * 			The socket of the client.
 	 */
-	public GoClientHandlerImpl(Socket socket) {
+	public GoClientHandlerImpl(Socket socket, GoClientStateListener gameManager) {
 		this.name = "Go Server";
-		goClientHandlerActor = new GoClientHandlerActorImpl(this);
+		goClientHandlerActor = new GoClientHandlerActorImpl(this, gameManager);
+		goClientState = GoClientState.UNCONNECTED;
+		goClientState.addGoClientStateListener(gameManager);
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -60,16 +69,22 @@ public class GoClientHandlerImpl implements GoClientHandler {
 		try {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
-				if (words.length == 12) {
-					System.out.println("GO SERVER: Client " + words[1] + " connected");
+				if (words.length == 12 && words[0].equals(Client.NAME)) {
 					System.out.println(message);
 					goClientHandlerActor.confirmConnection(words, name);
-					System.out.println("GO SERVER: Waiting for clients to connect...");
+				} else if (words.length == 3 && words[0].equals(Client.REQUESTGAME)) {
+					System.out.println(message);
+					goClientHandlerActor.handleGameRequest();
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("ERROR: Connection lost with Go server");
 		}
+	}
+	
+	@Override
+	public void setGoClientState(GoClientState goClientState) {
+		this.goClientState = goClientState;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package client;
 
+import client.handler.GoClientHandler;
+
 /**
  * Performs actions if the GoClientState changes.
  * @author janine.kleinrot
@@ -7,10 +9,10 @@ package client;
 public interface GoClientStateListener {
 	
 	/**
-	 * Handles the change to the provided goClientState.
+	 * Handles the change to the provided goClientState of the provided goClientHandler.
 	 * @param goClientState
 	 * 			The current GoClientState.
 	 */
-	public void stateChanged(GoClientState goClientState);
+	public void stateChanged(GoClientHandler goClientHandler, GoClientState goClientState);
 
 }

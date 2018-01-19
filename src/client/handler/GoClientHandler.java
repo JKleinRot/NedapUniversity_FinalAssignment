@@ -1,5 +1,7 @@
 package client.handler;
 
+import client.GoClientState;
+
 /**
  * A client handler for the communication between the server and the clients.
  * @author janine.kleinrot
@@ -23,4 +25,8 @@ public interface GoClientHandler extends Runnable {
 	 */
 	public void readMessage();
 	
+	/**
+	 * Sets the GoClientState.
+	 */
+	public void setGoClientState(GoClientState goClientState);
 }

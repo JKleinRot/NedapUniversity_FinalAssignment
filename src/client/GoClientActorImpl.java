@@ -76,5 +76,13 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		setChanged();
 		notifyObservers("Already connected");
 	}
+	
+	@Override
+	public void requestGame() {
+		goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
+				General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
+		setChanged();
+		notifyObservers("Game requested");
+	}
 
 }

@@ -1,5 +1,6 @@
 package client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ public enum GoClientState {
 	
 	UNCONNECTED, CONNECTED, GAME_REQUESTED, PLAYING_GAME;
 	
-	private List<GoClientStateListener> goClientStateListeners;
+	private List<GoClientStateListener> goClientStateListeners = 
+			new ArrayList<GoClientStateListener>();
 	
 	public void addGoClientStateListener(GoClientStateListener goClientStateListener) {
 		goClientStateListeners.add(goClientStateListener);
