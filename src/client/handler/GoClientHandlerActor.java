@@ -37,6 +37,8 @@ public interface GoClientHandlerActor {
 	 * @param boardSize
 	 * 			The chosen board size.
 	 */
-	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, String stoneColor, String boardSize);
+	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, 
+			String stoneColor, String boardSize);
+	
 }
 

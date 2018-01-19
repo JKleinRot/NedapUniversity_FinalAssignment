@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -60,6 +61,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			} else {
 				alreadyConnected();
 			}
+		} catch (ConnectException e) {
+			System.out.println("ERROR: No Go server at this combination of IP address and port number");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: Not a valid port number");
 			e.printStackTrace();
@@ -116,12 +119,12 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			this.stoneColor = goStoneColor;
 			this.boardSize = goBoardSize;
 			if (stoneColor.equals("white")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "black" + 
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "white" + 
 						General.DELIMITER1 + boardSize + General.COMMAND_END);
 				setChanged();
 				notifyObservers("Game settings set white");
 			} else if (stoneColor.equals("black")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "white" + 
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "black" + 
 						General.DELIMITER1 + boardSize + General.COMMAND_END);
 				setChanged();
 				notifyObservers("Game settings set black");

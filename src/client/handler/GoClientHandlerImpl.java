@@ -36,6 +36,15 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The opponent. */
 	private GoClientHandler opponent;
 	
+	/** The name of the GoClient. */
+	private String goClientName;
+	
+	/** The stone color of the GoClient. */
+	private String stoneColor;
+	
+	/** The board size. */
+	private String boardSize;
+	
 	/**
 	 * Creates a new client handler.
 	 * Initializes the actor.
@@ -73,13 +82,13 @@ public class GoClientHandlerImpl implements GoClientHandler {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12 && words[0].equals(Client.NAME)) {
-					System.out.println(message);
+					goClientName = words[1].toUpperCase();
 					goClientHandlerActor.confirmConnection(words, name);
 				} else if (words.length == 3 && words[0].equals(Client.REQUESTGAME)) {
-					System.out.println(message);
 					goClientHandlerActor.handleGameRequest();
 				} else if (words.length == 3 && words[0].equals(Client.SETTINGS)) {
-					System.out.println(message);
+					stoneColor = words[1];
+					boardSize = words[2];
 					goClientHandlerActor.notifyOtherClientOfGameSettings(opponent, words[1], 
 							words[2]);
 				}
@@ -104,5 +113,19 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	public void setOpponent(GoClientHandler opponent) {
 		this.opponent = opponent;
 	}
+	
+	@Override
+	public String getGoClientName() {
+		return goClientName;
+	}
 
+	@Override
+	public String getStoneColor() {
+		return stoneColor;
+	}
+
+	@Override
+	public String getBoardSize() {
+		return boardSize;
+	}
 }

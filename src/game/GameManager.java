@@ -48,7 +48,6 @@ public class GameManager implements GoClientStateListener {
 		} else if (goClientState == GoClientState.PLAYING_GAME) {
 			goClientHandlersGameRequested.remove(goClientHandler);
 			goClientHandlersPlayingGame.add(goClientHandler);
-			System.out.println("Switched");
 		} else {
 			if (!goClientHandlersGameRequested.isEmpty()) {
 				if (goClientHandlersGameRequested.contains(goClientHandler)) {
@@ -71,8 +70,19 @@ public class GameManager implements GoClientStateListener {
 		goClientStateChanged(secondGoClientHandler, GoClientState.PLAYING_GAME);
 		firstGoClientHandler.setOpponent(secondGoClientHandler);
 		secondGoClientHandler.setOpponent(firstGoClientHandler);
+		System.out.println("GO SERVER: Waiting for " + 
+				firstGoClientHandler.getGoClientName() + 
+				" to set game settings...");
+		System.out.println("GO SERVER: Waiting for clients to connect...");
 		firstGoClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
 				General.COMMAND_END);
+		
+		
+//		System.out.println("GO SERVER: Game started between " + 
+//				firstGoClientHandler.getGoClientHandlerActor().getGoClientName() + " and " + 
+//				secondGoClientHandler.getGoClientHandlerActor().getGoClientName());
+//		System.out.println("GO SERVER: Waiting for clients to connect...");
+
 	}
 
 }

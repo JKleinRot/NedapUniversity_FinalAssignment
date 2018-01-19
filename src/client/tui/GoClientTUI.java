@@ -46,7 +46,7 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	public void start() {
 		boolean running = true;
-		String input = readString(name + ": Waiting for command...");
+		String input = readString(name + ": Waiting for command...\n");
 		while (running) {
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
@@ -91,7 +91,7 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	private String readString(String prompt) {
 		String result = null;
-		System.out.println(prompt);
+		System.out.print(prompt);
 		if (in.hasNextLine()) {
 			result = in.nextLine();
 		}

@@ -36,4 +36,26 @@ public interface GoClientHandler extends Runnable {
 	 * 			The opponent.
 	 */
 	public void setOpponent(GoClientHandler opponent);
+	
+	/**
+	 * Gets the name of the GoClient.
+	 * @return
+	 * 			The name of the GoClient.
+	 */
+	public String getGoClientName();
+	
+	/**
+	 * Returns the stone color of the GoClient of the GoClientHandler.
+	 * @return
+	 * 		The stone color.
+	 */
+	public String getStoneColor();
+	
+	/**
+	 * Returns the board size.
+	 * @return
+	 * 		The board size.
+	 */
+	public String getBoardSize();
+	
 }
