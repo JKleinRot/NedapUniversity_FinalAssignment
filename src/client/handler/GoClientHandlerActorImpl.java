@@ -16,6 +16,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	
 	private GoClientStateListener gameManager;
 	
+	private String goClientName;
+	
 	/**
 	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
 	 * @param goClientHandler
@@ -30,6 +32,7 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void confirmConnection(String[] words, String name) {
 		System.out.println("GO SERVER: Client " + words[1] + " connected");
+		goClientName = words[1];
 		goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
 				Server.VERSION + General.DELIMITER1 +  Server.VERSIONNO + 
 				General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
@@ -49,6 +52,13 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void handleGameRequest() {
 		setGoClientState(GoClientState.GAME_REQUESTED);
+	}
+
+	@Override
+	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, String stoneColor, 
+			String boardSize) {
+		opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
+				stoneColor + General.DELIMITER1 + boardSize + General.COMMAND_END);
 	}
 
 }

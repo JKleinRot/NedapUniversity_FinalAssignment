@@ -33,6 +33,9 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The GoClientState. */
 	private GoClientState goClientState;
 	
+	/** The opponent. */
+	private GoClientHandler opponent;
+	
 	/**
 	 * Creates a new client handler.
 	 * Initializes the actor.
@@ -75,6 +78,10 @@ public class GoClientHandlerImpl implements GoClientHandler {
 				} else if (words.length == 3 && words[0].equals(Client.REQUESTGAME)) {
 					System.out.println(message);
 					goClientHandlerActor.handleGameRequest();
+				} else if (words.length == 3 && words[0].equals(Client.SETTINGS)) {
+					System.out.println(message);
+					goClientHandlerActor.notifyOtherClientOfGameSettings(opponent, words[1], 
+							words[2]);
 				}
 			}
 		} catch (IOException e) {
@@ -91,6 +98,11 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	public void run() {
 		readMessage();
 		
+	}
+
+	@Override
+	public void setOpponent(GoClientHandler opponent) {
+		this.opponent = opponent;
 	}
 
 }

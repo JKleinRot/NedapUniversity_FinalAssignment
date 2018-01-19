@@ -27,4 +27,16 @@ public interface GoClientHandlerActor {
 	 * Adds the GoClientHandler to the game requested list in the GameManager
 	 */
 	public void handleGameRequest();
+	
+	/**
+	 * Notifies the other client of the choice made by the client on game settings.
+	 * @param opponent
+	 * 			The opponent GoClientHandler. 
+	 * @param stoneColor
+	 * 			The chosen stone color.
+	 * @param boardSize
+	 * 			The chosen board size.
+	 */
+	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, String stoneColor, String boardSize);
 }
+

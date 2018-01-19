@@ -29,4 +29,11 @@ public interface GoClientHandler extends Runnable {
 	 * Sets the GoClientState.
 	 */
 	public void setGoClientState(GoClientState goClientState);
+	
+	/**
+	 * Sets the opponent in the game.
+	 * @param opponent
+	 * 			The opponent.
+	 */
+	public void setOpponent(GoClientHandler opponent);
 }

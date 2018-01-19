@@ -19,6 +19,8 @@ public class GoClientTUI implements Observer, Runnable {
 	private Scanner in;
 	
 	private String name;
+	
+	private String stoneColor;
 
 	/**
 	 * Creates a new TUI for the client.
@@ -44,7 +46,7 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	public void start() {
 		boolean running = true;
-		String input = readString(name + ": Waiting for command... ");
+		String input = readString(name + ": Waiting for command...");
 		while (running) {
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
@@ -52,7 +54,7 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 2 && words[0].equals("REQUEST_GAME")) {
 				goClientActor.requestGame(words[1]);
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
-				
+				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
 				
 			} else if (words.length == 1 && words[0].equals("HELP")) {
@@ -102,10 +104,10 @@ public class GoClientTUI implements Observer, Runnable {
 	public void update(Observable observable, Object object) {
 		if (object.equals("Connected")) {
 			System.out.println(name + ": Connected to Go server");
-			System.out.println(name + ": Waiting for command... ");
+			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Already connected")) {
 			System.out.println(name + ": Already connected to Go server");
-			System.out.println(name + ": Waiting for command... ");
+			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Game requested human")) {
 			System.out.println(name + ": Game requested as human player");
 			System.out.println(name + ": Waiting for opponent...");
@@ -118,6 +120,31 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Already requested game computer")) {
 			System.out.println(name + ": Already requested games as computer player");
 			System.out.println(name + ": Waiting for opponent...");
+		} else if (object.equals("Request game settings")) {
+			System.out.println(name + ": Opponent found");
+			System.out.println(name + ": Waiting for game settings command...");
+		} else if (object.equals("Game settings set black")) {
+			System.out.println(name + ": Game settings set");
+			stoneColor = " BLACK";
+			System.out.println(name + stoneColor + ": PLAY???");
+		} else if (object.equals("Game settings set white")) {
+			System.out.println(name + ": Game settings set");
+			stoneColor = " WHITE";
+			System.out.println(name + stoneColor + ": PLAY???");
+		} else if (object.equals("Illegal stone color")) {
+			System.out.println(name + ": Not a valid stone color");
+			System.out.println(name + ": Waiting for game settings command...");
+		} else if (object.equals("No game settings requested")) {
+			System.out.println(name + ": No game requested to set game settings for");
+			System.out.println(name + ": Waiting for command...");
+		} else if (object.equals("Game settings received black")) {
+			System.out.println(name + ": Game settings received");
+			stoneColor = " BLACK";
+			System.out.println(name + stoneColor + ": PLAY???");
+		} else if (object.equals("Game settings received white")) {
+			System.out.println(name + ": Game settings received");
+			stoneColor = " WHITE";
+			System.out.println(name + stoneColor + ": PLAY???");
 		}
 		
 	}

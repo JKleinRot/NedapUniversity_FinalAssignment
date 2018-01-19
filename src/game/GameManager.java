@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.handler.GoClientHandler;
+import protocol.Protocol.General;
+import protocol.Protocol.Server;
 import client.GoClientState;
 import client.GoClientStateListener;
 
@@ -36,9 +38,12 @@ public class GameManager implements GoClientStateListener {
 			goClientHandlersGameRequested.add(goClientHandler);
 			if (goClientHandlersGameRequested.size() % 2 == 0 && 
 					!goClientHandlersGameRequested.isEmpty()) {
-				game = new GameImpl(goClientHandlersGameRequested.get(0), goClientHandlersGameRequested.get(1));
-				Thread gameThread = new Thread(game);
-				gameThread.start();
+				startGame(goClientHandlersGameRequested.get(0), 
+						goClientHandlersGameRequested.get(1));
+//				game = new GameImpl(goClientHandlersGameRequested.get(0), 
+//				goClientHandlersGameRequested.get(1));
+//				Thread gameThread = new Thread(game);
+//				gameThread.start();
 			}
 		} else if (goClientState == GoClientState.PLAYING_GAME) {
 			goClientHandlersGameRequested.remove(goClientHandler);
@@ -54,6 +59,15 @@ public class GameManager implements GoClientStateListener {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void startGame(GoClientHandler firstGoClientHandler, 
+			GoClientHandler secondGoClientHandler) {
+		firstGoClientHandler.setOpponent(secondGoClientHandler);
+		secondGoClientHandler.setOpponent(firstGoClientHandler);
+		firstGoClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
+				General.COMMAND_END);
 	}
 
 }

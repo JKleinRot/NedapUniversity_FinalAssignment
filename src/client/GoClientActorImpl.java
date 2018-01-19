@@ -21,13 +21,23 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	private GoClient goClient;
 	
-	private String playerType = "";
+	private String playerType;
+	
+	private String boardSize;
+	
+	private String stoneColor;
+	
+	private boolean areGameSettingsRequested;
 	
 	/**
 	 * Creates a new Go client actor.
 	 */
 	public GoClientActorImpl(GoClient goClient) {
 		this.goClient = goClient;
+		areGameSettingsRequested = false;
+		playerType = "";
+		boardSize = "";
+		stoneColor = "";
 	}
 	
 	@Override
@@ -92,5 +102,44 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			notifyObservers("Already requested game " + playerType);
 		}
 	}
+	
+	@Override
+	public void getGameSettings() {
+		areGameSettingsRequested = true;
+		setChanged();
+		notifyObservers("Request game settings");
+	}
 
+	@Override
+	public void setGameSettings(String goStoneColor, String goBoardSize) {
+		if (areGameSettingsRequested) {
+			this.stoneColor = goStoneColor;
+			this.boardSize = goBoardSize;
+			if (stoneColor.equals("white")) {
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "black" + 
+						General.DELIMITER1 + boardSize + General.COMMAND_END);
+				setChanged();
+				notifyObservers("Game settings set white");
+			} else if (stoneColor.equals("black")) {
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "white" + 
+						General.DELIMITER1 + boardSize + General.COMMAND_END);
+				setChanged();
+				notifyObservers("Game settings set black");
+			} else {
+				setChanged();
+				notifyObservers("Illegal stone color");
+			}
+		} else {
+			setChanged();
+			notifyObservers("No game settings requested");
+		}
+	}
+
+	@Override
+	public void setReceivedGameSettings(String stoneColor, String boardSize) {
+		this.stoneColor = stoneColor;
+		this.boardSize = boardSize;
+		setChanged();
+		notifyObservers("Game settings received " + stoneColor);
+	}
 }

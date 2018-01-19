@@ -8,6 +8,7 @@ import java.util.Observable;
 
 import client.tui.GoClientTUI;
 import protocol.Protocol.General;
+import protocol.Protocol.Server;
 
 /** 
  * Client able to connect to the Go server.
@@ -81,9 +82,13 @@ public class GoClient extends Observable implements Runnable {
 		try {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
-				if (words.length == 12) {
+				if (words.length == 12 && words[0].equals(Server.NAME)) {
 					goClientActor.showConnectionConfirmed(words);
 					System.out.println(message); 
+				} else if (words.length == 2 && words[0].equals(Server.START)) {
+					goClientActor.getGameSettings();
+				} else if (words.length == 4 && words[0].equals(Server.START)) {
+					goClientActor.setReceivedGameSettings(words[2], words[3]);
 				}
 			}
 		} catch (IOException e) {
