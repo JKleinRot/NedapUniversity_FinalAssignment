@@ -48,6 +48,7 @@ public class GameManager implements GoClientStateListener {
 		} else if (goClientState == GoClientState.PLAYING_GAME) {
 			goClientHandlersGameRequested.remove(goClientHandler);
 			goClientHandlersPlayingGame.add(goClientHandler);
+			System.out.println("Switched");
 		} else {
 			if (!goClientHandlersGameRequested.isEmpty()) {
 				if (goClientHandlersGameRequested.contains(goClientHandler)) {
@@ -64,6 +65,10 @@ public class GameManager implements GoClientStateListener {
 	@Override
 	public void startGame(GoClientHandler firstGoClientHandler, 
 			GoClientHandler secondGoClientHandler) {
+		firstGoClientHandler.setGoClientState(GoClientState.PLAYING_GAME);
+		goClientStateChanged(firstGoClientHandler, GoClientState.PLAYING_GAME);
+		secondGoClientHandler.setGoClientState(GoClientState.PLAYING_GAME);
+		goClientStateChanged(secondGoClientHandler, GoClientState.PLAYING_GAME);
 		firstGoClientHandler.setOpponent(secondGoClientHandler);
 		secondGoClientHandler.setOpponent(firstGoClientHandler);
 		firstGoClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
