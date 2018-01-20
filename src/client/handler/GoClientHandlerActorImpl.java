@@ -59,17 +59,20 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, String stoneColor, 
 			String boardSize) {
-		if (stoneColor.equals("white")) {
+		if (stoneColor.equals(General.WHITE)) {
 			System.out.println("GO SERVER: " + goClientName + " plays with WHITE stones and " + 
 					opponent.getGoClientName() + " plays with BLACK stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					"black" + General.DELIMITER1 + boardSize + General.COMMAND_END);
-		} else if (stoneColor.equals("black")) {
+					General.BLACK + General.DELIMITER1 + boardSize + General.COMMAND_END);
+			gameManager.startGame(opponent, goClientHandler);
+		} else if (stoneColor.equals(General.BLACK)) {
 			System.out.println("GO SERVER: " + opponent.getGoClientName() + 
 					" plays with WHITE stones and " + goClientName + " plays with BLACK stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					"white" + General.DELIMITER1 + boardSize + General.COMMAND_END);
+					General.WHITE + General.DELIMITER1 + boardSize + General.COMMAND_END);
+			gameManager.startGame(goClientHandler, opponent);
 		}
+		
 	}
 
 }

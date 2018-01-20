@@ -123,12 +123,12 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			this.stoneColor = goStoneColor;
 			this.boardSize = goBoardSize;
 			if (stoneColor.equals("white")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "white" + 
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 						General.DELIMITER1 + boardSize + General.COMMAND_END);
 				setChanged();
 				notifyObservers("Game settings set white");
 			} else if (stoneColor.equals("black")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + "black" + 
+				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 						General.DELIMITER1 + boardSize + General.COMMAND_END);
 				setChanged();
 				notifyObservers("Game settings set black");

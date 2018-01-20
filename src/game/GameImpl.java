@@ -8,7 +8,7 @@ import client.handler.GoClientHandler;
  */
 public class GameImpl implements Game {
 
-	public GameImpl(GoClientHandler goClientHandler1, GoClientHandler goClientHandler2)  {
+	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler)  {
 		
 	}
 

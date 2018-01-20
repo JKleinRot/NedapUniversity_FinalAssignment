@@ -22,6 +22,9 @@ public class GameManager implements GoClientStateListener {
 	/**	The GoClientHandlers corresponding to the GoClients that play a game. */
 	private List<GoClientHandler> goClientHandlersPlayingGame;
 	
+	/** A game of Go. */
+	private Game game;
+	
 	/**
 	 * Creates a GameManager.
 	 */
@@ -36,7 +39,7 @@ public class GameManager implements GoClientStateListener {
 			goClientHandlersGameRequested.add(goClientHandler);
 			if (goClientHandlersGameRequested.size() % 2 == 0 && 
 					!goClientHandlersGameRequested.isEmpty()) {
-				startGame(goClientHandlersGameRequested.get(0), 
+				getGameSettings(goClientHandlersGameRequested.get(0), 
 						goClientHandlersGameRequested.get(1));
 //				game = new GameImpl(goClientHandlersGameRequested.get(0), 
 //				goClientHandlersGameRequested.get(1));
@@ -60,7 +63,7 @@ public class GameManager implements GoClientStateListener {
 	}
 
 	@Override
-	public void startGame(GoClientHandler firstGoClientHandler, 
+	public void getGameSettings(GoClientHandler firstGoClientHandler, 
 			GoClientHandler secondGoClientHandler) {
 		firstGoClientHandler.setGoClientState(GoClientState.PLAYING_GAME);
 		goClientStateChanged(firstGoClientHandler, GoClientState.PLAYING_GAME);
@@ -74,13 +77,17 @@ public class GameManager implements GoClientStateListener {
 		System.out.println("GO SERVER: Waiting for clients to connect...");
 		firstGoClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
 				General.COMMAND_END);
-		
-		
-//		System.out.println("GO SERVER: Game started between " + 
-//				firstGoClientHandler.getGoClientHandlerActor().getGoClientName() + " and " + 
-//				secondGoClientHandler.getGoClientHandlerActor().getGoClientName());
-//		System.out.println("GO SERVER: Waiting for clients to connect...");
-
+	}
+	
+	@Override 
+	public void startGame(GoClientHandler firstGoClientHandler, 
+			GoClientHandler secondGoClientHandler) {
+		game = new GameImpl(firstGoClientHandler, secondGoClientHandler);
+		System.out.println("GO SERVER: Game started between " + 
+				firstGoClientHandler.getGoClientName() + " and " + 
+				secondGoClientHandler.getGoClientName());
+		Thread gameThread = new Thread(game);
+		gameThread.start();
 	}
 
 }

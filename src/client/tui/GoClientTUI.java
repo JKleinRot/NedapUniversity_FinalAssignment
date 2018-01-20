@@ -137,11 +137,13 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("No game settings requested")) {
 			System.out.println(name + ": No game requested to set game settings for");
 			System.out.println(name + ": Waiting for command...");
-		} else if (object.equals("Game settings received black")) {
+		} else if (object.equals("Game settings received BLACK")) {
+			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Game settings received");
 			stoneColor = " BLACK";
 			System.out.println(name + stoneColor + ": PLAY???");
-		} else if (object.equals("Game settings received white")) {
+		} else if (object.equals("Game settings received WHITE")) {
+			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Game settings received");
 			stoneColor = " WHITE";
 			System.out.println(name + stoneColor + ": PLAY???");

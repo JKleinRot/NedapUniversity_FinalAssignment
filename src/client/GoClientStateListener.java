@@ -16,13 +16,21 @@ public interface GoClientStateListener {
 	public void goClientStateChanged(GoClientHandler goClientHandler, GoClientState goClientState);
 
 	/**
-	 * Initialize a new game of Go.
 	 * Asks the first GoClientHandler for the settings of the game.
-	 * Asks both GoClientHandlers for their player type.
 	 * @param firstGoClientHandler
 	 * 			The first client entered in the game.
 	 * @param secondGoClientHandler
 	 * 			The second client entered in the game.
+	 */
+	public void getGameSettings(GoClientHandler firstGoClientHandler, 
+			GoClientHandler secondGoClientHandler);
+	
+	/**
+	 * Start a new game of Go with the firstGoClientHandler playing with black.
+	 * @param firstGoClientHandler
+	 * 			The GoClient playing with black.
+	 * @param secondGoClientHandler
+	 * 			The GoClient playing with white.
 	 */
 	public void startGame(GoClientHandler firstGoClientHandler, 
 			GoClientHandler secondGoClientHandler);
