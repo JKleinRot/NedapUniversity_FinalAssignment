@@ -106,7 +106,7 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Connected to Go server");
 			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Already connected")) {
-			System.out.println(name + ": Already connected to Go server");
+			System.out.println("ERROR: Already connected to Go server");
 			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Game requested human")) {
 			System.out.println(name + ": Game requested as human player");
@@ -115,10 +115,10 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Game requested as computer player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game human")) {
-			System.out.println(name + ": Already requested games as human player");
+			System.out.println("ERROR: Already requested games as human player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game computer")) {
-			System.out.println(name + ": Already requested games as computer player");
+			System.out.println("ERROR: Already requested games as computer player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Request game settings")) {
 			System.out.println(name + ": Opponent found");
@@ -132,10 +132,10 @@ public class GoClientTUI implements Observer, Runnable {
 			stoneColor = " WHITE";
 			System.out.println(name + stoneColor + ": PLAY???");
 		} else if (object.equals("Illegal stone color")) {
-			System.out.println(name + ": Not a valid stone color");
+			System.out.println("ERROR: Not a valid stone color");
 			System.out.println(name + ": Waiting for game settings command...");
 		} else if (object.equals("No game settings requested")) {
-			System.out.println(name + ": No game requested to set game settings for");
+			System.out.println("ERROR: No game requested to set game settings for");
 			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Game settings received BLACK")) {
 			System.out.println(name + ": Opponent found");
@@ -148,11 +148,17 @@ public class GoClientTUI implements Observer, Runnable {
 			stoneColor = " WHITE";
 			System.out.println(name + stoneColor + ": PLAY???");
 		} else if (object.equals("Not connected yet")) {
-			System.out.println(name + ": Not connected to Go server yet");
+			System.out.println("ERROR: Not connected to Go server yet");
 			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("No opponent found")) {
-			System.out.println(name + ": No game settings requested yet");
+			System.out.println("ERROR: No game settings requested yet");
 			System.out.println(name + ": Waiting for opponent...");
+		} else if (object.equals("Invalid player type")) {
+			System.out.println("ERROR: Not a valid player type");
+			System.out.println(name + ": Waiting for command...");
+		} else if (object.equals("Illegal board size")) {
+			System.out.println("ERROR: Not a valid board size");
+			System.out.println(name + ": Waiting for game settings command...");
 		}
 		
 	}

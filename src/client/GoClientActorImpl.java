@@ -11,6 +11,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 
+import game.board.Board;
+import game.board.stone.StoneColor;
+import game.player.ComputerPlayer;
+import game.player.HumanPlayer;
+import game.player.Player;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
 
@@ -29,6 +34,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	private String stoneColor;
 	
 	private boolean areGameSettingsRequested;
+	
+	private Player player;
+	
+	private Board board;
 	
 	/**
 	 * Creates a new Go client actor.
@@ -95,12 +104,17 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	@Override
 	public void requestGame(String goPlayerType) {
-		if (playerType.isEmpty() && goClient.getSocket() != null) {
+		if (playerType.isEmpty() && goClient.getSocket() != null && 
+				(goPlayerType.equals("human") || goPlayerType.equals("computer"))) {
 			this.playerType = goPlayerType;
 			goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
 					General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
 			setChanged();
 			notifyObservers("Game requested " + playerType);
+		} else if (playerType.isEmpty() && goClient.getSocket() != null && 
+				(!goPlayerType.equals("human") || !goPlayerType.equals("computer"))) {
+			setChanged();
+			notifyObservers("Invalid player type");
 		} else if (goClient.getSocket() == null) {
 			setChanged();
 			notifyObservers("Not connected yet");
@@ -123,15 +137,37 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			this.stoneColor = goStoneColor;
 			this.boardSize = goBoardSize;
 			if (stoneColor.equals("white")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
-						General.DELIMITER1 + boardSize + General.COMMAND_END);
-				setChanged();
-				notifyObservers("Game settings set white");
+				try {
+					board = new Board(Integer.parseInt(boardSize));
+					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
+							General.DELIMITER1 + boardSize + General.COMMAND_END);
+					if (playerType.equals("human")) {
+						player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
+					} else {
+						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
+					}
+					setChanged();
+					notifyObservers("Game settings set white");
+				} catch (NumberFormatException e) {
+					setChanged();
+					notifyObservers("Illegal board size");
+				}
 			} else if (stoneColor.equals("black")) {
-				goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
-						General.DELIMITER1 + boardSize + General.COMMAND_END);
-				setChanged();
-				notifyObservers("Game settings set black");
+				try {
+					board = new Board(Integer.parseInt(boardSize));
+					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
+							General.DELIMITER1 + boardSize + General.COMMAND_END);
+					if (playerType.equals("human")) {
+						player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
+					} else {
+						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
+					}
+					setChanged();
+					notifyObservers("Game settings set black");
+				} catch (NumberFormatException e) {
+					setChanged();
+					notifyObservers("Illegal board size");
+				}
 			} else {
 				setChanged();
 				notifyObservers("Illegal stone color");
@@ -149,6 +185,20 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	public void setReceivedGameSettings(String aStoneColor, String aBoardSize) {
 		this.stoneColor = aStoneColor;
 		this.boardSize = aBoardSize;
+		board = new Board(Integer.parseInt(boardSize));
+		if (stoneColor.equals(General.WHITE)) {
+			if (playerType.equals("human")) {
+				player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
+			} else {
+				player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
+			}
+		} else {
+			if (playerType.equals("human")) {
+				player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
+			} else {
+				player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
+			}
+		}
 		setChanged();
 		notifyObservers("Game settings received " + stoneColor);
 	}

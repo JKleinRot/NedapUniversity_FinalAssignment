@@ -47,15 +47,21 @@ public interface GoClientHandler extends Runnable {
 	/**
 	 * Returns the stone color of the GoClient of the GoClientHandler.
 	 * @return
-	 * 		The stone color.
+	 * 			The stone color.
 	 */
 	public String getStoneColor();
 	
 	/**
 	 * Returns the board size.
 	 * @return
-	 * 		The board size.
+	 * 			The board size.
 	 */
 	public String getBoardSize();
 	
+	/**
+	 * Sets the board size.
+	 * @return
+	 * 			The board size.
+	 */
+	public void setBoardSize(String boardSize); 
 }

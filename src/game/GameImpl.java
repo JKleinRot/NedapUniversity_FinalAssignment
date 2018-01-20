@@ -1,6 +1,7 @@
 package game;
 
 import client.handler.GoClientHandler;
+import game.board.Board;
 
 /**
  * A game of Go.
@@ -8,8 +9,16 @@ import client.handler.GoClientHandler;
  */
 public class GameImpl implements Game {
 
-	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler)  {
-		
+	private GoClientHandler firstGoClientHandler;
+	
+	private GoClientHandler secondGoClientHandler;
+	
+	private Board board;
+	
+	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
+		this.firstGoClientHandler = firstGoClientHandler;
+		this.secondGoClientHandler = secondGoClientHandler;
+		board = new Board(Integer.parseInt(firstGoClientHandler.getBoardSize()));
 	}
 
 	@Override

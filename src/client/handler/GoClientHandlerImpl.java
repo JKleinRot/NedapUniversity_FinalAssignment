@@ -128,4 +128,9 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	public String getBoardSize() {
 		return boardSize;
 	}
+	
+	@Override
+	public void setBoardSize(String boardSize) {
+		this.boardSize = boardSize;
+	}
 }
