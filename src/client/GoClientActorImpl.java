@@ -95,12 +95,15 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	@Override
 	public void requestGame(String goPlayerType) {
-		if (playerType.isEmpty()) {
+		if (playerType.isEmpty() && goClient.getSocket() != null) {
 			this.playerType = goPlayerType;
 			goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
 					General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
 			setChanged();
 			notifyObservers("Game requested " + playerType);
+		} else if (goClient.getSocket() == null) {
+			setChanged();
+			notifyObservers("Not connected yet");
 		} else {
 			setChanged();
 			notifyObservers("Already requested game " + playerType);

@@ -145,6 +145,9 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Game settings received");
 			stoneColor = " WHITE";
 			System.out.println(name + stoneColor + ": PLAY???");
+		} else if (object.equals("Not connected yet")) {
+			System.out.println(name + ": Not connected to Go server yet");
+			System.out.println(name + ": Waiting for command...");
 		}
 		
 	}
