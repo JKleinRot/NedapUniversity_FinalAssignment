@@ -148,6 +148,9 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Not connected yet")) {
 			System.out.println(name + ": Not connected to Go server yet");
 			System.out.println(name + ": Waiting for command...");
+		} else if (object.equals("No opponent found")) {
+			System.out.println(name + ": No game settings requested yet");
+			System.out.println(name + ": Waiting for opponent...");
 		}
 		
 	}

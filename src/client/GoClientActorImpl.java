@@ -136,6 +136,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				setChanged();
 				notifyObservers("Illegal stone color");
 			}
+		} else if (!playerType.isEmpty() && !areGameSettingsRequested) {
+			setChanged();
+			notifyObservers("No opponent found");
 		} else {
 			setChanged();
 			notifyObservers("No game settings requested");
