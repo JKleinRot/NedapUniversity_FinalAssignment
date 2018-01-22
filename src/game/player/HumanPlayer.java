@@ -91,22 +91,26 @@ public class HumanPlayer extends Observable implements Player {
 	@Override
 	public void makeMove(String move) {
 		String[] moveCoordinates = move.split(General.DELIMITER2);
-//		board.setStone(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]), 
-//				stoneColor);
-		checkMove(move);
-//		
-	}
-	
-	@Override
-	public void checkMove(String move) {
-		//Needs implementation!
-		isValidMove = true;
-		if (isValidMove) {
+		if (moveCoordinates.length != 2) {
 			setChanged();
-			notifyObservers("Valid move");
+			notifyObservers("Invalid move input");
 		} else {
-			setChanged();
-			notifyObservers("Invalid move");
+			try {
+				int moveX = Integer.parseInt(moveCoordinates[0]);
+				int moveY = Integer.parseInt(moveCoordinates[1]);
+				//Needs implementation!
+				isValidMove = true;
+				if (isValidMove) {
+					setChanged();
+					notifyObservers("Valid move");
+				} else {
+					setChanged();
+					notifyObservers("Invalid move");
+				}
+			} catch (NumberFormatException e) {
+				setChanged();
+				notifyObservers("Invalid move input");
+			}
 		}
 	}
 	
