@@ -1,6 +1,7 @@
 package client.handler;
 
 import client.GoClientState;
+import game.Game;
 
 /**
  * Handles the actions required after input received from the GoClient.
@@ -53,6 +54,8 @@ public interface GoClientHandlerActor {
 	 * 			The move made.
 	 */
 	public void confirmMove(String move);
+	
+	public void setGame(Game game);
 	
 	
 }

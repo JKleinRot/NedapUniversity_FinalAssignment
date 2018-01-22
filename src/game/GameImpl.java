@@ -31,6 +31,8 @@ public class GameImpl implements Game {
 	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;
+		this.firstGoClientHandler.getGoClientHandlerActor().setGame(this);
+		this.secondGoClientHandler.getGoClientHandlerActor().setGame(this);
 		board = new Board(Integer.parseInt(firstGoClientHandler.getBoardSize()));
 		isGameOver = false;
 		isMoveMade = false;
