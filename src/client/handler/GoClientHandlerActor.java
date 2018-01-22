@@ -47,5 +47,12 @@ public interface GoClientHandlerActor {
 	 */
 	public void setBoardSize(String boardSize);
 	
+	/**
+	 * Confirm the move made by the player.
+	 * @param move
+	 * 			The move made.
+	 */
+	public void confirmMove(String move);
+	
 }
 

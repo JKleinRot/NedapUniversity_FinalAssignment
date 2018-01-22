@@ -1,5 +1,7 @@
 package client;
 
+import game.player.Player;
+
 /**
  * Handles the actions required after input received from the GoClientHandler and GoClientTUI.
  * @author janine.kleinrot
@@ -66,4 +68,9 @@ public interface GoClientActor {
 	 */
 	public void setReceivedGameSettings(String aStoneColor, String aBoardSize);
 	
+	/**
+	 * Gets the player.
+	 * @return The player.
+	 */
+	public Player getPlayer();
 }

@@ -91,6 +91,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 					boardSize = words[2];
 					goClientHandlerActor.notifyOtherClientOfGameSettings(opponent, words[1], 
 							words[2]);
+				} else if (words.length == 2 && words[0].equals(Client.MOVE)) {
+					goClientHandlerActor.confirmMove(words[1]);
 				}
 			}
 		} catch (IOException e) {

@@ -1,46 +1,15 @@
 package game.player;
 
-import game.board.stone.StoneColor;
-/**
- * Abstract player for Go.
- * @author janine.kleinrot
- */
-public abstract class Player {
+import game.board.Board;
+
+public interface Player {
 	
-	/** The name of the player. */
-	private String name;
+	public Board getBoard();
 	
-	/** The color of the stones of the player. */
-	private StoneColor color;
+	public void setBoard(String boardSize);
 	
-	/**
-	 * Creates a player with a given name and stone color.
-	 * @param name
-	 * 			The name of the player.
-	 * @param color
-	 * 			The color of the stones of the player.
-	 */
-	public Player(String name, StoneColor color) {
-		this.name = name;
-		this.color = color;
-	}
+	public void makeMove(String move);
 	
-	/** 
-	 * Get the name of the player.
-	 * @return
-	 * 			The name of the player.
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Get the color of the stones of the player.
-	 * @return
-	 * 			The color of the stones of the player.
-	 */
-	public StoneColor getColor() {
-		return color;
-	}
+	public void processPreviousMove(String move);
 
 }

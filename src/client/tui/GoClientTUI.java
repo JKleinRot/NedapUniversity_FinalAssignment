@@ -56,7 +56,7 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
-				System.out.println("MAKE MOVE ACTION");
+				goClientActor.getPlayer().makeMove(words[1]);
 			} else if (words.length == 1 && words[0].equals("HELP")) {
 				System.out.println(String.format("%-80s" + "%-30s", "Action", "Command"));
 				System.out.println(String.format("%-80s" + "%-30s", 
@@ -159,6 +159,8 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Illegal board size")) {
 			System.out.println("ERROR: Not a valid board size");
 			System.out.println(name + ": Waiting for game settings command...");
+		} else if (object.equals("Move requested")) {
+			System.out.println(name + stoneColor + ": Waiting on move...");
 		}
 		
 	}

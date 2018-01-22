@@ -16,8 +16,10 @@ import game.board.stone.StoneColor;
 import game.player.ComputerPlayer;
 import game.player.HumanPlayer;
 import game.player.Player;
+import gui.GoGUIIntegrator;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
+import protocol.Protocol.Server;
 
 /**
  * Handles the actions required after input received from the GoClientHandler and GoClientTUI.
@@ -31,13 +33,19 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	private String boardSize;
 	
-	private String stoneColor;
+	private String stoneColorString;
+	
+	private StoneColor stoneColor;
 	
 	private boolean areGameSettingsRequested;
 	
 	private Player player;
 	
 	private Board board;
+	
+	private GoGUIIntegrator goGUI;
+	
+	private boolean isWhite;
 	
 	/**
 	 * Creates a new Go client actor.
@@ -47,7 +55,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		areGameSettingsRequested = false;
 		playerType = "";
 		boardSize = "";
-		stoneColor = "";
+		stoneColorString = "";
 	}
 	
 	@Override
@@ -134,11 +142,12 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	@Override
 	public void setGameSettings(String goStoneColor, String goBoardSize) {
 		if (areGameSettingsRequested) {
-			this.stoneColor = goStoneColor;
+			this.stoneColorString = goStoneColor;
 			this.boardSize = goBoardSize;
-			if (stoneColor.equals("white")) {
+			if (stoneColorString.equals("white")) {
+				stoneColor = StoneColor.WHITE;
+				isWhite = true;
 				try {
-					board = new Board(Integer.parseInt(boardSize));
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					if (playerType.equals("human")) {
@@ -146,15 +155,17 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					} else {
 						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
 					}
+					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set white");
 				} catch (NumberFormatException e) {
 					setChanged();
 					notifyObservers("Illegal board size");
 				}
-			} else if (stoneColor.equals("black")) {
+			} else if (stoneColorString.equals("black")) {
+				stoneColor = StoneColor.BLACK;
+				isWhite = false;
 				try {
-					board = new Board(Integer.parseInt(boardSize));
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					if (playerType.equals("human")) {
@@ -162,6 +173,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					} else {
 						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
 					}
+					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set black");
 				} catch (NumberFormatException e) {
@@ -183,23 +195,34 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 
 	@Override
 	public void setReceivedGameSettings(String aStoneColor, String aBoardSize) {
-		this.stoneColor = aStoneColor;
+		this.stoneColorString = aStoneColor;
 		this.boardSize = aBoardSize;
-		board = new Board(Integer.parseInt(boardSize));
-		if (stoneColor.equals(General.WHITE)) {
+		if (stoneColorString.equals(General.WHITE)) {
+			stoneColor = StoneColor.WHITE;
+			isWhite = true;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
 			} else {
 				player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
 			}
+			player.setBoard(boardSize);
 		} else {
+			stoneColor = stoneColor.BLACK;
+			isWhite = false;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
 			} else {
 				player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
 			}
+			player.setBoard(boardSize);
 		}
+		
 		setChanged();
-		notifyObservers("Game settings received " + stoneColor);
+		notifyObservers("Game settings received " + stoneColorString);
+	}
+	
+	@Override
+	public Player getPlayer() {
+		return player;
 	}
 }

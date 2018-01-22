@@ -2,6 +2,7 @@ package client.handler;
 
 import client.GoClientState;
 import client.GoClientStateListener;
+import game.Game;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 
@@ -17,6 +18,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	private GoClientStateListener gameManager;
 	
 	private String goClientName;
+	
+	private Game game;
 	
 	/**
 	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
@@ -66,18 +69,27 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.BLACK + General.DELIMITER1 + boardSize + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
+			game = gameManager.getGame(goClientHandler);
 		} else if (stoneColor.equals(General.BLACK)) {
 			System.out.println("GO SERVER: " + goClientName  + " plays with BLACK stones and " + 
 					opponent.getGoClientName() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.WHITE + General.DELIMITER1 + boardSize + General.COMMAND_END);
 			gameManager.startGame(goClientHandler, opponent);
+			game = gameManager.getGame(goClientHandler);
 		}
 	}
 	
 	@Override
 	public void setBoardSize(String boardSize) {
 		goClientHandler.setBoardSize(boardSize);
+	}
+	
+	@Override
+	public void confirmMove(String move) {
+		//Send to game, let game check for validity
+		game.confirmMove(move);
+		
 	}
 
 }

@@ -88,6 +88,9 @@ public class GoClient extends Observable implements Runnable {
 					goClientActor.getGameSettings();
 				} else if (words.length == 4 && words[0].equals(Server.START)) {
 					goClientActor.setReceivedGameSettings(words[2], words[3]);
+				} else if (words.length == 4 && words[0].equals(Server.TURN)  
+						&& words[3].equals(name.toUpperCase())) {
+					goClientActor.getPlayer().makeMove(words[2]);
 				}
 			}
 		} catch (IOException e) {
@@ -101,6 +104,7 @@ public class GoClient extends Observable implements Runnable {
 	 * Runs continuously while the thread is running.
 	 */
 	public void run() {
+		
 		readMessage();
 	}
 	

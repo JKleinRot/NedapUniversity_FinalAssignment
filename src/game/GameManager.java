@@ -89,5 +89,10 @@ public class GameManager implements GoClientStateListener {
 		Thread gameThread = new Thread(game);
 		gameThread.start();
 	}
+	
+	@Override
+	public Game getGame(GoClientHandler goClientHandler) {
+		return game;
+	}
 
 }
