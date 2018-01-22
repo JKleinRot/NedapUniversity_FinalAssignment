@@ -1,5 +1,8 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import client.handler.GoClientHandler;
 import game.board.Board;
 import protocol.Protocol.General;
@@ -23,6 +26,8 @@ public class GameImpl implements Game {
 	
 	private boolean isMoveMade;
 	
+	private boolean isValidMove;
+	
 	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;
@@ -36,8 +41,6 @@ public class GameImpl implements Game {
 	public void run() {
 		while (!isGameOver) {
 			if (numberOfMoves == 0) {
-				secondGoClientHandler.sendMessage("hoi\n");
-				firstGoClientHandler.sendMessage("hoi1\n");
 				firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
 						firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
 						Server.FIRST + General.DELIMITER1 + 
@@ -55,15 +58,25 @@ public class GameImpl implements Game {
 		}
 		
 	}
-//	
-//	@Override
-//	public void confirmMove(String move) {
-//		//Check for validity
-//		//Send move to both clients
-//	}
 
 	@Override
 	public void confirmMove(String move) {
-		System.out.println(move);
+		//Needs implementation!!!
+		System.out.println("ConfirmMove");
+		isValidMove = true;
+		if (isValidMove) {
+			firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+					move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.COMMAND_END);
+		}
+	}
+	
+	@Override
+	public List<GoClientHandler> getGoClientHandlers() {
+		List<GoClientHandler> goClientHandlers = new ArrayList<GoClientHandler>();
+		goClientHandlers.add(firstGoClientHandler);
+		goClientHandlers.add(secondGoClientHandler);
+		return goClientHandlers;
 	}
 }

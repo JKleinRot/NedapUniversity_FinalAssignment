@@ -13,5 +13,7 @@ public interface Player {
 	public void processPreviousMove(String move);
 	
 	public void checkMove(String move);
+	
+	public void determineMove();
 
 }

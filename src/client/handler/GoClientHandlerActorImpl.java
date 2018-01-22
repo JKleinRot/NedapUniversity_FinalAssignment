@@ -21,6 +21,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	
 	private Game game;
 	
+	private boolean isStarted;
+	
 	/**
 	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
 	 * @param goClientHandler
@@ -30,6 +32,7 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			GoClientStateListener gameManager) {
 		this.goClientHandler = goClientHandler;
 		this.gameManager = gameManager;
+		isStarted = false;
 	}
 
 	@Override
@@ -69,12 +72,13 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.BLACK + General.DELIMITER1 + boardSize + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
-			game = gameManager.getGame(goClientHandler);
+			game = gameManager.getGame(opponent);
 		} else if (stoneColor.equals(General.BLACK)) {
 			System.out.println("GO SERVER: " + goClientName  + " plays with BLACK stones and " + 
 					opponent.getGoClientName() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.WHITE + General.DELIMITER1 + boardSize + General.COMMAND_END);
+			opponent.setBoardSize(boardSize);
 			gameManager.startGame(goClientHandler, opponent);
 			game = gameManager.getGame(goClientHandler);
 		}

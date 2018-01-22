@@ -22,6 +22,8 @@ public class GameManager implements GoClientStateListener {
 	/**	The GoClientHandlers corresponding to the GoClients that play a game. */
 	private List<GoClientHandler> goClientHandlersPlayingGame;
 	
+	private List<Game> goGames;
+	
 	/** A game of Go. */
 	private Game game;
 	
@@ -31,6 +33,7 @@ public class GameManager implements GoClientStateListener {
 	public GameManager() {
 		goClientHandlersGameRequested = new ArrayList<GoClientHandler>();
 		goClientHandlersPlayingGame = new ArrayList<GoClientHandler>();
+		goGames = new ArrayList<Game>();
 	}
 	
 	@Override
@@ -88,11 +91,17 @@ public class GameManager implements GoClientStateListener {
 				secondGoClientHandler.getGoClientName());
 		Thread gameThread = new Thread(game);
 		gameThread.start();
+		
 	}
 	
 	@Override
 	public Game getGame(GoClientHandler goClientHandler) {
-		return game;
+		for (int i = 0; i < goGames.size(); i++) {
+			if (goGames.get(i).getGoClientHandlers().contains(goClientHandler)) {
+				return game;
+			}
+		}
+		return null;
 	}
 
 }

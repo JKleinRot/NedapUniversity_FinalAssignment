@@ -67,10 +67,13 @@ public class HumanPlayer extends Observable implements Player {
 			board.setStone(Integer.parseInt(moveCoordinates[0]), 
 					Integer.parseInt(moveCoordinates[1]), 
 					stoneColor);
-			determineMove();
+			goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+					Integer.parseInt(moveCoordinates[1]), isWhite);
 		}
+		System.out.println("ProcessPreviousMove");
 	}
 	
+	@Override
 	public void determineMove() {
 		setChanged();
 		notifyObservers("Move requested");
@@ -82,7 +85,7 @@ public class HumanPlayer extends Observable implements Player {
 //		board.setStone(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]), 
 //				stoneColor);
 		checkMove(move);
-//		goGUI.addStone(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]), isWhite);
+//		
 	}
 	
 	@Override

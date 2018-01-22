@@ -1,5 +1,9 @@
 package game;
 
+import java.util.List;
+
+import client.handler.GoClientHandler;
+
 /**
  * A game of Go.
  * @author janine.kleinrot
@@ -14,4 +18,6 @@ public interface Game extends Runnable {
 	 * 			The move.
 	 */
 	public void confirmMove(String move);
+	
+	public List<GoClientHandler> getGoClientHandlers();
 }

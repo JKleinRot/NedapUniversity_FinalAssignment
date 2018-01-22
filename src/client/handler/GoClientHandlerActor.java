@@ -54,5 +54,6 @@ public interface GoClientHandlerActor {
 	 */
 	public void confirmMove(String move);
 	
+	
 }
 
