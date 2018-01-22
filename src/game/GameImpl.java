@@ -36,9 +36,13 @@ public class GameImpl implements Game {
 	public void run() {
 		while (!isGameOver) {
 			if (numberOfMoves == 0) {
+				secondGoClientHandler.sendMessage("hoi\n");
+				firstGoClientHandler.sendMessage("hoi1\n");
 				firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
-						firstGoClientHandler.getGoClientName() + Server.FIRST + 
-						General.DELIMITER1 + firstGoClientHandler.getGoClientName());
+						firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+						Server.FIRST + General.DELIMITER1 + 
+						firstGoClientHandler.getGoClientName() + General.COMMAND_END);
+				numberOfMoves++;
 			}
 //			while (!isMoveMade) {
 //				try {

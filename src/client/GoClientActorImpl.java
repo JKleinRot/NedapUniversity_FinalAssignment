@@ -216,7 +216,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			}
 			player.setBoard(boardSize);
 		}
-		
 		setChanged();
 		notifyObservers("Game settings received " + stoneColorString);
 	}

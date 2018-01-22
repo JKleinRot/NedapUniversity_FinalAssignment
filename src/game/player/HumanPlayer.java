@@ -6,6 +6,7 @@ import game.board.Board;
 import game.board.stone.StoneColor;
 import gui.GoGUIIntegrator;
 import protocol.Protocol.General;
+import protocol.Protocol.Server;
 /**
  * Human player for Go.
  * @author janine.kleinrot
@@ -52,15 +53,23 @@ public class HumanPlayer extends Observable implements Player {
 
 	@Override
 	public void makeMove(String move) {
-		processPreviousMove(move);
-		
+		if (!move.equals(Server.FIRST)) {
+			processPreviousMove(move);
+			determineMove();
+		}
 	}
 	
 	@Override
 	public void processPreviousMove(String move) {
 		String[] moveCoordinates = move.split(General.DELIMITER2); 
-		board.setStone(Integer.parseInt(moveCoordinates[1]), Integer.parseInt(moveCoordinates[2]), 
+		board.setStone(Integer.parseInt(moveCoordinates[0]), 
+				Integer.parseInt(moveCoordinates[1]), 
 				getStoneColor());
+	}
+	
+	public void determineMove() {
+		setChanged();
+		notifyObservers("Move requested");
 	}
 	
 }

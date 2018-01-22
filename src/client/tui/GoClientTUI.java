@@ -56,7 +56,7 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
-				goClientActor.getPlayer().makeMove(words[1]);
+//				goClientActor.getPlayer().makeMove(words[1]);
 			} else if (words.length == 1 && words[0].equals("HELP")) {
 				System.out.println(String.format("%-80s" + "%-30s", "Action", "Command"));
 				System.out.println(String.format("%-80s" + "%-30s", 
@@ -124,13 +124,15 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Waiting for game settings command...");
 		} else if (object.equals("Game settings set black")) {
+			((Observable) goClientActor.getPlayer()).addObserver(this);
 			System.out.println(name + ": Game settings set");
 			stoneColor = " BLACK";
-			System.out.println(name + stoneColor + ": PLAY???");
+			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Game settings set white")) {
+			((Observable) goClientActor.getPlayer()).addObserver(this);
 			System.out.println(name + ": Game settings set");
 			stoneColor = " WHITE";
-			System.out.println(name + stoneColor + ": PLAY???");
+			System.out.println(name + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Illegal stone color")) {
 			System.out.println("ERROR: Not a valid stone color");
 			System.out.println(name + ": Waiting for game settings command...");
@@ -138,15 +140,17 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println("ERROR: No game requested to set game settings for");
 			System.out.println(name + ": Waiting for command...");
 		} else if (object.equals("Game settings received BLACK")) {
+			((Observable) goClientActor.getPlayer()).addObserver(this);
 			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Game settings received");
 			stoneColor = " BLACK";
-			System.out.println(name + stoneColor + ": PLAY???");
+			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Game settings received WHITE")) {
+			((Observable) goClientActor.getPlayer()).addObserver(this);
 			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Game settings received");
 			stoneColor = " WHITE";
-			System.out.println(name + stoneColor + ": PLAY???");
+			System.out.println(name + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Not connected yet")) {
 			System.out.println("ERROR: Not connected to Go server yet");
 			System.out.println(name + ": Waiting for command...");
