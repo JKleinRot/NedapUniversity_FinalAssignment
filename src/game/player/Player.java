@@ -10,7 +10,7 @@ public interface Player {
 	
 	public void makeMove(String move);
 	
-	public void processPreviousMove(String move);
+	public void processPreviousMove(String move, String previousPlayer);
 	
 	public void checkMove(String move);
 	

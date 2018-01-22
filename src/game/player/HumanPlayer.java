@@ -61,14 +61,23 @@ public class HumanPlayer extends Observable implements Player {
 	}
 	
 	@Override
-	public void processPreviousMove(String move) {
+	public void processPreviousMove(String move, String previousPlayer) {
 		if (!move.equals(Server.FIRST)) {
-			String[] moveCoordinates = move.split(General.DELIMITER2); 
-			board.setStone(Integer.parseInt(moveCoordinates[0]), 
-					Integer.parseInt(moveCoordinates[1]), 
-					stoneColor);
-			goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-					Integer.parseInt(moveCoordinates[1]), isWhite);
+			if (previousPlayer.equals(name.toUpperCase())) {
+				String[] moveCoordinates = move.split(General.DELIMITER2); 
+				board.setStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), 
+						stoneColor);
+				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), isWhite);
+			} else {
+				String[] moveCoordinates = move.split(General.DELIMITER2); 
+				board.setStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), 
+						stoneColor.other());
+				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), !isWhite);
+			}
 		}
 		System.out.println("ProcessPreviousMove");
 	}

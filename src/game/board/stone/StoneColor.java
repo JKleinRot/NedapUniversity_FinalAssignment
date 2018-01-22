@@ -8,5 +8,13 @@ package game.board.stone;
 public enum StoneColor {
 	
 	BLACK, WHITE;
+	
+	public StoneColor other() {
+		if (this == WHITE) {
+			return BLACK;
+		} else {
+			return WHITE;
+		}
+	}
 
 }

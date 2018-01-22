@@ -71,6 +71,10 @@ public class GameImpl implements Game {
 					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
 					move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
 					General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+					move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.COMMAND_END);
 		}
 	}
 	
