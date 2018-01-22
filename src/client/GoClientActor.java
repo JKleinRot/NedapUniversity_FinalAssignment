@@ -73,4 +73,11 @@ public interface GoClientActor {
 	 * @return The player.
 	 */
 	public Player getPlayer();
+	
+	/**
+	 * Sends the move to the server.
+	 * @param move
+	 * 			The move.
+	 */
+	public void sendMove(String move);
 }

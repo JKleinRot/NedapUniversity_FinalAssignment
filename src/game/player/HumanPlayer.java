@@ -21,6 +21,10 @@ public class HumanPlayer extends Observable implements Player {
 	
 	private StoneColor stoneColor;
 	
+	private boolean isWhite;
+	
+	private boolean isValidMove;
+	
 	/**
 	 * Creates a human player with a given name and stone color.
 	 * @param name
@@ -31,6 +35,11 @@ public class HumanPlayer extends Observable implements Player {
 	public HumanPlayer(String name, StoneColor color) {
 		this.name = name;
 		this.stoneColor = color;
+		if (stoneColor.equals(StoneColor.WHITE)) {
+			isWhite = true;
+		} else {
+			isWhite = false;
+		}
 	}
 	
 	public Board getBoard() {
@@ -50,26 +59,43 @@ public class HumanPlayer extends Observable implements Player {
 		goGUI.startGUI();
 		board = new Board(Integer.parseInt(boardSize));
 	}
-
-	@Override
-	public void makeMove(String move) {
-		if (!move.equals(Server.FIRST)) {
-			processPreviousMove(move);
-			determineMove();
-		}
-	}
 	
 	@Override
 	public void processPreviousMove(String move) {
-		String[] moveCoordinates = move.split(General.DELIMITER2); 
-		board.setStone(Integer.parseInt(moveCoordinates[0]), 
-				Integer.parseInt(moveCoordinates[1]), 
-				getStoneColor());
+		if (!move.equals(Server.FIRST)) {
+			String[] moveCoordinates = move.split(General.DELIMITER2); 
+			board.setStone(Integer.parseInt(moveCoordinates[0]), 
+					Integer.parseInt(moveCoordinates[1]), 
+					stoneColor);
+			determineMove();
+		}
 	}
 	
 	public void determineMove() {
 		setChanged();
 		notifyObservers("Move requested");
+	}
+
+	@Override
+	public void makeMove(String move) {
+		String[] moveCoordinates = move.split(General.DELIMITER2);
+//		board.setStone(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]), 
+//				stoneColor);
+		checkMove(move);
+//		goGUI.addStone(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]), isWhite);
+	}
+	
+	@Override
+	public void checkMove(String move) {
+		//Needs implementation!
+		isValidMove = true;
+		if (isValidMove) {
+			setChanged();
+			notifyObservers("Valid move");
+		} else {
+			setChanged();
+			notifyObservers("Invalid move");
+		}
 	}
 	
 }

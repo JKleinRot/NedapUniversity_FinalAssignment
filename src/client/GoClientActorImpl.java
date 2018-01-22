@@ -45,8 +45,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	
 	private GoGUIIntegrator goGUI;
 	
-	private boolean isWhite;
-	
 	/**
 	 * Creates a new Go client actor.
 	 */
@@ -146,7 +144,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			this.boardSize = goBoardSize;
 			if (stoneColorString.equals("white")) {
 				stoneColor = StoneColor.WHITE;
-				isWhite = true;
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
@@ -164,7 +161,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				}
 			} else if (stoneColorString.equals("black")) {
 				stoneColor = StoneColor.BLACK;
-				isWhite = false;
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
@@ -199,7 +195,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		this.boardSize = aBoardSize;
 		if (stoneColorString.equals(General.WHITE)) {
 			stoneColor = StoneColor.WHITE;
-			isWhite = true;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
 			} else {
@@ -208,7 +203,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			player.setBoard(boardSize);
 		} else {
 			stoneColor = stoneColor.BLACK;
-			isWhite = false;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
 			} else {
@@ -223,5 +217,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	@Override
 	public Player getPlayer() {
 		return player;
+	}
+	
+	@Override
+	public void sendMove(String move) {
+		goClient.sendMessage(Client.MOVE + General.DELIMITER1 + move + General.COMMAND_END);
 	}
 }

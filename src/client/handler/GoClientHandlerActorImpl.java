@@ -87,7 +87,6 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	
 	@Override
 	public void confirmMove(String move) {
-		//Send to game, let game check for validity
 		game.confirmMove(move);
 		
 	}

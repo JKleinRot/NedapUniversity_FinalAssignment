@@ -64,7 +64,6 @@ public class GameImpl implements Game {
 
 	@Override
 	public void confirmMove(String move) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(move);
 	}
 }

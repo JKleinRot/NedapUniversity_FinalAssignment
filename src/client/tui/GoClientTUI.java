@@ -21,6 +21,8 @@ public class GoClientTUI implements Observer, Runnable {
 	private String name;
 	
 	private String stoneColor;
+	
+	private String move;
 
 	/**
 	 * Creates a new TUI for the client.
@@ -56,7 +58,8 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
-//				goClientActor.getPlayer().makeMove(words[1]);
+				move = words[1];
+				goClientActor.getPlayer().makeMove(words[1]);
 			} else if (words.length == 1 && words[0].equals("HELP")) {
 				System.out.println(String.format("%-80s" + "%-30s", "Action", "Command"));
 				System.out.println(String.format("%-80s" + "%-30s", 
@@ -165,6 +168,8 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Waiting for game settings command...");
 		} else if (object.equals("Move requested")) {
 			System.out.println(name + stoneColor + ": Waiting on move...");
+		} else if (object.equals("Valid move")) {
+			goClientActor.sendMove(move);
 		}
 		
 	}
