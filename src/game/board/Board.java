@@ -79,6 +79,7 @@ public class Board {
 	 */
 	public void setStone(int x, int y, StoneColor color) {
 		this.getIntersection(x, y).setStone(color);
+		setInitialLiberties(x, y);
 		if (isGoGUI) {
 			boolean isWhite;
 			if (color.equals(StoneColor.WHITE)) {
@@ -87,6 +88,24 @@ public class Board {
 				isWhite = false;
 			}
 			goGUI.addStone(x, y, isWhite);
+		}
+	}
+	
+	/**
+	 * Set the initial liberties of the stone at the intersection 
+	 * at the provided x and y coordinate.
+	 * @param x
+	 * 			The x coordinate of the stone.
+	 * @param y
+	 * 			The y coordinate of the stone.
+	 */
+	private void setInitialLiberties(int x, int y) {
+		if (x == 0 || x == size - 1 || y == 0 || y == size - 1) {
+			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
+				this.getStone(x, y).setLiberties(2);
+			} else {
+				this.getStone(x, y).setLiberties(3);
+			}
 		}
 	}
 	
