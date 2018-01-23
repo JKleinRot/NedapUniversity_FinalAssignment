@@ -2,6 +2,8 @@ package game.player;
 
 import java.util.Observable;
 
+import game.MoveChecker;
+import game.MoveCheckerImpl;
 import game.board.Board;
 import game.board.stone.StoneColor;
 import gui.GoGUIIntegrator;
@@ -30,6 +32,10 @@ public class HumanPlayer extends Observable implements Player {
 	private boolean isValidMove;
 	
 	private int numberOfMoves;
+	
+	private MoveChecker moveChecker;
+	
+	private String checkMessage;
 	
 	/**
 	 * Creates a human player with a given name and stone color.
@@ -67,6 +73,7 @@ public class HumanPlayer extends Observable implements Player {
 		board = new Board(Integer.parseInt(boardSize));
 		previousBoard = board;
 		nextBoard = board;
+		moveChecker = new MoveCheckerImpl(stoneColor);
 	}
 	
 	@Override
@@ -110,12 +117,14 @@ public class HumanPlayer extends Observable implements Player {
 			try {
 				int moveX = Integer.parseInt(moveCoordinates[0]);
 				int moveY = Integer.parseInt(moveCoordinates[1]);
-				isValidMove = false;
-				checkMove(moveX, moveY);
+				isValidMove = moveChecker.checkMove(moveX, moveY, board, previousBoard, nextBoard);
 				if (isValidMove) {
 					numberOfMoves++;
 					setChanged();
 					notifyObservers("Valid move");
+				} else {
+					checkMessage = moveChecker.getMoveViolations();
+					handleCheckMessage(checkMessage);
 				}
 			} catch (NumberFormatException e) {
 				setChanged();
@@ -123,42 +132,55 @@ public class HumanPlayer extends Observable implements Player {
 			}
 		}
 	}
-	
-	@Override
-	public void checkMove(int moveX, int moveY) {
-		if (moveX >= board.getSize() || moveY >= board.getSize()) {
+
+	private void handleCheckMessage(String checkMessage) {
+		if (checkMessage.contains("Move")) {
 			setChanged();
 			notifyObservers("Move not on board");
-		} else {
-			if (board.getIntersection(moveX, moveY).isOccupied()) {
-				setChanged();
-				notifyObservers("Occupied intersection");
-			} else {
-				nextBoard.setStone(moveX, moveY, stoneColor);
-				for (int x = 0; x < board.getSize(); x++) {
-					for (int y = 0; y < board.getSize(); y++) {
-						if (previousBoard.getIntersection(x, y).isOccupied() != 
-								nextBoard.getIntersection(x, y).isOccupied()) {
-							isValidMove = true;
-							return;
-						} else if (previousBoard.getIntersection(x, y).isOccupied() && 
-								nextBoard.getIntersection(x, y).isOccupied()) {
-							if (!previousBoard.getStone(x, y).getColor().equals(
-									nextBoard.getStone(x, y).getColor())) {
-								isValidMove = true;
-								return;
-							}
-						} 
-					}
-				}
-				if (numberOfMoves == 0) {
-					isValidMove = true;
-					return;
-				}
-				setChanged();
-				notifyObservers("Ko rule");
-			}
+		} else if (checkMessage.contains("Occupied")) {
+			setChanged();
+			notifyObservers("Occupied intersection");
+		} else if (checkMessage.contains("Ko")) {
+			setChanged();
+			notifyObservers("Ko rule");
 		}
 	}
+	
+//	@Override
+//	public void checkMove(int moveX, int moveY) {
+//		if (moveX >= board.getSize() || moveY >= board.getSize()) {
+//			setChanged();
+//			notifyObservers("Move not on board");
+//		} else {
+//			if (board.getIntersection(moveX, moveY).isOccupied()) {
+//				setChanged();
+//				notifyObservers("Occupied intersection");
+//			} else {
+//				nextBoard.setStone(moveX, moveY, stoneColor);
+//				for (int x = 0; x < board.getSize(); x++) {
+//					for (int y = 0; y < board.getSize(); y++) {
+//						if (previousBoard.getIntersection(x, y).isOccupied() != 
+//								nextBoard.getIntersection(x, y).isOccupied()) {
+//							isValidMove = true;
+//							return;
+//						} else if (previousBoard.getIntersection(x, y).isOccupied() && 
+//								nextBoard.getIntersection(x, y).isOccupied()) {
+//							if (!previousBoard.getStone(x, y).getColor().equals(
+//									nextBoard.getStone(x, y).getColor())) {
+//								isValidMove = true;
+//								return;
+//							}
+//						} 
+//					}
+//				}
+//				if (numberOfMoves == 0) {
+//					isValidMove = true;
+//					return;
+//				}
+//				setChanged();
+//				notifyObservers("Ko rule");
+//			}
+//		}
+//	}
 	
 }

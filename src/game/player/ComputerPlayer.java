@@ -91,8 +91,4 @@ public class ComputerPlayer implements Player {
 		//Make the move depending on the used strategy
 	}
 	
-	@Override
-	public void checkMove(int moveX, int moveY) {
-		
-	}
 }

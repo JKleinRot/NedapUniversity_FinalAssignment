@@ -14,6 +14,6 @@ public interface Player {
 	
 	public void determineMove();
 	
-	public void checkMove(int moveX, int moveY);
+//	public void checkMove(int moveX, int moveY);
 
 }
