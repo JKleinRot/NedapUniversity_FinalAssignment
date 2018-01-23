@@ -169,8 +169,16 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Valid move")) {
 			goClientActor.sendMove(move);
-		} else if (object.equals("Invalid move input")) {
-			System.out.println(name + stoneColor + ": Not a valid move");
+		} else if (object.equals("Move not on board")) {
+			System.out.println(name + stoneColor + ": Not a valid move "
+					+ "(Intersection out of range of board)");
+			System.out.println(name + stoneColor + ": Waiting on move...");
+		} else if (object.equals("Occupied intersection")) {
+			System.out.println(name + stoneColor + ": Not a valid move "
+					+ "(Intersection already occupied with stone)");
+			System.out.println(name + stoneColor + ": Waiting on move...");
+		} else if (object.equals("Ko rule")) {
+			System.out.println(name + stoneColor + ": Not a valid move (Ko rule violated");
 			System.out.println(name + stoneColor + ": Waiting on move...");
 		}
 		
