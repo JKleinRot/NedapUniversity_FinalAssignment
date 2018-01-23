@@ -4,6 +4,7 @@ import game.board.Board;
 import game.board.stone.StoneColor;
 import gui.GoGUIIntegrator;
 import protocol.Protocol.General;
+import protocol.Protocol.Server;
 
 /**
  * Computer player for Go.
@@ -19,6 +20,8 @@ public class ComputerPlayer implements Player {
 	
 	private StoneColor stoneColor;
 	
+	private boolean isWhite;
+	
 	/**
 	 * Creates a computer player with a given name and stone color.
 	 * @param name
@@ -29,6 +32,11 @@ public class ComputerPlayer implements Player {
 	public ComputerPlayer(String name, StoneColor color) {
 		this.name = name;
 		this.stoneColor = color;
+		if (stoneColor.equals(StoneColor.WHITE)) {
+			isWhite = true;
+		} else {
+			isWhite = false;
+		}
 	}
 
 	public String getName() {
@@ -53,14 +61,34 @@ public class ComputerPlayer implements Player {
 
 	@Override
 	public void makeMove(String move) {
-		processPreviousMove(move);
+		//Notify of move
+		//Check move and forward it to clienthandler
 	}
 
 	@Override
-	public void processPreviousMove(String move) {
-		String[] moveCoordinates = move.split(General.DELIMITER2); 
-		board.setStone(Integer.parseInt(moveCoordinates[1]), Integer.parseInt(moveCoordinates[2]), 
-				getStoneColor());
+	public void processPreviousMove(String move, String previousPlayer) {
+		if (!move.equals(Server.FIRST)) {
+			if (previousPlayer.equals(name.toUpperCase())) {
+				String[] moveCoordinates = move.split(General.DELIMITER2); 
+				board.setStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), 
+						stoneColor);
+				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), isWhite);
+			} else {
+				String[] moveCoordinates = move.split(General.DELIMITER2); 
+				board.setStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), 
+						stoneColor.other());
+				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]), !isWhite);
+			}
+		}
+	}
+
+	@Override
+	public void determineMove() {
+		//Make the move depending on the used strategy
 	}
 	
 }
