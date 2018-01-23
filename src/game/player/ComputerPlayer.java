@@ -56,7 +56,7 @@ public class ComputerPlayer implements Player {
 	public void setBoard(String boardSize) {
 		goGUI = new GoGUIIntegrator(true, true, Integer.parseInt(boardSize));
 		goGUI.startGUI();
-		board = new Board(Integer.parseInt(boardSize));	
+		board = new Board(Integer.parseInt(boardSize), true);	
 	}
 
 	@Override

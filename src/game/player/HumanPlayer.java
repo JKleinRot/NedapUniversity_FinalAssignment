@@ -68,9 +68,9 @@ public class HumanPlayer extends Observable implements Player {
 	}
 	
 	public void setBoard(String boardSize) {
-		goGUI = new GoGUIIntegrator(true, true, Integer.parseInt(boardSize));
-		goGUI.startGUI();
-		board = new Board(Integer.parseInt(boardSize));
+//		goGUI = new GoGUIIntegrator(true, true, Integer.parseInt(boardSize));
+//		goGUI.startGUI();
+		board = new Board(Integer.parseInt(boardSize), true);
 		previousBoard = board;
 		nextBoard = board;
 		moveChecker = new MoveCheckerImpl();
@@ -85,8 +85,8 @@ public class HumanPlayer extends Observable implements Player {
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor);
-				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), isWhite);
+//				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+//						Integer.parseInt(moveCoordinates[1]), isWhite);
 				nextBoard = board;
 			} else {
 				previousBoard = board;
@@ -94,8 +94,8 @@ public class HumanPlayer extends Observable implements Player {
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor.other());
-				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), !isWhite);
+//				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
+//						Integer.parseInt(moveCoordinates[1]), !isWhite);
 				nextBoard = board;
 			}
 		}
@@ -134,7 +134,7 @@ public class HumanPlayer extends Observable implements Player {
 		}
 	}
 
-	private void handleCheckMessage(String checkMessage) {
+	private void handleCheckMessage(String aCheckMessage) {
 		if (checkMessage.contains("Move")) {
 			setChanged();
 			notifyObservers("Move not on board");
@@ -146,42 +146,5 @@ public class HumanPlayer extends Observable implements Player {
 			notifyObservers("Ko rule");
 		}
 	}
-	
-//	@Override
-//	public void checkMove(int moveX, int moveY) {
-//		if (moveX >= board.getSize() || moveY >= board.getSize()) {
-//			setChanged();
-//			notifyObservers("Move not on board");
-//		} else {
-//			if (board.getIntersection(moveX, moveY).isOccupied()) {
-//				setChanged();
-//				notifyObservers("Occupied intersection");
-//			} else {
-//				nextBoard.setStone(moveX, moveY, stoneColor);
-//				for (int x = 0; x < board.getSize(); x++) {
-//					for (int y = 0; y < board.getSize(); y++) {
-//						if (previousBoard.getIntersection(x, y).isOccupied() != 
-//								nextBoard.getIntersection(x, y).isOccupied()) {
-//							isValidMove = true;
-//							return;
-//						} else if (previousBoard.getIntersection(x, y).isOccupied() && 
-//								nextBoard.getIntersection(x, y).isOccupied()) {
-//							if (!previousBoard.getStone(x, y).getColor().equals(
-//									nextBoard.getStone(x, y).getColor())) {
-//								isValidMove = true;
-//								return;
-//							}
-//						} 
-//					}
-//				}
-//				if (numberOfMoves == 0) {
-//					isValidMove = true;
-//					return;
-//				}
-//				setChanged();
-//				notifyObservers("Ko rule");
-//			}
-//		}
-//	}
 	
 }

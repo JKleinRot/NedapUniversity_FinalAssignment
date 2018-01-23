@@ -2,6 +2,7 @@ package game.board;
 
 import game.board.stone.Stone;
 import game.board.stone.StoneColor;
+import gui.GoGUIIntegrator;
 
 /**
  * The Go board.
@@ -15,6 +16,12 @@ public class Board {
 	/** The size of the board. */
 	private int size;
 	
+	/**	The GUI of the board. */
+	private GoGUIIntegrator goGUI;
+	
+	/** Wheter a GoGUI should be used. */
+	private boolean isGoGUI;
+	
 	/** 
 	 * Initialize a Go board with the given width.
 	 * The minimum size is 5 x 5. If the given size is smaller than 5, the size is set to 5.
@@ -22,8 +29,11 @@ public class Board {
 	 * Initially all intersections are unoccupied.
 	 * @param width
 	 * 			The width of the board.
+	 * @param goGUI
+	 * 			Whether a GoGUI should be used.
 	 */
-	public Board(int size) {
+	public Board(int size, boolean isGoGUI) {
+		this.isGoGUI = isGoGUI;
 		if (size < 5) {
 			intersections = new Intersection[5][5];
 			this.size = 5;
@@ -38,6 +48,10 @@ public class Board {
 			for (int j = 0; j < size; j++) {
 				intersections[i][j] = new Intersection();
 			}
+		}
+		if (isGoGUI) {
+			goGUI = new GoGUIIntegrator(false, true, size);
+			goGUI.startGUI();
 		}
 	}
 	
@@ -65,6 +79,15 @@ public class Board {
 	 */
 	public void setStone(int x, int y, StoneColor color) {
 		this.getIntersection(x, y).setStone(color);
+		if (isGoGUI) {
+			boolean isWhite;
+			if (color.equals(StoneColor.WHITE)) {
+				isWhite = true;
+			} else {
+				isWhite = false;
+			}
+			goGUI.addStone(x, y, isWhite);
+		}
 	}
 	
 	/**
