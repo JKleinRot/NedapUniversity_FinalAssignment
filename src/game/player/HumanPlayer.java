@@ -97,8 +97,7 @@ public class HumanPlayer extends Observable implements Player {
 			try {
 				int moveX = Integer.parseInt(moveCoordinates[0]);
 				int moveY = Integer.parseInt(moveCoordinates[1]);
-				//Needs implementation!
-				isValidMove = true;
+				checkMove(moveX, moveY);
 				if (isValidMove) {
 					setChanged();
 					notifyObservers("Valid move");
@@ -111,6 +110,11 @@ public class HumanPlayer extends Observable implements Player {
 				notifyObservers("Invalid move input");
 			}
 		}
+	}
+	
+	@Override
+	public void checkMove(int moveX, int moveY) {
+		isValidMove = true;
 	}
 	
 }
