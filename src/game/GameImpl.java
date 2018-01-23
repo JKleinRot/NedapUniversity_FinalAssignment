@@ -64,7 +64,6 @@ public class GameImpl implements Game {
 	@Override
 	public void confirmMove(String move) {
 		//Needs implementation!!!
-		System.out.println("ConfirmMove");
 		isValidMove = true;
 		if (isValidMove) {
 			firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 

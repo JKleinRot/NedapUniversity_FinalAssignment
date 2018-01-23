@@ -72,7 +72,6 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.BLACK + General.DELIMITER1 + boardSize + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
-//			game = gameManager.getGame(opponent);
 		} else if (stoneColor.equals(General.BLACK)) {
 			System.out.println("GO SERVER: " + goClientName  + " plays with BLACK stones and " + 
 					opponent.getGoClientName() + " plays with WHITE stones");
@@ -80,7 +79,6 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.WHITE + General.DELIMITER1 + boardSize + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(goClientHandler, opponent);
-//			game = gameManager.getGame(goClientHandler);
 		}
 	}
 	

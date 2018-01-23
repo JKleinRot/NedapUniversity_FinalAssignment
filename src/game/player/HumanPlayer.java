@@ -79,7 +79,6 @@ public class HumanPlayer extends Observable implements Player {
 						Integer.parseInt(moveCoordinates[1]), !isWhite);
 			}
 		}
-		System.out.println("ProcessPreviousMove");
 	}
 	
 	@Override

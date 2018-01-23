@@ -93,15 +93,5 @@ public class GameManager implements GoClientStateListener {
 		gameThread.start();
 		
 	}
-	
-	@Override
-	public Game getGame(GoClientHandler goClientHandler) {
-		for (int i = 0; i < goGames.size(); i++) {
-			if (goGames.get(i).getGoClientHandlers().contains(goClientHandler)) {
-				return game;
-			}
-		}
-		return null;
-	}
 
 }

@@ -147,7 +147,6 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Game settings received");
 			stoneColor = " BLACK";
-			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Game settings received WHITE")) {
 			((Observable) goClientActor.getPlayer()).addObserver(this);
 			System.out.println(name + ": Opponent found");

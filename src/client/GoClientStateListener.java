@@ -35,12 +35,5 @@ public interface GoClientStateListener {
 	 */
 	public void startGame(GoClientHandler firstGoClientHandler, 
 			GoClientHandler secondGoClientHandler);
-	
-	/**
-	 * Gets the game the GoClientHandler is in.
-	 * @param goClientHandler
-	 * 			The GoClientHandler.
-	 * @return
-	 */
-	public Game getGame(GoClientHandler goClientHandler);
+
 }
