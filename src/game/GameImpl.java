@@ -28,6 +28,8 @@ public class GameImpl implements Game {
 	
 	private boolean isValidMove;
 	
+	private String move;
+	
 	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;
@@ -40,7 +42,7 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		while (!isGameOver) {
 			if (numberOfMoves == 0) {
 				firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
@@ -49,31 +51,45 @@ public class GameImpl implements Game {
 						firstGoClientHandler.getGoClientName() + General.COMMAND_END);
 				numberOfMoves++;
 			}
-//			while (!isMoveMade) {
-//				try {
-//					wait();
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				
-//			}
+			while (!isMoveMade) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (numberOfMoves % 2 == 1) {
+					firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+							firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+							move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+							General.COMMAND_END);
+					secondGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+							firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+							move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+							General.COMMAND_END);
+					numberOfMoves++;
+				} else if (numberOfMoves % 2 == 0) {
+					firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+							secondGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+							move + General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+							General.COMMAND_END);
+					secondGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
+							secondGoClientHandler.getGoClientName() + General.DELIMITER1 + 
+							move + General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+							General.COMMAND_END);
+					numberOfMoves++;
+				}
+			}
 		}
 		
 	}
 
 	@Override
-	public void confirmMove(String move) {
+	public synchronized void confirmMove(String moveMade) {
 		//Needs implementation!!!
 		isValidMove = true;
 		if (isValidMove) {
-			firstGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
-					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
-					move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
-					General.COMMAND_END);
-			secondGoClientHandler.sendMessage(Server.TURN + General.DELIMITER1 + 
-					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + 
-					move + General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
-					General.COMMAND_END);
+			this.move = moveMade;
+			notifyAll();
 		}
 	}
 	

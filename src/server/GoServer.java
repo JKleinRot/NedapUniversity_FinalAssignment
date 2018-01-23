@@ -74,7 +74,7 @@ public class GoServer {
 	}
 	
 	/**
-	 * Adds the goClientHandler to the list of client handlers.
+	 * Adds the goClientHandler to the list of client h1andlers.
 	 * @param goClientHandler
 	 * 			The added client handler.
 	 */

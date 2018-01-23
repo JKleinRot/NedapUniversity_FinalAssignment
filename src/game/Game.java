@@ -17,7 +17,7 @@ public interface Game extends Runnable {
 	 * @param move
 	 * 			The move.
 	 */
-	public void confirmMove(String move);
+	public void confirmMove(String moveMade);
 	
 	public List<GoClientHandler> getGoClientHandlers();
 }
