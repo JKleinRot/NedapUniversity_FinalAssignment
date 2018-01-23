@@ -22,16 +22,17 @@ public class MoveCheckerImpl implements MoveChecker {
 	/**
 	 * Creates a new MoveCheckerImpl.
 	 */
-	public MoveCheckerImpl(StoneColor stoneColor) {
-		this.stoneColor = stoneColor;
+	public MoveCheckerImpl() {
+
 	}
 	
 	@Override
-	public boolean checkMove(int moveX, int moveY, Board aBoard, Board aPreviousBoard, 
-			Board aNextBoard) {
+	public boolean checkMove(int moveX, int moveY, StoneColor stoneColor, Board aBoard, 
+			Board aPreviousBoard, Board aNextBoard) {
 		this.board = aBoard;
 		this.previousBoard = aPreviousBoard;
 		this.nextBoard = aNextBoard;
+		this.stoneColor = stoneColor;
 		checkMessage = checkOutOfRange(moveX, moveY);
 		if (checkMessage.contains("Move")) {
 			return false;

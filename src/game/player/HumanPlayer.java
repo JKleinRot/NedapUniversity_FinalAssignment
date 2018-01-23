@@ -73,7 +73,7 @@ public class HumanPlayer extends Observable implements Player {
 		board = new Board(Integer.parseInt(boardSize));
 		previousBoard = board;
 		nextBoard = board;
-		moveChecker = new MoveCheckerImpl(stoneColor);
+		moveChecker = new MoveCheckerImpl();
 	}
 	
 	@Override
@@ -117,7 +117,8 @@ public class HumanPlayer extends Observable implements Player {
 			try {
 				int moveX = Integer.parseInt(moveCoordinates[0]);
 				int moveY = Integer.parseInt(moveCoordinates[1]);
-				isValidMove = moveChecker.checkMove(moveX, moveY, board, previousBoard, nextBoard);
+				isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
+						previousBoard, nextBoard);
 				if (isValidMove) {
 					numberOfMoves++;
 					setChanged();
