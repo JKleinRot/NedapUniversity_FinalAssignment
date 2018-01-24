@@ -97,8 +97,8 @@ public class Board {
 	 * @param color
 	 * 			The color of the stone set at the intersection.
 	 */
-	public void setStone(int x, int y, StoneColor color) {
-		this.color = color;
+	public void setStone(int x, int y, StoneColor aColor) {
+		this.color = aColor;
 		this.getIntersection(x, y).setStone(color);
 		if (isGoGUI) {
 			boolean isWhite;
@@ -114,7 +114,8 @@ public class Board {
 	}
 
 	/**
-	 * Adjust the liberties of the newly set stone and the surrounding stones or groups.
+	 * Update the liberties of the newly set stone and the surrounding stones or groups.
+	 * Update the stones on the board.
 	 * @param x
 	 * 			The x coordinate of the intersection at the board.
 	 * @param y
@@ -133,7 +134,8 @@ public class Board {
 					getLiberties() - 1);
 			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - 1);
 		}
-		if (otherColorCount == adjacentIntersections.size() && this.getStone(x, y).getLiberties() == 0) {
+		if (otherColorCount == adjacentIntersections.size() && 
+				this.getStone(x, y).getLiberties() == 0) {
 			removeStone(x, y);
 		}
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
