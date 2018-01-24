@@ -27,8 +27,17 @@ public class Board {
 	/** Wheter a GoGUI should be used. */
 	private boolean isGoGUI;
 	
-	/**List of adjacent stones. */
+	/** List of adjacent intersections occupied by a stone. */
 	private List<Intersection> adjacentIntersections;
+	
+	/** List of intersections occupied by a stone. */
+	private List<Intersection> occupiedIntersections;
+	
+	/** List of intersection groups. */
+	private List<IntersectionGroup> intersectionGroups;
+	
+	/** The color of the most recent placed stone. */
+	private StoneColor color;
 	
 	/** 
 	 * Initialize a Go board with the given width.
@@ -43,6 +52,8 @@ public class Board {
 	public Board(int size, boolean isGoGUI) {
 		this.isGoGUI = isGoGUI;
 		this.adjacentIntersections = new ArrayList<Intersection>();
+		this.occupiedIntersections = new ArrayList<Intersection>();
+		this.intersectionGroups = new ArrayList<IntersectionGroup>();
 		if (size < 5) {
 			intersections = new Intersection[5][5];
 			this.size = 5;
@@ -87,6 +98,7 @@ public class Board {
 	 * 			The color of the stone set at the intersection.
 	 */
 	public void setStone(int x, int y, StoneColor color) {
+		this.color = color;
 		this.getIntersection(x, y).setStone(color);
 		if (isGoGUI) {
 			boolean isWhite;
@@ -98,9 +110,9 @@ public class Board {
 			goGUI.addStone(x, y, isWhite);
 		}
 		setInitialLiberties(x, y);
-		adjustLiberties(x, y);
+		updateBoard(x, y);
 	}
-	
+
 	/**
 	 * Adjust the liberties of the newly set stone and the surrounding stones or groups.
 	 * @param x
@@ -108,17 +120,21 @@ public class Board {
 	 * @param y
 	 * 			The y coordinate of the intersection at the board.
 	 */
-	private void adjustLiberties(int x, int y) {
-		adjacentIntersections = getAdjacentIntersectionsWithStone(x, y);
+	private void updateBoard(int x, int y) {
+		int otherColorCount = 0;
+		getAdjacentIntersectionsWithStone(x, y);
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
+			if (!adjacentIntersection.getStone().getColor().equals(color)) {
+				otherColorCount++;
+			}
 			adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().
 					getLiberties() - 1);
 			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - 1);
 		}
-		if (this.getStone(x, y).getLiberties() == 0) {
-			this.removeStone(x, y);
+		if (otherColorCount == adjacentIntersections.size() && this.getStone(x, y).getLiberties() == 0) {
+			removeStone(x, y);
 		}
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
 		adjacentIntersections.clear();
@@ -133,7 +149,7 @@ public class Board {
 	 * @return
 	 * 			A list of adjacent intersections occupied by a stone.
 	 */
-	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
+	private void getAdjacentIntersectionsWithStone(int x, int y) {
 		if (this.getStone(x, y).getLiberties() == 2) {
 			if (x == 0 && y == 0) {
 				adjacentIntersections.add(this.getIntersection(x + 1, y));
@@ -179,7 +195,6 @@ public class Board {
 				adjacentIntersectionsIterator.remove();
 			}
 		}
-		return adjacentIntersections;
 	}
 
 	/**

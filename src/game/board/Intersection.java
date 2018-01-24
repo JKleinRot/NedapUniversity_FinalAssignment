@@ -17,11 +17,18 @@ public class Intersection {
 	/** Stone at the intersection. */
 	private Stone stone;
 	
+	/** Whether the intersection is in an intersection group. */
+	private boolean isInIntersectionGroup;
+	
+	/** The intersection group. */
+	private IntersectionGroup intersectionGroup;
+	
 	/** 
 	 * Creates a new intersection that is initially unoccupied. 
 	 */
 	public Intersection() {
 		isOccupied = false;
+		isInIntersectionGroup = false;
 	}
 	
 	/** 
@@ -58,6 +65,41 @@ public class Intersection {
 	 */
 	public boolean isOccupied() {
 		return isOccupied;
+	}
+	
+	/**
+	 * Return if an intersection is in an intersection group.
+	 * @return
+	 * 			True if the intersection is in an intersection group and false otherwise.
+	 */
+	public boolean isInIntersectionGroup() {
+		return isInIntersectionGroup;
+	}
+	
+	/** 
+	 * Return the intersection group the intersection is in.
+	 * @return
+	 * 			The intersection group.
+	 */
+	public IntersectionGroup getIntersectionGroup() {
+		return intersectionGroup;
+	}
+	
+	/**
+	 * Set an intersection group and add this intersection.
+	 */
+	public void setNewIntersectionGroup() {
+		intersectionGroup = new IntersectionGroup();
+		intersectionGroup.addIntersection(this);
+	}
+	
+	/**
+	 * Set an intersection group.
+	 * @param intersectionGroup
+	 * 			The intersection group of this intersection.
+	 */
+	public void setIntersectionGroup(IntersectionGroup intersectionGroup) {
+		this.intersectionGroup = intersectionGroup;
 	}
 
 }
