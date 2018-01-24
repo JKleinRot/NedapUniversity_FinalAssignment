@@ -6,7 +6,6 @@ import game.MoveChecker;
 import game.MoveCheckerImpl;
 import game.board.Board;
 import game.board.stone.StoneColor;
-import gui.GoGUIIntegrator;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 /**
@@ -15,26 +14,28 @@ import protocol.Protocol.Server;
  */
 public class HumanPlayer extends Observable implements Player {
 	
+	/** The board. */
 	private Board board;
 	
+	/** The previous board situation. */
 	private Board previousBoard;
 	
+	/** The next board situation. */
 	private Board nextBoard;
 	
-	private GoGUIIntegrator goGUI;
-	
+	/** The name of the player. */
 	private String name;
 	
+	/** The stone color of the player. */
 	private StoneColor stoneColor;
 	
-	private boolean isWhite;
-	
+	/** Whether the move is valid. */
 	private boolean isValidMove;
 	
-	private int numberOfMoves;
-	
+	/** The move checker. */
 	private MoveChecker moveChecker;
 	
+	/** The check message. */
 	private String checkMessage;
 	
 	/**
@@ -47,12 +48,6 @@ public class HumanPlayer extends Observable implements Player {
 	public HumanPlayer(String name, StoneColor color) {
 		this.name = name;
 		this.stoneColor = color;
-		if (stoneColor.equals(StoneColor.WHITE)) {
-			isWhite = true;
-		} else {
-			isWhite = false;
-		}
-		numberOfMoves = 0;
 	}
 	
 	public Board getBoard() {
@@ -117,7 +112,6 @@ public class HumanPlayer extends Observable implements Player {
 				isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
 						previousBoard, nextBoard);
 				if (isValidMove) {
-					numberOfMoves++;
 					setChanged();
 					notifyObservers("Valid move");
 				} else {

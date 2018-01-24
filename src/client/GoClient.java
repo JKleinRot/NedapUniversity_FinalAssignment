@@ -34,6 +34,7 @@ public class GoClient extends Observable implements Runnable {
 	/**	If the Go client is connected to the Go server. */
 	private boolean isConnected;
 	
+	/** The GoClientActor. */
 	private GoClientActor goClientActor;
 	
 	/**
@@ -112,26 +113,55 @@ public class GoClient extends Observable implements Runnable {
 		readMessage();
 	}
 	
+	/**
+	 * Return the socket of the GoClient GoServer connection.
+	 * @return
+	 * 			the socket.
+	 */
 	public Socket getSocket() {
 		return socket;
 	}
 	
+	/**
+	 * Set the socket of the GoClient to the provided socket.
+	 * @param socket
+	 * 			The socket.
+	 */
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
 	
+	/**
+	 * Set the reader of the GoClient to the provided reader.
+	 * @param inActor
+	 * 			The reader.
+	 */
 	public void setReader(BufferedReader inActor) {
 		in = inActor;
 	}
 	
+	/**
+	 * Set the writer of the GoClient to the provided writer.
+	 * @param outActor
+	 * 			The writer.
+	 */
 	public void setWriter(BufferedWriter outActor) {
 		out = outActor;
 	}
 	
+	/**
+	 * Return the name of the GoClient.
+	 * @return
+	 * 			The name.
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Notifies the GoClient that is is connected and can start the reading and writing 
+	 * with the GoServer.
+	 */
 	public synchronized void setIsConnected() {
 		isConnected = true;
 		notifyAll();

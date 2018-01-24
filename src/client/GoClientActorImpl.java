@@ -27,23 +27,26 @@ import protocol.Protocol.Server;
  */
 public class GoClientActorImpl extends Observable implements GoClientActor {
 	
+	/** The GoClient. */
 	private GoClient goClient;
 	
+	/** The player type. */
 	private String playerType;
 	
+	/** The board size. */
 	private String boardSize;
 	
+	/** The stone color represented in a string. */
 	private String stoneColorString;
 	
+	/** The stone color. */
 	private StoneColor stoneColor;
 	
+	/** Whether game settings are required yet. */
 	private boolean areGameSettingsRequested;
 	
+	/** The player. */
 	private Player player;
-	
-	private Board board;
-	
-	private GoGUIIntegrator goGUI;
 	
 	/**
 	 * Creates a new Go client actor.

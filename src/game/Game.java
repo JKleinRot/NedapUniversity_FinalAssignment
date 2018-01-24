@@ -14,10 +14,15 @@ public interface Game extends Runnable {
 	
 	/**
 	 * Confirms the move made by the GoClient.
-	 * @param move
+	 * @param moveMade
 	 * 			The move.
 	 */
 	public void confirmMove(String moveMade);
 	
+	/**
+	 * Return the goClientHandlers currently in the game.
+	 * @return
+	 * 			A list of GoClientHandlers.
+	 */
 	public List<GoClientHandler> getGoClientHandlers();
 }

@@ -18,10 +18,13 @@ public class GoClientTUI implements Observer, Runnable {
 	/** A scanner to read input. */
 	private Scanner in;
 	
+	/** The name of the GoClient. */
 	private String name;
 	
+	/** The stone color of the GoClient player. */
 	private String stoneColor;
 	
+	/** The move made by the player. */
 	private String move;
 
 	/**
@@ -43,6 +46,7 @@ public class GoClientTUI implements Observer, Runnable {
 	public void run() {
 		start();
 	}
+	
 	/**
 	 * Start the TUI.
 	 */

@@ -15,28 +15,46 @@ import protocol.Protocol.Server;
  */
 public class GameImpl implements Game {
 
+	/** The GoClientHandler communicating with the GoClient playing with black. */
 	private GoClientHandler firstGoClientHandler;
 	
+	/** The GoClientHandler communicating with the GoClient playing with white. */
 	private GoClientHandler secondGoClientHandler;
 	
+	/** The board. */
 	private Board board;
 	
+	/** The previous board situation. */ 
 	private Board previousBoard;
 	
+	/** The next board situation. */
 	private Board nextBoard;
 	
+	/** Whether the game is over. */
 	private boolean isGameOver;
 	
+	/** The number of moves made in the game. */
 	private int numberOfMoves;
 	
+	/** Wheter a move is made. */
 	private boolean isMoveMade;
 	
+	/** Whether the move is valid. */
 	private boolean isValidMove;
 	
+	/** The move represented as a string. */
 	private String move;
 	
+	/** The MoveChecker. */
 	private MoveChecker moveChecker;
 	
+	/**
+	 * Creates a new Game.
+	 * @param firstGoClientHandler
+	 * 			The GoClientHandler communicating with the GoClient playing with black.
+	 * @param secondGoClientHandler
+	 * 			The GoClientHandler communicating with the GoClient playing with white.
+	 */
 	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;

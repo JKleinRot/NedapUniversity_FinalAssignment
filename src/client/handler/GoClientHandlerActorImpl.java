@@ -15,13 +15,14 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	/** The GoClientHandler. */
 	private GoClientHandler goClientHandler;
 	
+	/** The game manager. */
 	private GoClientStateListener gameManager;
 	
+	/** The name of the client. */
 	private String goClientName;
 	
+	/** The game. */
 	private Game game;
-	
-	private boolean isStarted;
 	
 	/**
 	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
@@ -32,7 +33,6 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			GoClientStateListener gameManager) {
 		this.goClientHandler = goClientHandler;
 		this.gameManager = gameManager;
-		isStarted = false;
 	}
 
 	@Override

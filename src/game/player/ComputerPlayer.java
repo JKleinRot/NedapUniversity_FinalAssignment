@@ -2,7 +2,6 @@ package game.player;
 
 import game.board.Board;
 import game.board.stone.StoneColor;
-import gui.GoGUIIntegrator;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 
@@ -12,14 +11,16 @@ import protocol.Protocol.Server;
  */
 public class ComputerPlayer implements Player {
 	
+	/** The board. */
 	private Board board;
 	
-	private GoGUIIntegrator goGUI;
-	
+	/** The name of the player. */
 	private String name;
 	
+	/** The stone color of the player. */
 	private StoneColor stoneColor;
 	
+	/** Whether the stone color is white. */
 	private boolean isWhite;
 	
 	/**
@@ -39,10 +40,20 @@ public class ComputerPlayer implements Player {
 		}
 	}
 
+	/** 
+	 * Return the name of the player.
+	 * @return
+	 * 			The name.
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 *  Return the stone color of the player.
+	 * @return
+	 * 			The stone color.
+	 */
 	public StoneColor getStoneColor() {
 		return stoneColor;
 	}
@@ -54,8 +65,6 @@ public class ComputerPlayer implements Player {
 
 	@Override
 	public void setBoard(String boardSize) {
-		goGUI = new GoGUIIntegrator(true, true, Integer.parseInt(boardSize));
-		goGUI.startGUI();
 		board = new Board(Integer.parseInt(boardSize), true);	
 	}
 
@@ -73,15 +82,11 @@ public class ComputerPlayer implements Player {
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor);
-				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), isWhite);
 			} else {
 				String[] moveCoordinates = move.split(General.DELIMITER2); 
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor.other());
-				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), !isWhite);
 			}
 		}
 	}

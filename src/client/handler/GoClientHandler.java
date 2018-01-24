@@ -65,5 +65,10 @@ public interface GoClientHandler extends Runnable {
 	 */
 	public void setBoardSize(String boardSize); 
 
+	/**
+	 * Get the GoClientHandlerActor of the GoClientHandler.
+	 * @return
+	 * 			The GoClientHandlerActor.
+	 */
 	public GoClientHandlerActor getGoClientHandlerActor();
 }

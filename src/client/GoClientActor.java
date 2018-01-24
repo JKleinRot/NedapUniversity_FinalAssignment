@@ -33,7 +33,6 @@ public interface GoClientActor {
 	 */
 	public void showConnectionConfirmed(String[] words);
 	
-	
 	/**
 	 * Notifies GoClientTUI that the client is already connected.
 	 */
@@ -48,7 +47,6 @@ public interface GoClientActor {
 	 * Gets the game settings from the client.
 	 */
 	public void getGameSettings();
-
 	
 	/**
 	 * Sets the provided stone color and board size.

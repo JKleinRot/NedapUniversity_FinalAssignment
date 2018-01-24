@@ -19,10 +19,20 @@ public enum GoClientState {
 	private List<GoClientStateListener> goClientStateListeners = 
 			new ArrayList<GoClientStateListener>();
 	
+	/**
+	 * Adds the provided GoClientStateListener to the list of goClientStateListeners.
+	 * @param goClientStateListener
+	 * 			The GoClientStateListener added to the list.
+	 */
 	public void addGoClientStateListener(GoClientStateListener goClientStateListener) {
 		goClientStateListeners.add(goClientStateListener);
 	}
 	
+	/**
+	 * Removes the provided GoClientStateListener from the list of goClientStateListeners.
+	 * @param goClientStateListener
+	 * 			The GoClientStateListener removed from the list.
+	 */
 	public void removeGoClientStateListener(GoClientStateListener goClientStateListener) {
 		goClientStateListeners.remove(goClientStateListener);
 	}

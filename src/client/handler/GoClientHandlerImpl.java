@@ -51,6 +51,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	 * Initializes the GoClientState to UNCONNECTED and add GoClientStateListener.
 	 * @param socket
 	 * 			The socket of the client.
+	 * @param gameManager
+	 * 			The gameManager of the GoServer.
 	 */
 	public GoClientHandlerImpl(Socket socket, GoClientStateListener gameManager) {
 		this.name = "Go Server";

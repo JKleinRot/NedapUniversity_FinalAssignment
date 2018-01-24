@@ -9,6 +9,11 @@ public enum StoneColor {
 	
 	BLACK, WHITE;
 	
+	/**
+	 * Return the other stone color.
+	 * @return
+	 * 			The opposite StoneColor.
+	 */
 	public StoneColor other() {
 		if (this == WHITE) {
 			return BLACK;

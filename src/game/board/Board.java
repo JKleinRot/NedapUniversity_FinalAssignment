@@ -113,7 +113,8 @@ public class Board {
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
-			adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getLiberties() - 1);
+			adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().
+					getLiberties() - 1);
 			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - 1);
 		}
 		if (this.getStone(x, y).getLiberties() == 0) {
@@ -124,13 +125,13 @@ public class Board {
 	}
 
 	/**
-	 * Return a list of adjacent stones of the set stone. 
+	 * Return a list of adjacent intersections to the stone occupied by a stone. 
 	 * @param x
 	 * 			The x coordinate of the intersection at the board.
 	 * @param y
 	 * 			The y coordinate of the intersection at the board.
 	 * @return
-	 * 			A list of adjacent stones.
+	 * 			A list of adjacent intersections occupied by a stone.
 	 */
 	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
 		if (this.getStone(x, y).getLiberties() == 2) {

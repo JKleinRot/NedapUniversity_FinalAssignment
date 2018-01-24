@@ -9,14 +9,19 @@ import game.board.stone.StoneColor;
  */
 public class MoveCheckerImpl implements MoveChecker {
 	
+	/** The current board situation. */
 	private Board board;
 	
+	/** The previous board situation. */
 	private Board previousBoard;
 	
+	/** The next board situation. */
 	private Board nextBoard;
 	
+	/** The stone color of the move. */
 	private StoneColor stoneColor;
 	
+	/** The check message. */
 	private String checkMessage;
 	
 	/**
@@ -49,6 +54,15 @@ public class MoveCheckerImpl implements MoveChecker {
 		}
 	}
 	
+	/**
+	 * Checks if the move is out of range of the board.
+	 * @param moveX
+	 * 			The x coordinate of the move.
+	 * @param moveY
+	 * 			The y coordinate of the move.
+	 * @return
+	 * 			A message describing the possible error.
+	 */
 	private String checkOutOfRange(int moveX, int moveY) {
 		if (moveX >= board.getSize() || moveY >= board.getSize()) {
 			return "Move not on board ";
@@ -57,6 +71,15 @@ public class MoveCheckerImpl implements MoveChecker {
 		}
 	}
 	
+	/**
+	 * Checks if the intersection of the move is already occupied.
+	 * @param moveX
+	 * 			The x coordinate of the move.
+	 * @param moveY
+	 * 			The y coordinate of the move.
+	 * @return
+	 * 			A message describing the possible error.
+	 */
 	private String checkIsOccupied(int moveX, int moveY) {
 		if (board.getIntersection(moveX, moveY).isOccupied()) {
 			return "Occupied intersection ";
@@ -65,6 +88,15 @@ public class MoveCheckerImpl implements MoveChecker {
 		}
 	}
 	
+	/**
+	 * Checks if the move violates the Ko rule.
+	 * @param moveX
+	 * 			The x coordinate of the move.
+	 * @param moveY
+	 * 			The y coordinate of the move.
+	 * @return
+	 * 			A message describing the possible error.
+	 */
 	private String checkKoRule(int moveX, int moveY) {
 		nextBoard.setStone(moveX, moveY, stoneColor);
 		int equalsCount = 0;

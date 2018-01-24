@@ -55,6 +55,11 @@ public interface GoClientHandlerActor {
 	 */
 	public void confirmMove(String move);
 	
+	/**
+	 * Set the game of the GoClientHandlerActor to the provided Game.
+	 * @param game
+	 * 			The game.
+	 */
 	public void setGame(Game game);
 	
 	
