@@ -175,8 +175,9 @@ public class Board {
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
-			if (!adjacentIntersection.isOccupied())
-			adjacentIntersectionsIterator.remove();
+			if (!adjacentIntersection.isOccupied()) {
+				adjacentIntersectionsIterator.remove();
+			}
 		}
 		return adjacentIntersections;
 	}
