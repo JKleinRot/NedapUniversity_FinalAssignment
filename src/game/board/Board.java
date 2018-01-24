@@ -88,8 +88,6 @@ public class Board {
 	 */
 	public void setStone(int x, int y, StoneColor color) {
 		this.getIntersection(x, y).setStone(color);
-		setInitialLiberties(x, y);
-		adjustLiberties(x, y);
 		if (isGoGUI) {
 			boolean isWhite;
 			if (color.equals(StoneColor.WHITE)) {
@@ -99,6 +97,8 @@ public class Board {
 			}
 			goGUI.addStone(x, y, isWhite);
 		}
+		setInitialLiberties(x, y);
+		adjustLiberties(x, y);
 	}
 	
 	/**
@@ -220,6 +220,9 @@ public class Board {
 	 */
 	public void removeStone(int x, int y) {
 		this.getIntersection(x, y).removeStone();
+		if (isGoGUI) {
+			goGUI.removeStone(x, y);
+		}
 	}
 	
 	/**
