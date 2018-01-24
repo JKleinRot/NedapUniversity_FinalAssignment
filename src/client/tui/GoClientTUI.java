@@ -61,18 +61,19 @@ public class GoClientTUI implements Observer, Runnable {
 				move = words[1];
 				goClientActor.getPlayer().makeMove(words[1]);
 			} else if (words.length == 1 && words[0].equals("HELP")) {
-				System.out.println(String.format("%-80s" + "%-30s", "Action", "Command"));
-				System.out.println(String.format("%-80s" + "%-30s", 
+				System.out.println(String.format("%-120s" + "%-30s", "Action", "Command"));
+				System.out.println(String.format("%-120s" + "%-30s", 
 						"Connect to Go server with this IP address and port number", 
 						"CONNECT <IP address> <port number>"));
-				System.out.println(String.format("%-80s" + "%-30s", 
+				System.out.println(String.format("%-120s" + "%-30s", 
 						"Request to play a game yourself or let a computer play a game", 
 						"REQUEST_GAME <player type>"));
-				System.out.println(String.format("%-80s" + "%-30s", 
+				System.out.println(String.format("%-120s" + "%-30s", 
 						"Choose settings for the requested game", 
 						"SETTINGS <stone color> <board size>"));
-				System.out.println(String.format("%-80s" + "%-30s", 
-						"Make a move by placing a stone at a coordinate of the board or pass", 
+				System.out.println(String.format("%-120s" + "%-30s", 
+						"Make a move by placing a stone at a coordinate of the board or pass "
+						+ "(0, 0 is top left intersection)", 
 						"MOVE <row_column> or MOVE PASS"));
 				System.out.println(name + ": Waiting for command... ");
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
