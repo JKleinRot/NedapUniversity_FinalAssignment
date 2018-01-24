@@ -1,5 +1,9 @@
 package game.board;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import game.board.stone.Stone;
 import game.board.stone.StoneColor;
 import gui.GoGUIIntegrator;
@@ -22,6 +26,9 @@ public class Board {
 	/** Wheter a GoGUI should be used. */
 	private boolean isGoGUI;
 	
+	/**List of adjacent stones. */
+	private List<Stone> adjacentStones;
+	
 	/** 
 	 * Initialize a Go board with the given width.
 	 * The minimum size is 5 x 5. If the given size is smaller than 5, the size is set to 5.
@@ -34,6 +41,7 @@ public class Board {
 	 */
 	public Board(int size, boolean isGoGUI) {
 		this.isGoGUI = isGoGUI;
+		this.adjacentStones = new ArrayList<Stone>();
 		if (size < 5) {
 			intersections = new Intersection[5][5];
 			this.size = 5;
@@ -80,6 +88,7 @@ public class Board {
 	public void setStone(int x, int y, StoneColor color) {
 		this.getIntersection(x, y).setStone(color);
 		setInitialLiberties(x, y);
+		adjustLiberties(x, y);
 		if (isGoGUI) {
 			boolean isWhite;
 			if (color.equals(StoneColor.WHITE)) {
@@ -91,6 +100,71 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Adjust the liberties of the newly set stone and the surrounding stones.
+	 * @param x
+	 * 			The x coordinate of the intersection at the board.
+	 * @param y
+	 * 			The y coordinate of the intersection at the board.
+	 */
+	private void adjustLiberties(int x, int y) {
+		adjacentStones = getAdjacentStones(x, y);
+		System.out.println("Size of adjacentStones list: " + adjacentStones.size());
+		adjacentStones.clear();
+	}
+
+	/**
+	 * Return a list of adjacent stones of the set stone. 
+	 * @param x
+	 * 			The x coordinate of the intersection at the board.
+	 * @param y
+	 * 			The y coordinate of the intersection at the board.
+	 * @return
+	 * 			A list of adjacent stones.
+	 */
+	private List<Stone> getAdjacentStones(int x, int y) {
+		if (this.getStone(x, y).getLiberties() == 2) {
+			if (x == 0 && y == 0) {
+				adjacentStones.add(this.getStone(x + 1, y));
+				adjacentStones.add(this.getStone(x, y + 1));
+			} else if (x == size - 1 && y == 0) {
+				adjacentStones.add(this.getStone(x - 1, y));
+				adjacentStones.add(this.getStone(x, y + 1));
+			} else if (x == 0 && y == size - 1) {
+				adjacentStones.add(this.getStone(x, y - 1));
+				adjacentStones.add(this.getStone(x + 1, y));
+			} else if (x == size - 1 && y == size - 1) {
+				adjacentStones.add(this.getStone(x, y - 1));
+				adjacentStones.add(this.getStone(x - 1, y));
+			}
+		} else if (this.getStone(x, y).getLiberties() == 3) {
+			if (x == 0) {
+				adjacentStones.add(this.getStone(x, y - 1));
+				adjacentStones.add(this.getStone(x, y + 1));
+				adjacentStones.add(this.getStone(x + 1, y));
+			} else if (x == size - 1) {
+				adjacentStones.add(this.getStone(x, y - 1));
+				adjacentStones.add(this.getStone(x, y + 1));
+				adjacentStones.add(this.getStone(x - 1, y));
+			} else if (y == 0) {
+				adjacentStones.add(this.getStone(x - 1, y));
+				adjacentStones.add(this.getStone(x + 1, y));
+				adjacentStones.add(this.getStone(x, y + 1));
+			} else if (y == size - 1) {
+				adjacentStones.add(this.getStone(x - 1, y));
+				adjacentStones.add(this.getStone(x + 1, y));
+				adjacentStones.add(this.getStone(x, y - 1));
+			}
+		} else {
+			adjacentStones.add(this.getStone(x, y - 1));
+			adjacentStones.add(this.getStone(x, y + 1));
+			adjacentStones.add(this.getStone(x - 1, y));
+			adjacentStones.add(this.getStone(x + 1, y));
+		}
+		adjacentStones.removeAll(Collections.singleton(null));
+		return adjacentStones;
+	}
+
 	/**
 	 * Set the initial liberties of the stone at the intersection 
 	 * at the provided x and y coordinate.
