@@ -35,11 +35,11 @@ public class BoardTest {
 	 */
 	@Before
 	public void setUp() {
-		boardneg1xneg1 = new Board(-1);
-		board5x5 = new Board(5);
-		board9x9 = new Board(9);
-		board19x19 = new Board(19);
-		board22x22 = new Board(22);
+		boardneg1xneg1 = new Board(-1, false);
+		board5x5 = new Board(5, false);
+		board9x9 = new Board(9, false);
+		board19x19 = new Board(19, false);
+		board22x22 = new Board(22, false);
 	}
 	
 	/**
