@@ -28,7 +28,7 @@ public class Board {
 	private boolean isGoGUI;
 	
 	/**List of adjacent stones. */
-	private List<Stone> adjacentStones;
+	private List<Intersection> adjacentIntersections;
 	
 	/** 
 	 * Initialize a Go board with the given width.
@@ -42,7 +42,7 @@ public class Board {
 	 */
 	public Board(int size, boolean isGoGUI) {
 		this.isGoGUI = isGoGUI;
-		this.adjacentStones = new ArrayList<Stone>();
+		this.adjacentIntersections = new ArrayList<Intersection>();
 		if (size < 5) {
 			intersections = new Intersection[5][5];
 			this.size = 5;
@@ -109,17 +109,18 @@ public class Board {
 	 * 			The y coordinate of the intersection at the board.
 	 */
 	private void adjustLiberties(int x, int y) {
-		adjacentStones = getAdjacentStones(x, y);
-		Iterator<Stone> adjacentStonesIterator = adjacentStones.iterator();
-		while (adjacentStonesIterator.hasNext()) {
-			Stone adjacentStone = adjacentStonesIterator.next();
-//			System.out.println("AdjacentStone liberties before " + adjacentStone.getLiberties());
-			adjacentStone.setLiberties(adjacentStone.getLiberties() - 1);
+		adjacentIntersections = getAdjacentIntersectionsWithStone(x, y);
+		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
+		while (adjacentIntersectionsIterator.hasNext()) {
+			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
+			adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getLiberties() - 1);
 			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - 1);
-//			System.out.println("AdjacentStone liberties after " + adjacentStone.getLiberties());
 		}
-		System.out.println("Size of adjacentStones list: " + adjacentStones.size());
-		adjacentStones.clear();
+		if (this.getStone(x, y).getLiberties() == 0) {
+			this.removeStone(x, y);
+		}
+		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
+		adjacentIntersections.clear();
 	}
 
 	/**
@@ -131,47 +132,52 @@ public class Board {
 	 * @return
 	 * 			A list of adjacent stones.
 	 */
-	private List<Stone> getAdjacentStones(int x, int y) {
+	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
 		if (this.getStone(x, y).getLiberties() == 2) {
 			if (x == 0 && y == 0) {
-				adjacentStones.add(this.getStone(x + 1, y));
-				adjacentStones.add(this.getStone(x, y + 1));
+				adjacentIntersections.add(this.getIntersection(x + 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y + 1));
 			} else if (x == size - 1 && y == 0) {
-				adjacentStones.add(this.getStone(x - 1, y));
-				adjacentStones.add(this.getStone(x, y + 1));
+				adjacentIntersections.add(this.getIntersection(x - 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y + 1));
 			} else if (x == 0 && y == size - 1) {
-				adjacentStones.add(this.getStone(x, y - 1));
-				adjacentStones.add(this.getStone(x + 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y - 1));
+				adjacentIntersections.add(this.getIntersection(x + 1, y));
 			} else if (x == size - 1 && y == size - 1) {
-				adjacentStones.add(this.getStone(x, y - 1));
-				adjacentStones.add(this.getStone(x - 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y - 1));
+				adjacentIntersections.add(this.getIntersection(x - 1, y));
 			}
 		} else if (this.getStone(x, y).getLiberties() == 3) {
 			if (x == 0) {
-				adjacentStones.add(this.getStone(x, y - 1));
-				adjacentStones.add(this.getStone(x, y + 1));
-				adjacentStones.add(this.getStone(x + 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y - 1));
+				adjacentIntersections.add(this.getIntersection(x, y + 1));
+				adjacentIntersections.add(this.getIntersection(x + 1, y));
 			} else if (x == size - 1) {
-				adjacentStones.add(this.getStone(x, y - 1));
-				adjacentStones.add(this.getStone(x, y + 1));
-				adjacentStones.add(this.getStone(x - 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y - 1));
+				adjacentIntersections.add(this.getIntersection(x, y + 1));
+				adjacentIntersections.add(this.getIntersection(x - 1, y));
 			} else if (y == 0) {
-				adjacentStones.add(this.getStone(x - 1, y));
-				adjacentStones.add(this.getStone(x + 1, y));
-				adjacentStones.add(this.getStone(x, y + 1));
+				adjacentIntersections.add(this.getIntersection(x - 1, y));
+				adjacentIntersections.add(this.getIntersection(x + 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y + 1));
 			} else if (y == size - 1) {
-				adjacentStones.add(this.getStone(x - 1, y));
-				adjacentStones.add(this.getStone(x + 1, y));
-				adjacentStones.add(this.getStone(x, y - 1));
+				adjacentIntersections.add(this.getIntersection(x - 1, y));
+				adjacentIntersections.add(this.getIntersection(x + 1, y));
+				adjacentIntersections.add(this.getIntersection(x, y - 1));
 			}
 		} else {
-			adjacentStones.add(this.getStone(x, y - 1));
-			adjacentStones.add(this.getStone(x, y + 1));
-			adjacentStones.add(this.getStone(x - 1, y));
-			adjacentStones.add(this.getStone(x + 1, y));
+			adjacentIntersections.add(this.getIntersection(x, y - 1));
+			adjacentIntersections.add(this.getIntersection(x, y + 1));
+			adjacentIntersections.add(this.getIntersection(x - 1, y));
+			adjacentIntersections.add(this.getIntersection(x + 1, y));
 		}
-		adjacentStones.removeAll(Collections.singleton(null));
-		return adjacentStones;
+		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
+		while (adjacentIntersectionsIterator.hasNext()) {
+			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
+			if (!adjacentIntersection.isOccupied())
+			adjacentIntersectionsIterator.remove();
+		}
+		return adjacentIntersections;
 	}
 
 	/**
