@@ -68,8 +68,6 @@ public class HumanPlayer extends Observable implements Player {
 	}
 	
 	public void setBoard(String boardSize) {
-//		goGUI = new GoGUIIntegrator(true, true, Integer.parseInt(boardSize));
-//		goGUI.startGUI();
 		board = new Board(Integer.parseInt(boardSize), true);
 		previousBoard = board;
 		nextBoard = board;
@@ -85,20 +83,19 @@ public class HumanPlayer extends Observable implements Player {
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor);
-//				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-//						Integer.parseInt(moveCoordinates[1]), isWhite);
 				nextBoard = board;
+				System.out.println("Liberties " + board.getStone(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1])).getLiberties() + "");
 			} else {
 				previousBoard = board;
 				String[] moveCoordinates = move.split(General.DELIMITER2); 
 				board.setStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor.other());
-//				goGUI.addStone(Integer.parseInt(moveCoordinates[0]), 
-//						Integer.parseInt(moveCoordinates[1]), !isWhite);
 				nextBoard = board;
 			}
 		}
+		
 	}
 	
 	@Override

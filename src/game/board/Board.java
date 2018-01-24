@@ -2,6 +2,7 @@ package game.board;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import game.board.stone.Stone;
@@ -101,7 +102,7 @@ public class Board {
 	}
 	
 	/**
-	 * Adjust the liberties of the newly set stone and the surrounding stones.
+	 * Adjust the liberties of the newly set stone and the surrounding stones or groups.
 	 * @param x
 	 * 			The x coordinate of the intersection at the board.
 	 * @param y
@@ -109,6 +110,14 @@ public class Board {
 	 */
 	private void adjustLiberties(int x, int y) {
 		adjacentStones = getAdjacentStones(x, y);
+		Iterator<Stone> adjacentStonesIterator = adjacentStones.iterator();
+		while (adjacentStonesIterator.hasNext()) {
+			Stone adjacentStone = adjacentStonesIterator.next();
+//			System.out.println("AdjacentStone liberties before " + adjacentStone.getLiberties());
+			adjacentStone.setLiberties(adjacentStone.getLiberties() - 1);
+			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - 1);
+//			System.out.println("AdjacentStone liberties after " + adjacentStone.getLiberties());
+		}
 		System.out.println("Size of adjacentStones list: " + adjacentStones.size());
 		adjacentStones.clear();
 	}
