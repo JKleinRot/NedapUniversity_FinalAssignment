@@ -1,6 +1,7 @@
 package game.board;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,6 +39,11 @@ public class IntersectionGroup {
 	 * 			The amount of liberties.
 	 */
 	public int getLiberties() {
+		Iterator<Intersection> intersectionsIterator = intersections.iterator();
+		while (intersectionsIterator.hasNext()) {
+			Intersection intersection = intersectionsIterator.next();
+			liberties = liberties + intersection.getStone().getLiberties();
+		}
 		return liberties;
 	}
 }
