@@ -12,6 +12,9 @@ public class Stone {
 	/** The amount of liberties of the stone. */
 	private int liberties;
 	
+	/** The amount of initial liberties. */
+	private int initialLiberties;
+	
 	/** 
 	 * Creates a stone with the provided color.
 	 * @param color
@@ -46,5 +49,22 @@ public class Stone {
 	public StoneColor getColor() {
 		return color;
 	}
-
+	
+	/**
+	 * Set the amount of initial liberties
+	 * @param liberties
+	 * 			The initial amount of liberties.
+	 */
+	public void setInitialLiberties(int liberties) {
+		initialLiberties = liberties;
+	}
+	
+	/**
+	 * Return the amount of initial liberties.
+	 * @return
+	 * 			The amount of initial liberties.
+	 */
+	public int getInitialLiberties() {
+		return initialLiberties;
+	}
 }

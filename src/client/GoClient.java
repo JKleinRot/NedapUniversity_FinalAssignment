@@ -15,7 +15,7 @@ import protocol.Protocol.Server;
  * @author janine.kleinrot
  */
 public class GoClient extends Observable implements Runnable { 
-	
+
 	/** The name of the client. */
 	private String name;
 	

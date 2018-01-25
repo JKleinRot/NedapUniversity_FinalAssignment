@@ -17,6 +17,9 @@ public class HumanPlayer extends Observable implements Player {
 	/** The board. */
 	private Board board;
 	
+	/** The board for checking with the current situation. */
+	private Board currentBoard;
+	
 	/** The previous board situation. */
 	private Board previousBoard;
 	
@@ -66,6 +69,7 @@ public class HumanPlayer extends Observable implements Player {
 		board = new Board(Integer.parseInt(boardSize), true);
 		previousBoard = board;
 		nextBoard = board;
+		currentBoard = board;
 		moveChecker = new MoveCheckerImpl();
 	}
 	
@@ -79,6 +83,7 @@ public class HumanPlayer extends Observable implements Player {
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor);
 				nextBoard = board;
+				currentBoard = board;
 				System.out.println("Liberties " + board.getStone(Integer.parseInt(moveCoordinates[0]), 
 						Integer.parseInt(moveCoordinates[1])).getLiberties() + "");
 			} else {
@@ -88,6 +93,7 @@ public class HumanPlayer extends Observable implements Player {
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor.other());
 				nextBoard = board;
+				currentBoard = board;
 			}
 		}
 		
@@ -109,7 +115,7 @@ public class HumanPlayer extends Observable implements Player {
 			try {
 				int moveX = Integer.parseInt(moveCoordinates[0]);
 				int moveY = Integer.parseInt(moveCoordinates[1]);
-				isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
+				isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, currentBoard, 
 						previousBoard, nextBoard);
 				if (isValidMove) {
 					setChanged();

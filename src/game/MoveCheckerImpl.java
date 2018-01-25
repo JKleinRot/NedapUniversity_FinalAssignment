@@ -46,7 +46,7 @@ public class MoveCheckerImpl implements MoveChecker {
 		if (checkMessage.contains("Occupied")) {
 			return false;
 		}
-		checkMessage = checkMessage.concat(checkKoRule(moveX, moveY));
+//		checkMessage = checkMessage.concat(checkKoRule(moveX, moveY));
 		if (checkMessage.contains("Ko")) {
 			return false;
 		} else {
