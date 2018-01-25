@@ -327,39 +327,41 @@ public class Board {
 				}				
 			}
 		}
-//		int notEqualColorCount = 0;
-		for (int xx = 0; xx < size; xx++) {
-			for (int yy = 0; yy < size; yy++) {
-				if (this.getIntersection(new Position(xx, yy)).isOccupied()) {
-					System.out.println("Stone at " + xx + yy + this.getIntersection(new Position(xx, yy)).getStone().getLiberties());
-					if (this.getIntersection(new Position(xx, yy)).getStone().getLiberties() == 0) {
-						int notEqualColorCount = 0;
-						List<Intersection> list = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(xx, yy)));
-						Iterator<Intersection> listIterator = list.iterator();
-						while (listIterator.hasNext()) {
-							Intersection adjacentIntersection = listIterator.next();
-							if (!adjacentIntersection.getStone().getColor().equals(this.getStone(xx, yy).getColor())) {
-								notEqualColorCount++;
-							}
-						}
-						if (notEqualColorCount == list.size() && !list.isEmpty())
-							removeStone(xx, yy);
-					}
-				}
-			}
-		}
-
+		removesStonesWithZeroLiberties();
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
 		adjacentIntersections.clear();
 	}
 
+	/** 
+	 * Loop through the board to remove stones with zero liberties.
+	 */
+	private void removesStonesWithZeroLiberties() {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				if (this.getIntersection(new Position(x, y)).isOccupied()) {
+					System.out.println("Stone at " + x + y + this.getIntersection(new Position(x, y)).getStone().getLiberties());
+					if (this.getIntersection(new Position(x, y)).getStone().getLiberties() == 0) {
+						int notEqualColorCount = 0;
+						List<Intersection> list = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
+						Iterator<Intersection> listIterator = list.iterator();
+						while (listIterator.hasNext()) {
+							Intersection adjacentIntersection = listIterator.next();
+							if (!adjacentIntersection.getStone().getColor().equals(this.getStone(x, y).getColor())) {
+								notEqualColorCount++;
+							}
+						}
+						if (notEqualColorCount == list.size() && !list.isEmpty())
+							removeStone(x, y);
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Return a list of adjacent intersections to the stone occupied by a stone. 
-	 * @param x
-	 * 			The x coordinate of the intersection at the board.
-	 * @param y
-	 * 			The y coordinate of the intersection at the board.
+	 * @param intersection
+	 * 			The intersection.
 	 * @return
 	 * 			A list of adjacent intersections occupied by a stone.
 	 */
