@@ -1,7 +1,6 @@
 package game.board;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,8 +38,6 @@ public class Board {
 	/** The color of the most recent placed stone. */
 	private StoneColor color;
 	
-	private List<int[][]> adjacentIntersectionsCoordinates;
-	
 	/** 
 	 * Initialize a Go board with the given width.
 	 * The minimum size is 5 x 5. If the given size is smaller than 5, the size is set to 5.
@@ -56,7 +53,6 @@ public class Board {
 		this.adjacentIntersections = new ArrayList<Intersection>();
 		this.occupiedIntersections = new ArrayList<Intersection>();
 		this.intersectionGroups = new ArrayList<IntersectionGroup>();
-		this.adjacentIntersectionsCoordinates = new ArrayList<int[][]>();
 		if (size < 5) {
 			intersections = new Intersection[5][5];
 			this.size = 5;
@@ -210,6 +206,7 @@ public class Board {
 			fourthAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
 			adjacentIntersectionsOfFourthAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
 		}
+		// If in this run of update a new stone is placed
 		if (this.getIntersection(new Position(x, y)).isOccupied()) {
 			int newStoneLiberties = 0;
 			if (firstAdjacentIntersection.isOccupied()) {
@@ -271,6 +268,7 @@ public class Board {
 					this.getStone(x, y).getLiberties() == 0) {
 				removeStone(x, y);
 			}
+		// If in this run of update a stone is removed
 		} else {
 			if (firstAdjacentIntersection.isOccupied()) {
 				Iterator<Intersection> adjacentIntersectionsOfFirstAdjacentIterator = adjacentIntersectionsOfFirstAdjacent.iterator();
