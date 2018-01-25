@@ -126,6 +126,10 @@ public class Board {
 	 */
 	private void updateBoard(int x, int y) {
 		int otherColorCount = 0;
+		List<StoneColor> stoneColorFirstAdjacentIntersection = new ArrayList<StoneColor>();
+		List<StoneColor> stoneColorSecondAdjacentIntersection = new ArrayList<StoneColor>();
+		List<StoneColor> stoneColorThirdAdjacentIntersection = new ArrayList<StoneColor>();
+		List<StoneColor> stoneColorFourthAdjacentIntersection = new ArrayList<StoneColor>();
 		adjacentIntersections = getAdjacentIntersectionsWithStone(x, y);
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
@@ -216,10 +220,13 @@ public class Board {
 					Intersection adjacentIntersection = adjacentIntersectionsOfFirstAdjacentIterator.next();
 					if (!adjacentIntersection.isOccupied()) {
 						adjacentIntersectionsOfFirstAdjacentIterator.remove();
+					} else {
+						stoneColorFirstAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
 					}
 				}
 				firstAdjacentIntersection.getStone().setLiberties(firstAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFirstAdjacent.size());
 				newStoneLiberties++;
+				
 			}
 			if (secondAdjacentIntersection.isOccupied()) {
 				Iterator<Intersection> adjacentIntersectionsOfSecondAdjacentIterator = adjacentIntersectionsOfSecondAdjacent.iterator();
@@ -227,6 +234,8 @@ public class Board {
 					Intersection adjacentIntersection = adjacentIntersectionsOfSecondAdjacentIterator.next();
 					if (!adjacentIntersection.isOccupied()) {
 						adjacentIntersectionsOfSecondAdjacentIterator.remove();
+					} else {
+						stoneColorSecondAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
 					}
 				}
 				secondAdjacentIntersection.getStone().setLiberties(secondAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfSecondAdjacent.size());
@@ -238,6 +247,8 @@ public class Board {
 					Intersection adjacentIntersection = adjacentIntersectionsOfThirdAdjacentIterator.next();
 					if (!adjacentIntersection.isOccupied()) {
 						adjacentIntersectionsOfThirdAdjacentIterator.remove();
+					} else {
+						stoneColorThirdAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
 					}
 				}
 				thirdAdjacentIntersection.getStone().setLiberties(thirdAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfThirdAdjacent.size());
@@ -249,6 +260,8 @@ public class Board {
 					Intersection adjacentIntersection = adjacentIntersectionsOfFourthAdjacentIterator.next();
 					if (!adjacentIntersection.isOccupied()) {
 						adjacentIntersectionsOfFourthAdjacentIterator.remove();
+					} else {
+						stoneColorFourthAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
 					}
 				}
 				fourthAdjacentIntersection.getStone().setLiberties(fourthAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFourthAdjacent.size());
@@ -318,13 +331,22 @@ public class Board {
 				}				
 			}
 		}
-
+		int notEqualColorCount = 0;
 		for (int xx = 0; xx < size; xx++) {
 			for (int yy = 0; yy < size; yy++) {
 				if (this.getIntersection(xx, yy).isOccupied()) {
 					System.out.println("Stone at " + xx + yy + this.getIntersection(xx, yy).getStone().getLiberties());
 					if (this.getIntersection(xx, yy).getStone().getLiberties() == 0) {
-						this.removeStone(xx, yy);
+						List<Intersection> list = getAdjacentIntersectionsWithStone(xx, yy);
+						Iterator<Intersection> listIterator = list.iterator();
+						while (listIterator.hasNext()) {
+							Intersection adjacentIntersection = listIterator.next();
+							if (!adjacentIntersection.getStone().getColor().equals(this.getStone(xx, yy).getColor())) {
+								notEqualColorCount++;
+							}
+						}
+						if (notEqualColorCount != 0 && !list.isEmpty())
+							removeStone(xx, yy);
 					}
 				}
 			}
