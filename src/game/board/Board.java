@@ -368,47 +368,7 @@ public class Board {
 	 * 			A list of adjacent intersections occupied by a stone.
 	 */
 	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
-		List<Intersection> adjacentIntersectionsList = new ArrayList<Intersection>();
-		if (x == 0 || x == size - 1 || y == 0 || y == size - 1) {
-			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
-				if (x == 0 && y == 0) {
-					adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-				} else if (x == size - 1 && y == 0) {
-					adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-				} else if (x == 0 && y == size - 1) {
-					adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-					adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-				} else if (x == size - 1 && y == size - 1) {
-					adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-					adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-				}
-			} else {
-				if (x == 0) {
-					adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-					adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-					adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-				} else if (x == size - 1) {
-					adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-					adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-					adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-				} else if (y == 0) {
-					adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-				} else if (y == size - 1) {
-					adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-					adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-				}
-			}
-		} else {
-			adjacentIntersectionsList.add(this.getIntersection(x, y - 1));
-			adjacentIntersectionsList.add(this.getIntersection(x, y + 1));
-			adjacentIntersectionsList.add(this.getIntersection(x - 1, y));
-			adjacentIntersectionsList.add(this.getIntersection(x + 1, y));
-		}
+		List<Intersection> adjacentIntersectionsList = getAdjacentIntersections(this.getIntersection(x, y));
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersectionsList.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
@@ -478,7 +438,7 @@ public class Board {
 		return size;
 	}
 	
-	public List<Intersection> getAdjacentIntersections(Intersection intersection) {
+	private List<Intersection> getAdjacentIntersections(Intersection intersection) {
 		List<Intersection> adjacentIntersections = new ArrayList<Intersection>();
 		List<Position> adjacentPositions = getAdjacentPositions(intersection.getPosition());
 		Iterator<Position> adjacentPositionsIterator = adjacentPositions.iterator();
