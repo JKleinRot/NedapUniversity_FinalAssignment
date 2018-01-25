@@ -1,5 +1,7 @@
 package game.board;
 
+import java.util.List;
+
 import game.board.stone.Stone;
 import game.board.stone.StoneColor;
 
@@ -23,12 +25,15 @@ public class Intersection {
 	/** The intersection group. */
 	private IntersectionGroup intersectionGroup;
 	
+	/** The position of the intersection. */
+	private Position position;
 	/** 
 	 * Creates a new intersection that is initially unoccupied. 
 	 */
-	public Intersection() {
+	public Intersection(Position position) {
 		isOccupied = false;
 		isInIntersectionGroup = false;
+		this.position = position;
 	}
 	
 	/** 
@@ -100,6 +105,15 @@ public class Intersection {
 	 */
 	public void setIntersectionGroup(IntersectionGroup intersectionGroup) {
 		this.intersectionGroup = intersectionGroup;
+	}
+
+	/**
+	 * Return the position of the intersection.
+	 * @return
+	 * 			The position.
+	 */
+	public Position getPosition() {
+		return position;
 	}
 
 }

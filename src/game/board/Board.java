@@ -67,9 +67,9 @@ public class Board {
 			intersections = new Intersection[size][size];
 			this.size = size;
 		}
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				intersections[i][j] = new Intersection();
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				intersections[x][y] = new Intersection(new Position(x, y));
 			}
 		}
 		if (isGoGUI) {
@@ -144,10 +144,10 @@ public class Board {
 		List<Intersection> adjacentIntersectionsOfSecondAdjacent = new ArrayList<Intersection>();
 		List<Intersection> adjacentIntersectionsOfThirdAdjacent = new ArrayList<Intersection>();
 		List<Intersection> adjacentIntersectionsOfFourthAdjacent = new ArrayList<Intersection>();
-		Intersection firstAdjacentIntersection = new Intersection();
-		Intersection secondAdjacentIntersection = new Intersection();
-		Intersection thirdAdjacentIntersection = new Intersection();
-		Intersection fourthAdjacentIntersection = new Intersection();
+		Intersection firstAdjacentIntersection = new Intersection(new Position(0, 0));
+		Intersection secondAdjacentIntersection = new Intersection(new Position(0, 0));
+		Intersection thirdAdjacentIntersection = new Intersection(new Position(0, 0));
+		Intersection fourthAdjacentIntersection = new Intersection(new Position(0, 0));
 		if (x == 0 || x == size - 1 || y == 0 || y == size - 1) {
 			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
 				if (x == 0 && y == 0) {
@@ -477,5 +477,31 @@ public class Board {
 	public int getSize() {
 		return size;
 	}
+	
+	public List<Intersection> getAdjacentIntersections(Intersection intersection) {
+		List<Intersection> adjacentIntersections = new ArrayList<Intersection>();
+		List<Position> adjacentPositions = getAdjacentPositions(intersection.getPosition());
+		Iterator<Position> adjacentPositionsIterator = adjacentPositions.iterator();
+		while (adjacentPositionsIterator.hasNext()) {
+			Position adjacentPosition = adjacentPositionsIterator.next();
+			adjacentIntersections.add(intersections[adjacentPosition.getX()][adjacentPosition.getY()]);
+		}
+		return adjacentIntersections;
+	}
 
+	private List<Position> getAdjacentPositions(Position position) {
+		List<Position> adjacentPositions = new ArrayList<Position>();
+		adjacentPositions = addPositionIfValid(new Position(position.getX(), position.getY() + 1), adjacentPositions);
+		adjacentPositions = addPositionIfValid(new Position(position.getX(), position.getY() - 1), adjacentPositions);
+		adjacentPositions = addPositionIfValid(new Position(position.getX() + 1, position.getY()), adjacentPositions);
+		adjacentPositions = addPositionIfValid(new Position(position.getX() - 1, position.getY()), adjacentPositions);
+		return adjacentPositions;
+	}
+	
+	private List<Position> addPositionIfValid(Position position, List<Position> positionList) {
+		if (position.getX() >= 0 && position.getX() < size && position.getY() >= 0 && position.getY() < size) {
+			positionList.add(position);
+		}
+		return positionList;
+	}
 }
