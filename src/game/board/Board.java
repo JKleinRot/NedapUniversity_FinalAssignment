@@ -92,6 +92,17 @@ public class Board {
 	}
 	
 	/**
+	 * Return the intersection at the provided position.
+	 * @param position
+	 * 			The position.
+	 * @return
+	 * 			The intersection.
+	 */
+	public Intersection getIntersection(Position position) {
+		return intersections[position.getX()][position.getY()];
+	}
+	
+	/**
 	 * Set a stone with the provided color at the intersection at the provided x and y coordinate.
 	 * @param x
 	 * 			The x coordinate of the intersection at the board.
@@ -368,7 +379,7 @@ public class Board {
 	 * 			A list of adjacent intersections occupied by a stone.
 	 */
 	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
-		List<Intersection> adjacentIntersectionsList = getAdjacentIntersections(this.getIntersection(x, y));
+		List<Intersection> adjacentIntersectionsList = getAdjacentIntersections(this.getIntersection(new Position(x, y)));
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersectionsList.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
