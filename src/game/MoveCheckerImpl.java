@@ -1,6 +1,7 @@
 package game;
 
 import game.board.Board;
+import game.board.Position;
 import game.board.stone.StoneColor;
 
 /**
@@ -81,7 +82,7 @@ public class MoveCheckerImpl implements MoveChecker {
 	 * 			A message describing the possible error.
 	 */
 	private String checkIsOccupied(int moveX, int moveY) {
-		if (board.getIntersection(moveX, moveY).isOccupied()) {
+		if (board.getIntersection(new Position(moveX, moveY)).isOccupied()) {
 			return "Occupied intersection ";
 		} else {
 			return "";
@@ -102,13 +103,13 @@ public class MoveCheckerImpl implements MoveChecker {
 		int equalsCount = 0;
 		for (int x = 0; x < board.getSize(); x++) {
 			for (int y = 0; y < board.getSize(); y++) {
-				if (previousBoard.getIntersection(x, y).isOccupied() == 
-						nextBoard.getIntersection(x, y).isOccupied() && 
-						previousBoard.getIntersection(x, y).isOccupied()) {
+				if (previousBoard.getIntersection(new Position(x, y)).isOccupied() == 
+						nextBoard.getIntersection(new Position(x, y)).isOccupied() && 
+						previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
 					if (previousBoard.getStone(x, y).getColor().equals(
 							nextBoard.getStone(x, y).getColor())) {
 						equalsCount++;
-					} else if (!previousBoard.getIntersection(x, y).isOccupied()) {
+					} else if (!previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
 						equalsCount++;
 					}
 				}
