@@ -124,7 +124,7 @@ public class Board {
 		List<StoneColor> stoneColorSecondAdjacentIntersection = new ArrayList<StoneColor>();
 		List<StoneColor> stoneColorThirdAdjacentIntersection = new ArrayList<StoneColor>();
 		List<StoneColor> stoneColorFourthAdjacentIntersection = new ArrayList<StoneColor>();
-		adjacentIntersections = getAdjacentIntersectionsWithStone(x, y);
+		adjacentIntersections = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
@@ -146,65 +146,65 @@ public class Board {
 			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
 				if (x == 0 && y == 0) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 				} else if (x == size - 1 && y == 0) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 				} else if (x == 0 && y == size - 1) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 				} else if (x == size - 1 && y == size - 1) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 				}
 			} else {
 				if (x == 0) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 					thirdAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 				} else if (x == size - 1) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 					thirdAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 				} else if (y == 0) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 					thirdAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 				} else if (y == size - 1) {
 					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 					thirdAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 				}
 			}
 		} else {
 			firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-			adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(x, y - 1);
+			adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
 			secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-			adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(x, y + 1);
+			adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
 			thirdAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-			adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(x - 1, y);
+			adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
 			fourthAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-			adjacentIntersectionsOfFourthAdjacent = this.getAdjacentIntersectionsWithStone(x + 1, y);
+			adjacentIntersectionsOfFourthAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
 		}
 		// If in this run of update a new stone is placed
 		if (this.getIntersection(new Position(x, y)).isOccupied()) {
@@ -334,7 +334,7 @@ public class Board {
 					System.out.println("Stone at " + xx + yy + this.getIntersection(new Position(xx, yy)).getStone().getLiberties());
 					if (this.getIntersection(new Position(xx, yy)).getStone().getLiberties() == 0) {
 						int notEqualColorCount = 0;
-						List<Intersection> list = getAdjacentIntersectionsWithStone(xx, yy);
+						List<Intersection> list = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(xx, yy)));
 						Iterator<Intersection> listIterator = list.iterator();
 						while (listIterator.hasNext()) {
 							Intersection adjacentIntersection = listIterator.next();
@@ -363,8 +363,8 @@ public class Board {
 	 * @return
 	 * 			A list of adjacent intersections occupied by a stone.
 	 */
-	private List<Intersection> getAdjacentIntersectionsWithStone(int x, int y) {
-		List<Intersection> adjacentIntersectionsList = getAdjacentIntersections(this.getIntersection(new Position(x, y)));
+	private List<Intersection> getAdjacentIntersectionsWithStone(Intersection intersection) {
+		List<Intersection> adjacentIntersectionsList = getAdjacentIntersections(intersection);
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersectionsList.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
