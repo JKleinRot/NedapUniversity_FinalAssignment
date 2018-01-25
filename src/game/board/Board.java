@@ -345,7 +345,7 @@ public class Board {
 								notEqualColorCount++;
 							}
 						}
-						if (notEqualColorCount != 0 && !list.isEmpty())
+						if (notEqualColorCount == list.size() && !list.isEmpty())
 							removeStone(xx, yy);
 					}
 				}
