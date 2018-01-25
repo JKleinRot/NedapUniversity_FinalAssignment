@@ -331,12 +331,13 @@ public class Board {
 				}				
 			}
 		}
-		int notEqualColorCount = 0;
+//		int notEqualColorCount = 0;
 		for (int xx = 0; xx < size; xx++) {
 			for (int yy = 0; yy < size; yy++) {
 				if (this.getIntersection(xx, yy).isOccupied()) {
 					System.out.println("Stone at " + xx + yy + this.getIntersection(xx, yy).getStone().getLiberties());
 					if (this.getIntersection(xx, yy).getStone().getLiberties() == 0) {
+						int notEqualColorCount = 0;
 						List<Intersection> list = getAdjacentIntersectionsWithStone(xx, yy);
 						Iterator<Intersection> listIterator = list.iterator();
 						while (listIterator.hasNext()) {
