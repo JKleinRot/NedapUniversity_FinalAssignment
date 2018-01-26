@@ -170,10 +170,24 @@ public class Board {
 		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
 		while (adjacentIntersectionsIterator.hasNext()) {
 			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
+			List<Intersection> adjacentIntersectionsOfAdjacentIntersection = new ArrayList<Intersection>();
+			adjacentIntersectionsOfAdjacentIntersection = getAdjacentIntersectionsWithStone(adjacentIntersection);
+			Iterator<Intersection> adjacentIntersectionsOfAdjacentIntersectionIterator = adjacentIntersectionsOfAdjacentIntersection.iterator();
+			int otherColorCountAdjacent = 0;
+			while (adjacentIntersectionsOfAdjacentIntersectionIterator.hasNext()) {
+				Intersection adjacentIntersectionOfAdjacentIntersection = adjacentIntersectionsOfAdjacentIntersectionIterator.next();
+				if (!adjacentIntersectionOfAdjacentIntersection.getStone().getColor().equals(adjacentIntersection.getStone().getColor())) {
+					otherColorCountAdjacent++;
+				}
+			}
 			if (!adjacentIntersection.getStone().getColor().equals(color)) {
 				otherColorCount++;
 			}
+			if (otherColorCountAdjacent == adjacentIntersectionsOfAdjacentIntersection.size() && adjacentIntersection.getStone().getLiberties() == 0) {
+				removeStone(adjacentIntersection.getPosition());
+			}
 		}
+		
 		if (otherColorCount == adjacentIntersections.size() && 
 				intersection.isOccupied() &&
 				intersection.getStone().getLiberties() == 0) {
