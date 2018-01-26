@@ -25,9 +25,9 @@ public class Board {
 	
 	/** Wheter a GoGUI should be used. */
 	private boolean isGoGUI;
-	
-	/** List of adjacent intersections occupied by a stone. */
-	private List<Intersection> adjacentIntersections;
+//	
+//	/** List of adjacent intersections occupied by a stone. */
+//	private List<Intersection> adjacentIntersections;
 	
 	/** List of intersections occupied by a stone. */
 	private List<Intersection> occupiedIntersections;
@@ -50,7 +50,6 @@ public class Board {
 	 */
 	public Board(int size, boolean isGoGUI) {
 		this.isGoGUI = isGoGUI;
-		this.adjacentIntersections = new ArrayList<Intersection>();
 		this.occupiedIntersections = new ArrayList<Intersection>();
 		this.intersectionGroups = new ArrayList<IntersectionGroup>();
 		if (size < 5) {
@@ -119,19 +118,13 @@ public class Board {
 	 * 			The y coordinate of the intersection at the board.
 	 */
 	private void updateBoard(int x, int y) {
-		int otherColorCount = 0;
+//		int otherColorCount = 0;
 		List<StoneColor> stoneColorFirstAdjacentIntersection = new ArrayList<StoneColor>();
 		List<StoneColor> stoneColorSecondAdjacentIntersection = new ArrayList<StoneColor>();
 		List<StoneColor> stoneColorThirdAdjacentIntersection = new ArrayList<StoneColor>();
 		List<StoneColor> stoneColorFourthAdjacentIntersection = new ArrayList<StoneColor>();
-		adjacentIntersections = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
-		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
-		while (adjacentIntersectionsIterator.hasNext()) {
-			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
-			if (!adjacentIntersection.getStone().getColor().equals(color)) {
-				otherColorCount++;
-			}
-		}		
+		List<Intersection> adjacentIntersections = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
+//		checkForSuicideMove(adjacentIntersections, getIntersection(new Position(x, y)));
 		// One closed in stone
 		// First find a list of adjacent intersections of each of the adjacent intersections of the newly placed stone
 		List<Intersection> adjacentIntersectionsOfFirstAdjacent = new ArrayList<Intersection>();
@@ -263,12 +256,6 @@ public class Board {
 				newStoneLiberties++;
 			}
 			this.getIntersection(new Position(x, y)).getStone().setLiberties(this.getIntersection(new Position(x, y)).getStone().getLiberties() - newStoneLiberties);
-			// Suicide
-			if (otherColorCount == adjacentIntersections.size() && 
-					this.getIntersection(new Position(x, y)).getStone().getLiberties() == 0) {
-				removeStone(new Position(x, y));
-			}
-		// If in this run of update a stone is removed
 		} else {
 			if (firstAdjacentIntersection.isOccupied()) {
 				Iterator<Intersection> adjacentIntersectionsOfFirstAdjacentIterator = adjacentIntersectionsOfFirstAdjacent.iterator();
@@ -329,8 +316,23 @@ public class Board {
 		}
 		removesStonesWithZeroLiberties();
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
-		adjacentIntersections.clear();
 	}
+
+//	private void checkForSuicideMove(List<Intersection> adjacentIntersections, Intersection intersection) {
+//		int otherColorCount = 0;
+//		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
+//		while (adjacentIntersectionsIterator.hasNext()) {
+//			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
+//			if (!adjacentIntersection.getStone().getColor().equals(color)) {
+//				otherColorCount++;
+//			}
+//		}
+//		if (otherColorCount == adjacentIntersections.size() && 
+//				intersection.isOccupied() &&
+//				intersection.getStone().getLiberties() == 0) {
+//			removeStone(intersection.getPosition());
+//		}
+//	}
 
 	/** 
 	 * Loop through the board to remove stones with zero liberties.
