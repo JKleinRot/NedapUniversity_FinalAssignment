@@ -5,6 +5,7 @@ import java.util.Observable;
 import game.MoveChecker;
 import game.MoveCheckerImpl;
 import game.board.Board;
+import game.board.Position;
 import game.board.stone.StoneColor;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
@@ -79,8 +80,8 @@ public class HumanPlayer extends Observable implements Player {
 						Integer.parseInt(moveCoordinates[1]), 
 						stoneColor);
 				nextBoard = board;
-				System.out.println("Liberties " + board.getStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1])).getLiberties() + "");
+				System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
+						Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
 			} else {
 				previousBoard = board;
 				String[] moveCoordinates = move.split(General.DELIMITER2); 

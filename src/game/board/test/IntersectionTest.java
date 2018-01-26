@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.board.Intersection;
+import game.board.Position;
 import game.board.stone.StoneColor;
 
 import static org.junit.Assert.assertTrue;
@@ -25,7 +26,7 @@ public class IntersectionTest {
 	 */
 	@Before
 	public void setUp() {
-		intersection = new Intersection();
+		intersection = new Intersection(new Position(0, 0));
 	}
 	
 	/**

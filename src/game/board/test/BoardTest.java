@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.board.Board;
+import game.board.Position;
 import game.board.stone.StoneColor;
 
 import static org.junit.Assert.assertEquals;
@@ -62,22 +63,22 @@ public class BoardTest {
 	@Test
 	public void testSetStone() {
 		board9x9.setStone(0, 0, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(0, 0).getColor());
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(0, 0)).getStone().getColor());
 		board9x9.setStone(0, 8, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(0, 8).getColor());
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(0, 8)).getStone().getColor());
 		board9x9.setStone(8, 0, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(8, 0).getColor());
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(8, 0)).getStone().getColor());
 		board9x9.setStone(8, 8, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(8, 8).getColor());
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(8, 8)).getStone().getColor());
 		board9x9.setStone(4, 5, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(4, 5).getColor());
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(4, 5)).getStone().getColor());
 	}
 	
 	@Test
 	public void testRemoveStone() {
 		board9x9.setStone(4, 5, StoneColor.BLACK);
-		assertEquals(StoneColor.BLACK, board9x9.getStone(4, 5).getColor());
-		board9x9.removeStone(4, 5);
-		assertNull(board9x9.getStone(4, 5));
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(4, 5)).getStone().getColor());
+		board9x9.removeStone(new Position(4, 5));
+		assertNull(board9x9.getIntersection(new Position(4, 5)).getStone());
 	}
 }

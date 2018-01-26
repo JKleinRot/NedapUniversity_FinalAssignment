@@ -106,8 +106,8 @@ public class MoveCheckerImpl implements MoveChecker {
 				if (previousBoard.getIntersection(new Position(x, y)).isOccupied() == 
 						nextBoard.getIntersection(new Position(x, y)).isOccupied() && 
 						previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
-					if (previousBoard.getStone(x, y).getColor().equals(
-							nextBoard.getStone(x, y).getColor())) {
+					if (previousBoard.getIntersection(new Position(x, y)).getStone().getColor().equals(
+							nextBoard.getIntersection(new Position(x, y)).getStone().getColor())) {
 						equalsCount++;
 					} else if (!previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
 						equalsCount++;

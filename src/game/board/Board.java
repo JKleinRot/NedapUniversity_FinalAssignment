@@ -262,11 +262,11 @@ public class Board {
 				fourthAdjacentIntersection.getStone().setLiberties(fourthAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFourthAdjacent.size());
 				newStoneLiberties++;
 			}
-			this.getStone(x, y).setLiberties(this.getStone(x, y).getLiberties() - newStoneLiberties);
+			this.getIntersection(new Position(x, y)).getStone().setLiberties(this.getIntersection(new Position(x, y)).getStone().getLiberties() - newStoneLiberties);
 			// Suicide
 			if (otherColorCount == adjacentIntersections.size() && 
-					this.getStone(x, y).getLiberties() == 0) {
-				removeStone(x, y);
+					this.getIntersection(new Position(x, y)).getStone().getLiberties() == 0) {
+				removeStone(new Position(x, y));
 			}
 		// If in this run of update a stone is removed
 		} else {
@@ -346,12 +346,12 @@ public class Board {
 						Iterator<Intersection> listIterator = list.iterator();
 						while (listIterator.hasNext()) {
 							Intersection adjacentIntersection = listIterator.next();
-							if (!adjacentIntersection.getStone().getColor().equals(this.getStone(x, y).getColor())) {
+							if (!adjacentIntersection.getStone().getColor().equals(this.getIntersection(new Position(x, y)).getStone().getColor())) {
 								notEqualColorCount++;
 							}
 						}
 						if (notEqualColorCount == list.size() && !list.isEmpty())
-							removeStone(x, y);
+							removeStone(new Position(x, y));
 					}
 				}
 			}
@@ -388,43 +388,28 @@ public class Board {
 	private void setInitialLiberties(int x, int y) {
 		if (x == 0 || x == size - 1 || y == 0 || y == size - 1) {
 			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
-				this.getStone(x, y).setLiberties(2);
-				this.getStone(x, y).setInitialLiberties(2);
+				this.getIntersection(new Position(x, y)).getStone().setLiberties(2);
+				this.getIntersection(new Position(x, y)).getStone().setInitialLiberties(2);
 			} else {
-				this.getStone(x, y).setLiberties(3);
-				this.getStone(x, y).setInitialLiberties(3);
+				this.getIntersection(new Position(x, y)).getStone().setLiberties(3);
+				this.getIntersection(new Position(x, y)).getStone().setInitialLiberties(3);
 			}
 		} else {
-			this.getStone(x, y).setInitialLiberties(4);
+			this.getIntersection(new Position(x, y)).getStone().setInitialLiberties(4);
 		}
 	}
 	
 	/**
-	 * Get the stone at the intersection at the provided x and y coordinate of the board.
-	 * @param x
-	 * 			The x coordinate of the intersection at the board.
-	 * @param y
-	 * 			The y coordinate of the intersection at the board.
-	 * @return 
-	 * 			The stone at the intersection.
+	 * Remove the stone at the intersection at the provided position.
+	 * @param position
+	 * 			The position.
 	 */
-	public Stone getStone(int x, int y) {
-		return this.getIntersection(new Position(x, y)).getStone();
-	}
-	
-	/**
-	 * Remove the stone at the intersection at the provided x and y coordinate of the board.
-	 * @param x
-	 * 			The x coordinate of the intersection at the board.
-	 * @param y
-	 * 			The y coordinate of the intersection at the board.
-	 */
-	public void removeStone(int x, int y) {
-		this.getIntersection(new Position(x, y)).removeStone();
+	public void removeStone(Position position) {
+		this.getIntersection(position).removeStone();
 		if (isGoGUI) {
-			goGUI.removeStone(x, y);
+			goGUI.removeStone(position.getX(), position.getY());
 		}
-		updateBoard(x, y);
+		updateBoard(position.getX(), position.getY());
 	}
 	
 	/**
