@@ -338,20 +338,28 @@ public class Board {
 	private void removesStonesWithZeroLiberties() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				if (this.getIntersection(new Position(x, y)).isOccupied()) {
-					System.out.println("Stone at " + x + y + this.getIntersection(new Position(x, y)).getStone().getLiberties());
-					if (this.getIntersection(new Position(x, y)).getStone().getLiberties() == 0) {
+				Position position = new Position(x, y);
+				if (this.getIntersection(position).isOccupied()) {
+//					System.out.println("Stone at " + x + y + 
+//					this.getIntersection(position).getStone().getLiberties());
+					if (this.getIntersection(position).getStone().getLiberties() == 0) {
 						int notEqualColorCount = 0;
-						List<Intersection> list = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
-						Iterator<Intersection> listIterator = list.iterator();
-						while (listIterator.hasNext()) {
-							Intersection adjacentIntersection = listIterator.next();
-							if (!adjacentIntersection.getStone().getColor().equals(this.getIntersection(new Position(x, y)).getStone().getColor())) {
+						List<Intersection> adjacentIntersectionsWithStone = 
+								getAdjacentIntersectionsWithStone(this.getIntersection(position));
+						Iterator<Intersection> adjacentIntersectionsWithStoneIterator = 
+								adjacentIntersectionsWithStone.iterator();
+						while (adjacentIntersectionsWithStoneIterator.hasNext()) {
+							Intersection adjacentIntersectionWithStone = 
+									adjacentIntersectionsWithStoneIterator.next();
+							if (!adjacentIntersectionWithStone.getStone().getColor().equals(
+									this.getIntersection(position).getStone().getColor())) {
 								notEqualColorCount++;
 							}
 						}
-						if (notEqualColorCount == list.size() && !list.isEmpty())
-							removeStone(new Position(x, y));
+						if (notEqualColorCount == adjacentIntersectionsWithStone.size() && 
+								!adjacentIntersectionsWithStone.isEmpty()) {
+							removeStone(position);
+						}
 					}
 				}
 			}
