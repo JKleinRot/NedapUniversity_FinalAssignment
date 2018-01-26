@@ -144,7 +144,7 @@ public class Board {
 				while (adjacentIntersectionsOfAdjacentIntersectionIterator.hasNext()) {
 					Intersection adjacentIntersectionOfAdjacentIntersection = adjacentIntersectionsOfAdjacentIntersectionIterator.next();
 					stoneColorAdjacentIntersectionOfAdjacentIntersection.add(adjacentIntersectionOfAdjacentIntersection.getStone().getColor());
-					adjacentIntersectionOfAdjacentIntersection.getStone().setLiberties(adjacentIntersectionOfAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersections.size());
+					adjacentIntersectionOfAdjacentIntersection.getStone().setLiberties(adjacentIntersectionOfAdjacentIntersection.getStone().getInitialLiberties() - getAdjacentIntersectionsWithStone(adjacentIntersectionOfAdjacentIntersection).size());
 					setStoneLiberties++;
 				}
 				adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties() - setStoneLiberties);
