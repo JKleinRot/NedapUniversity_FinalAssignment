@@ -118,203 +118,9 @@ public class Board {
 	 * 			The y coordinate of the intersection at the board.
 	 */
 	private void updateBoard(int x, int y) {
-//		int otherColorCount = 0;
-		List<StoneColor> stoneColorFirstAdjacentIntersection = new ArrayList<StoneColor>();
-		List<StoneColor> stoneColorSecondAdjacentIntersection = new ArrayList<StoneColor>();
-		List<StoneColor> stoneColorThirdAdjacentIntersection = new ArrayList<StoneColor>();
-		List<StoneColor> stoneColorFourthAdjacentIntersection = new ArrayList<StoneColor>();
 		List<Intersection> adjacentIntersections = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
 		adjustLibertiesOfAdjacentIntersectionsWithStone(adjacentIntersections, this.getIntersection(new Position(x, y)));
 		checkForSuicideMove(adjacentIntersections, getIntersection(new Position(x, y)));
-		// One closed in stone
-		// First find a list of adjacent intersections of each of the adjacent intersections of the newly placed stone
-//		List<Intersection> adjacentIntersectionsOfFirstAdjacent = new ArrayList<Intersection>();
-//		List<Intersection> adjacentIntersectionsOfSecondAdjacent = new ArrayList<Intersection>();
-//		List<Intersection> adjacentIntersectionsOfThirdAdjacent = new ArrayList<Intersection>();
-//		List<Intersection> adjacentIntersectionsOfFourthAdjacent = new ArrayList<Intersection>();
-//		Intersection firstAdjacentIntersection = new Intersection(new Position(0, 0));
-//		Intersection secondAdjacentIntersection = new Intersection(new Position(0, 0));
-//		Intersection thirdAdjacentIntersection = new Intersection(new Position(0, 0));
-//		Intersection fourthAdjacentIntersection = new Intersection(new Position(0, 0));
-//		if (x == 0 || x == size - 1 || y == 0 || y == size - 1) {
-//			if ((x == 0 || x == size - 1) && (y == 0 || y == size - 1)) {
-//				if (x == 0 && y == 0) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//				} else if (x == size - 1 && y == 0) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//				} else if (x == 0 && y == size - 1) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//				} else if (x == size - 1 && y == size - 1) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//				}
-//			} else {
-//				if (x == 0) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//					thirdAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//				} else if (x == size - 1) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//					thirdAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//				} else if (y == 0) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//					thirdAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//				} else if (y == size - 1) {
-//					firstAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//					adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//					secondAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//					adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//					thirdAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//					adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//				}
-//			}
-//		} else {
-//			firstAdjacentIntersection = this.getIntersection(new Position(x, y - 1));
-//			adjacentIntersectionsOfFirstAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y - 1)));
-//			secondAdjacentIntersection = this.getIntersection(new Position(x, y + 1));
-//			adjacentIntersectionsOfSecondAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y + 1)));
-//			thirdAdjacentIntersection = this.getIntersection(new Position(x - 1, y));
-//			adjacentIntersectionsOfThirdAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x - 1, y)));
-//			fourthAdjacentIntersection = this.getIntersection(new Position(x + 1, y));
-//			adjacentIntersectionsOfFourthAdjacent = this.getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x + 1, y)));
-//		}
-		// If in this run of update a new stone is placed
-//		if (this.getIntersection(new Position(x, y)).isOccupied()) {
-//			int newStoneLiberties = 0;
-//			if (firstAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfFirstAdjacentIterator = adjacentIntersectionsOfFirstAdjacent.iterator();
-//				while (adjacentIntersectionsOfFirstAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfFirstAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfFirstAdjacentIterator.remove();
-//					} else {
-//						stoneColorFirstAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
-//					}
-//				}
-//				firstAdjacentIntersection.getStone().setLiberties(firstAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFirstAdjacent.size());
-//				newStoneLiberties++;
-//				
-//			}
-//			if (secondAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfSecondAdjacentIterator = adjacentIntersectionsOfSecondAdjacent.iterator();
-//				while (adjacentIntersectionsOfSecondAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfSecondAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfSecondAdjacentIterator.remove();
-//					} else {
-//						stoneColorSecondAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
-//					}
-//				}
-//				secondAdjacentIntersection.getStone().setLiberties(secondAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfSecondAdjacent.size());
-//				newStoneLiberties++;
-//			}
-//			if (thirdAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfThirdAdjacentIterator = adjacentIntersectionsOfThirdAdjacent.iterator();
-//				while (adjacentIntersectionsOfThirdAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfThirdAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfThirdAdjacentIterator.remove();
-//					} else {
-//						stoneColorThirdAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
-//					}
-//				}
-//				thirdAdjacentIntersection.getStone().setLiberties(thirdAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfThirdAdjacent.size());
-//				newStoneLiberties++;
-//			}
-//			if (fourthAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfFourthAdjacentIterator = adjacentIntersectionsOfFourthAdjacent.iterator();
-//				while (adjacentIntersectionsOfFourthAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfFourthAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfFourthAdjacentIterator.remove();
-//					} else {
-//						stoneColorFourthAdjacentIntersection.add(adjacentIntersection.getStone().getColor());
-//					}
-//				}
-//				fourthAdjacentIntersection.getStone().setLiberties(fourthAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFourthAdjacent.size());
-//				newStoneLiberties++;
-//			}
-//			this.getIntersection(new Position(x, y)).getStone().setLiberties(this.getIntersection(new Position(x, y)).getStone().getLiberties() - newStoneLiberties);
-//		} else {
-//			if (firstAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfFirstAdjacentIterator = adjacentIntersectionsOfFirstAdjacent.iterator();
-//				while (adjacentIntersectionsOfFirstAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfFirstAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfFirstAdjacentIterator.remove();
-//					}
-//				}
-//				if (adjacentIntersectionsOfFirstAdjacent.isEmpty()) {
-//					firstAdjacentIntersection.getStone().setLiberties(firstAdjacentIntersection.getStone().getInitialLiberties());
-//				} else {
-//					firstAdjacentIntersection.getStone().setLiberties(firstAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFirstAdjacent.size() + 1);
-//				}
-//			}
-//			if (secondAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfSecondAdjacentIterator = adjacentIntersectionsOfSecondAdjacent.iterator();
-//				while (adjacentIntersectionsOfSecondAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfSecondAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfSecondAdjacentIterator.remove();
-//					}
-//				}
-//				if (adjacentIntersectionsOfSecondAdjacent.isEmpty()) {
-//					secondAdjacentIntersection.getStone().setLiberties(secondAdjacentIntersection.getStone().getInitialLiberties());
-//				} else {
-//					secondAdjacentIntersection.getStone().setLiberties(secondAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfSecondAdjacent.size() + 1);
-//				}
-//			}
-//			if (thirdAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfThirdAdjacentIterator = adjacentIntersectionsOfThirdAdjacent.iterator();
-//				while (adjacentIntersectionsOfThirdAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfThirdAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfThirdAdjacentIterator.remove();
-//					}
-//				}
-//				if (adjacentIntersectionsOfThirdAdjacent.isEmpty()) {
-//					thirdAdjacentIntersection.getStone().setLiberties(thirdAdjacentIntersection.getStone().getInitialLiberties());
-//				} else {
-//					thirdAdjacentIntersection.getStone().setLiberties(thirdAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfThirdAdjacent.size() + 1);
-//				}
-//			}
-//			if (fourthAdjacentIntersection.isOccupied()) {
-//				Iterator<Intersection> adjacentIntersectionsOfFourthAdjacentIterator = adjacentIntersectionsOfFourthAdjacent.iterator();
-//				while (adjacentIntersectionsOfFourthAdjacentIterator.hasNext()) {
-//					Intersection adjacentIntersection = adjacentIntersectionsOfFourthAdjacentIterator.next();
-//					if (!adjacentIntersection.isOccupied()) {
-//						adjacentIntersectionsOfFourthAdjacentIterator.remove();
-//					}
-//				}
-//				if (adjacentIntersectionsOfFourthAdjacent.isEmpty()) {
-//					fourthAdjacentIntersection.getStone().setLiberties(fourthAdjacentIntersection.getStone().getInitialLiberties());
-//				} else {
-//					fourthAdjacentIntersection.getStone().setLiberties(fourthAdjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfFourthAdjacent.size() + 1);
-//				}				
-//			}
-//		}
 		removesStonesWithZeroLiberties();
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
 	}
@@ -343,10 +149,6 @@ public class Board {
 				}
 				adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties() - setStoneLiberties);
 			} else {
-//				Iterator<Intersection> adjacentIntersectionsOfAdjacentIntersectionIterator = adjacentIntersectionsOfAdjacentIntersection.iterator();
-//				while (adjacentIntersectionsOfAdjacentIntersectionIterator.hasNext()) {
-//					Intersection adjacentIntersectionOfAdjacentIntersection = adjacentIntersectionsOfAdjacentIntersectionIterator.next();
-//				
 				if (adjacentIntersectionsOfAdjacentIntersection.isEmpty()) {
 					adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties());
 				} else {
@@ -476,6 +278,13 @@ public class Board {
 		return size;
 	}
 	
+	/**
+	 * Return a list of adjacent intersections.
+	 * @param intersection
+	 * 			The intersection.
+	 * @return
+	 * 			The adjacent intersections.
+	 */
 	private List<Intersection> getAdjacentIntersections(Intersection intersection) {
 		List<Intersection> adjacentIntersections = new ArrayList<Intersection>();
 		List<Position> adjacentPositions = getAdjacentPositions(intersection.getPosition());
@@ -487,6 +296,13 @@ public class Board {
 		return adjacentIntersections;
 	}
 
+	/**
+	 * Return a list of adjacent positions.
+	 * @param position
+	 * 			The position.
+	 * @return
+	 * 			The adjacent positions.
+	 */
 	private List<Position> getAdjacentPositions(Position position) {
 		List<Position> adjacentPositions = new ArrayList<Position>();
 		adjacentPositions = addPositionIfValid(new Position(position.getX(), position.getY() + 1), adjacentPositions);
@@ -496,6 +312,15 @@ public class Board {
 		return adjacentPositions;
 	}
 	
+	/**
+	 * Add position to a list of positions only if it is a valid position.
+	 * @param position
+	 * 			The position.
+	 * @param positionList
+	 * 			The list of positions.
+	 * @return
+	 * 			The list of valid positions.
+	 */
 	private List<Position> addPositionIfValid(Position position, List<Position> positionList) {
 		if (position.getX() >= 0 && position.getX() < size && position.getY() >= 0 && position.getY() < size) {
 			positionList.add(position);
