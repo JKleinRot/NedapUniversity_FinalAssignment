@@ -14,7 +14,7 @@ import protocol.Protocol.Server;
  * Human player for Go.
  * @author janine.kleinrot
  */
-public class HumanPlayer extends Observable implements Player {
+public class HumanPlayer extends AbstractPlayer {
 	
 	/** The board. */
 	private Board board;

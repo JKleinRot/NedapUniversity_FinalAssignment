@@ -9,7 +9,7 @@ import protocol.Protocol.Server;
  * Computer player for Go.
  * @author janine.kleinrot
  */
-public class ComputerPlayer implements Player {
+public class ComputerPlayer extends AbstractPlayer {
 	
 	/** The board. */
 	private Board board;
