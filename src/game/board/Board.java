@@ -366,6 +366,7 @@ public class Board {
 		this.getIntersection(position).removeStone();
 		if (isGoGUI) {
 			goGUI.removeStone(position.getX(), position.getY());
+			goGUI.removeStone(position.getX(), position.getY());
 		}
 		updateBoard(position.getX(), position.getY());
 	}
