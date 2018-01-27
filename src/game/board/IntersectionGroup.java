@@ -36,16 +36,24 @@ public class IntersectionGroup {
 	}
 	
 	/**
-	 * Return the amount of liberties of the group. 
-	 * @return
-	 * 			The amount of liberties.
+	 * Set the amount of liberties of the group. 
 	 */
-	public int getLiberties() {
+	public void setLiberties() {
+		liberties = 0;
 		Iterator<Intersection> intersectionsIterator = intersections.iterator();
 		while (intersectionsIterator.hasNext()) {
 			Intersection intersection = intersectionsIterator.next();
 			liberties = liberties + intersection.getStone().getLiberties();
 		}
+	}
+	
+	/**
+	 * Return the amount of liberties.
+	 * @return
+	 * 			The amount of liberties.
+	 */
+	public int getLiberties() {
+		setLiberties();
 		return liberties;
 	}
 	

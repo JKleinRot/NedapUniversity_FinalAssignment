@@ -126,6 +126,13 @@ public class Board {
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
 	}
 
+	/**
+	 * Add the set stone to a group or create a new group or do not add to a group.
+	 * @param adjacentIntersections
+	 * 			The adjacent intersections 
+	 * @param position
+	 * 			The position of the intersection.
+	 */
 	private void addSetStoneToGroup(List<Intersection> adjacentIntersections, Position position) {
 		if (this.getIntersection(position).isOccupied()) {
 			for (Intersection adjacentIntersection : adjacentIntersections) {
@@ -185,7 +192,17 @@ public class Board {
 				}
 			}
 		} 
+//		updateGroupLiberties();
 	}
+
+//	/** 
+//	 * Update the liberties of the groups.
+//	 */
+//	private void updateGroupLiberties() {
+//		for (IntersectionGroup intersectionGroup : intersectionGroups) {
+//			intersectionGroup.setLiberties();
+//		}
+//	}
 
 	/**
 	 * Adjust the liberties of the surrounding stones of the altered intersection.
@@ -266,7 +283,7 @@ public class Board {
 				Position position = new Position(x, y);
 				if (this.getIntersection(position).isOccupied()) {
 					System.out.println("Stone at " + x + y + 
-					this.getIntersection(position).getStone().getLiberties());
+							this.getIntersection(position).getStone().getLiberties());
 					if (this.getIntersection(position).getStone().getLiberties() == 0) {
 						int notEqualColorCount = 0;
 						List<Intersection> adjacentIntersectionsWithStone = 
@@ -283,7 +300,15 @@ public class Board {
 						}
 						if (notEqualColorCount == adjacentIntersectionsWithStone.size() && 
 								!adjacentIntersectionsWithStone.isEmpty()) {
-							removeStone(position);
+							int notInGroupCount = 0;
+							for (IntersectionGroup intersectionGroup : intersectionGroups) {
+								if (!intersectionGroup.getIntersections().contains(this.getIntersection(position))) {
+									notInGroupCount++;
+								}
+							}
+							if (notInGroupCount == intersectionGroups.size()) {
+								removeStone(position);
+							}
 						}
 					}
 				}
