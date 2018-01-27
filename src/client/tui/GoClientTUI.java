@@ -129,18 +129,7 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println("ERROR: Already requested games as computer player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Request game settings")) {
-			System.out.println(name + ": Opponent found");
 			System.out.println(name + ": Waiting for game settings command...");
-		} else if (object.equals("Game settings set black")) {
-			((Observable) goClientActor.getPlayer()).addObserver(this);
-			System.out.println(name + ": Game settings set");
-			stoneColor = " BLACK";
-			System.out.println(name + stoneColor + ": Waiting on move...");
-		} else if (object.equals("Game settings set white")) {
-			((Observable) goClientActor.getPlayer()).addObserver(this);
-			System.out.println(name + ": Game settings set");
-			stoneColor = " WHITE";
-			System.out.println(name + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Illegal stone color")) {
 			System.out.println("ERROR: Not a valid stone color");
 			System.out.println(name + ": Waiting for game settings command...");
@@ -151,7 +140,6 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(object);
 		} else if (object.equals("Game settings received BLACK")) {
 			((Observable) goClientActor.getPlayer()).addObserver(this);
-			System.out.println(name + ": Game settings received");
 			stoneColor = " BLACK";
 		} else if (object.equals("Game settings received WHITE")) {
 			((Observable) goClientActor.getPlayer()).addObserver(this);
