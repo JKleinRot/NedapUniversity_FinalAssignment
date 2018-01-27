@@ -114,7 +114,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 			}
 		} else {
 			setChanged();
-			notifyObservers("Valid move");
+			notifyObservers("Valid move " + move);
 		}
 	}
 
