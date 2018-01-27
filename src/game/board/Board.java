@@ -264,6 +264,25 @@ public class Board {
 			}
 			if (otherColorCountAdjacent == adjacentIntersectionsOfAdjacentIntersection.size() && adjacentIntersection.getStone().getLiberties() == 0) {
 				removeStone(adjacentIntersection.getPosition());
+			} else {
+				for (IntersectionGroup intersectionGroup : intersectionGroups) {
+					if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
+						int zeroLibertiesCount = 0;
+						List<Intersection> intersectionsPossiblyRemoved = intersectionGroup.getIntersections();
+						if (!intersectionsPossiblyRemoved.isEmpty()) {
+							for (Intersection intersectionPossiblyRemoved : intersectionsPossiblyRemoved) {
+								if (intersectionPossiblyRemoved.getStone() != null) {
+									if (intersectionPossiblyRemoved.getStone().getLiberties() == 0) {
+										zeroLibertiesCount++;
+									}
+								}
+							}
+							if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
+								removeStones(intersectionsPossiblyRemoved);
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -324,8 +343,10 @@ public class Board {
 							List<Intersection> intersectionsPossiblyRemoved = intersectionGroupPossiblyRemoved.getIntersections();
 							if (!intersectionsPossiblyRemoved.isEmpty()) {
 								for (Intersection intersectionPossiblyRemoved : intersectionsPossiblyRemoved) {
-									if (intersectionPossiblyRemoved.getStone().getLiberties() == 0) {
-										zeroLibertiesCount++;
+									if (intersectionPossiblyRemoved != null) {
+										if (intersectionPossiblyRemoved.getStone().getLiberties() == 0) {
+											zeroLibertiesCount++;
+										}
 									}
 								}
 								if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
