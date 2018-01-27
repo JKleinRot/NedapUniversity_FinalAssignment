@@ -7,6 +7,7 @@ import game.MoveCheckerImpl;
 import game.board.Board;
 import game.board.Position;
 import game.board.stone.StoneColor;
+import protocol.Protocol.Client;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 /**
@@ -73,22 +74,24 @@ public class HumanPlayer extends Observable implements Player {
 	@Override
 	public void processPreviousMove(String move, String previousPlayer) {
 		if (!move.equals(Server.FIRST)) {
-			if (previousPlayer.equals(name.toUpperCase())) {
-				previousBoard = board;
-				String[] moveCoordinates = move.split(General.DELIMITER2); 
-				board.setStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), 
-						stoneColor);
-				nextBoard = board;
-				System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
-			} else {
-				previousBoard = board;
-				String[] moveCoordinates = move.split(General.DELIMITER2); 
-				board.setStone(Integer.parseInt(moveCoordinates[0]), 
-						Integer.parseInt(moveCoordinates[1]), 
-						stoneColor.other());
-				nextBoard = board;
+			if (!move.equals(Server.PASS)) {
+				if (previousPlayer.equals(name.toUpperCase())) {
+					previousBoard = board;
+					String[] moveCoordinates = move.split(General.DELIMITER2); 
+					board.setStone(Integer.parseInt(moveCoordinates[0]), 
+							Integer.parseInt(moveCoordinates[1]), 
+							stoneColor);
+					nextBoard = board;
+					System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
+							Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
+				} else {
+					previousBoard = board;
+					String[] moveCoordinates = move.split(General.DELIMITER2); 
+					board.setStone(Integer.parseInt(moveCoordinates[0]), 
+							Integer.parseInt(moveCoordinates[1]), 
+							stoneColor.other());
+					nextBoard = board;
+				}
 			}
 		}
 		
@@ -102,27 +105,32 @@ public class HumanPlayer extends Observable implements Player {
 
 	@Override
 	public void makeMove(String move) {
-		String[] moveCoordinates = move.split(General.DELIMITER2);
-		if (moveCoordinates.length != 2) {
-			setChanged();
-			notifyObservers("Invalid move input");
-		} else {
-			try {
-				int moveX = Integer.parseInt(moveCoordinates[0]);
-				int moveY = Integer.parseInt(moveCoordinates[1]);
-				isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
-						previousBoard, nextBoard);
-				if (isValidMove) {
-					setChanged();
-					notifyObservers("Valid move");
-				} else {
-					checkMessage = moveChecker.getMoveViolations();
-					handleCheckMessage(checkMessage);
-				}
-			} catch (NumberFormatException e) {
+		if (!move.equals(Client.PASS)) {
+			String[] moveCoordinates = move.split(General.DELIMITER2);
+			if (moveCoordinates.length != 2) {
 				setChanged();
 				notifyObservers("Invalid move input");
+			} else {
+				try {
+					int moveX = Integer.parseInt(moveCoordinates[0]);
+					int moveY = Integer.parseInt(moveCoordinates[1]);
+					isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
+							previousBoard, nextBoard);
+					if (isValidMove) {
+						setChanged();
+						notifyObservers("Valid move");
+					} else {
+						checkMessage = moveChecker.getMoveViolations();
+						handleCheckMessage(checkMessage);
+					}
+				} catch (NumberFormatException e) {
+					setChanged();
+					notifyObservers("Invalid move input");
+				}
 			}
+		} else {
+			setChanged();
+			notifyObservers("Valid move");
 		}
 	}
 
