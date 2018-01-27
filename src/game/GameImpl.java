@@ -5,6 +5,8 @@ import java.util.List;
 
 import client.handler.GoClientHandler;
 import game.board.Board;
+import game.board.Intersection;
+import game.board.Position;
 import game.board.stone.StoneColor;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
@@ -46,8 +48,15 @@ public class GameImpl implements Game {
 	/** The move represented as a string. */
 	private String move;
 	
+	/** The previous move represented as a string. */
+	private String previousMove;
+	
 	/** The MoveChecker. */
 	private MoveChecker moveChecker;
+	
+	private int blackScore;
+	
+	private int whiteScore;
 	
 	/**
 	 * Creates a new Game.
@@ -142,10 +151,31 @@ public class GameImpl implements Game {
 			}
 		} else {
 			this.move = moveMade;
-			notifyAll();
+			if (move.equals(previousMove)) {
+				calculateWinner();
+			} else {
+				notifyAll();
+			}
 		}
+		this.previousMove = moveMade;
 	}
 	
+	/**
+	 * Calculates the winner after both players passed in adjacent moves.
+	 */
+	private void calculateWinner() {
+		board.calculateWinner();
+		blackScore = board.getBlackScore();
+		whiteScore = board.getWhiteScore();
+		if (blackScore > whiteScore) {
+			System.out.println("Black wins " + blackScore + " " + whiteScore);
+		} else if (blackScore < whiteScore) {
+			System.out.println("White wins " + whiteScore + " " + blackScore);
+		} else {
+			System.out.println("Draw " + blackScore + " " + whiteScore);
+		}
+	}
+
 	@Override
 	public List<GoClientHandler> getGoClientHandlers() {
 		List<GoClientHandler> goClientHandlers = new ArrayList<GoClientHandler>();
