@@ -96,6 +96,8 @@ public class GoClient extends Observable implements Runnable {
 				} else if (words.length == 4 && words[0].equals(Server.TURN) 
 						&& !words[3].equals(name.toUpperCase())) {
 					goClientActor.getPlayer().processPreviousMove(words[2], words[1]);
+				} else if (words.length == 6 && words[0].equals(Server.ENDGAME)) {
+					goClientActor.handleEndOfGame(words[1], words[2], words[3], words[4], words[5]);
 				}
 			}
 		} catch (IOException e) {

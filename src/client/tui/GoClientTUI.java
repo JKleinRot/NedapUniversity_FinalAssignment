@@ -188,6 +188,10 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Ko rule")) {
 			System.out.println("ERROR: Not a valid move (Ko rule violated");
 			System.out.println(name + stoneColor + ": Waiting on move...");
+		} else if (object.equals("The game is finished")) {
+			System.out.println(name + stoneColor + ": The game is finised");
+		} else if (((String) object).contains(name)) {
+			System.out.println(object);
 		}
 		
 	}

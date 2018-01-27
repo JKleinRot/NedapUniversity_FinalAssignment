@@ -167,12 +167,28 @@ public class GameImpl implements Game {
 		board.calculateWinner();
 		blackScore = board.getBlackScore();
 		whiteScore = board.getWhiteScore();
-		if (blackScore > whiteScore) {
-			System.out.println("Black wins " + blackScore + " " + whiteScore);
+		if (blackScore >= whiteScore) {
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.FINISHED + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.FINISHED + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
 		} else if (blackScore < whiteScore) {
-			System.out.println("White wins " + whiteScore + " " + blackScore);
-		} else {
-			System.out.println("Draw " + blackScore + " " + whiteScore);
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.FINISHED + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.FINISHED + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
 		}
 	}
 

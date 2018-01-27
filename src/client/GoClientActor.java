@@ -78,4 +78,19 @@ public interface GoClientActor {
 	 * 			The move.
 	 */
 	public void sendMove(String move);
+
+	/**
+	 * Handles the end of a game.
+	 * @param reason
+	 * 			The reason for the game to end.
+	 * @param winningPlayer
+	 * 			The name of the winning player.
+	 * @param winningScore
+	 * 			The score of the winning player.
+	 * @param losingPlayer
+	 * 			The name of the losing player.
+	 * @param losingScore
+	 * 			The score of the losing player.
+	 */
+	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, String losingPlayer, String losingScore);
 }

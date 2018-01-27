@@ -226,4 +226,16 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	public void sendMove(String move) {
 		goClient.sendMessage(Client.MOVE + General.DELIMITER1 + move + General.COMMAND_END);
 	}
+
+	@Override
+	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, String losingPlayer,
+			String losingScore) {
+		if (reason.equals(Server.FINISHED)) {
+			setChanged();
+			notifyObservers("The game is finished");
+			setChanged();
+			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+		}
+		
+	}
 }
