@@ -160,8 +160,9 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Waiting for game settings command...");
 		} else if (object.equals("Move requested")) {
 			System.out.println(name + stoneColor + ": Waiting on move...");
-		} else if (object.equals("Valid move")) {
-			goClientActor.sendMove(move);
+		} else if (((String) object).contains("Valid move")) {
+			String[] words = ((String) object).split(" ");
+			goClientActor.sendMove(words[2]);
 		} else if (object.equals("Invalid move input")) {
 			System.out.println("ERROR: Not a valid move");
 			System.out.println(name + stoneColor + ": Waiting on move...");

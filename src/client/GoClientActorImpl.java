@@ -152,11 +152,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
-					if (playerType.equals("human")) {
-						player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
-					} else {
-						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
-					}
+//					if (playerType.equals("human")) {
+//						player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
+//					} else {
+//						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
+//					}
 //					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set white");
@@ -169,11 +169,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
-					if (playerType.equals("human")) {
-						player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
-					} else {
-						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
-					}
+//					if (playerType.equals("human")) {
+//						player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
+//					} else {
+//						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
+//					}
 //					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set black");
