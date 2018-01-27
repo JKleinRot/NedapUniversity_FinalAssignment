@@ -231,7 +231,7 @@ public class Board {
 				if (adjacentIntersectionsOfAdjacentIntersection.isEmpty()) {
 					adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties());
 				} else {
-					adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfAdjacentIntersection.size() + 1);
+					adjacentIntersection.getStone().setLiberties(adjacentIntersection.getStone().getInitialLiberties() - adjacentIntersectionsOfAdjacentIntersection.size());
 				}
 			}
 		}
@@ -300,19 +300,60 @@ public class Board {
 						}
 						if (notEqualColorCount == adjacentIntersectionsWithStone.size() && 
 								!adjacentIntersectionsWithStone.isEmpty()) {
-							int notInGroupCount = 0;
+//							int notInGroupCount = 0;
+//							IntersectionGroup intersectionGroupPossiblyRemoved = new IntersectionGroup();
+//							for (IntersectionGroup intersectionGroup : intersectionGroups) {
+//								if (!intersectionGroup.getIntersections().contains(this.getIntersection(position))) {
+//									notInGroupCount++;
+//								} else {
+//									intersectionGroupPossiblyRemoved = intersectionGroup;
+//								}
+//							}
+//							if (notInGroupCount == intersectionGroups.size()) {
+								removeStone(position);
+//							} else {
+						} else {
+//							int notInGroupCount = 0;
+							IntersectionGroup intersectionGroupPossiblyRemoved = new IntersectionGroup();
 							for (IntersectionGroup intersectionGroup : intersectionGroups) {
-								if (!intersectionGroup.getIntersections().contains(this.getIntersection(position))) {
-									notInGroupCount++;
+								if (intersectionGroup.getIntersections().contains(this.getIntersection(position))) {
+									intersectionGroupPossiblyRemoved = intersectionGroup;
 								}
 							}
-							if (notInGroupCount == intersectionGroups.size()) {
-								removeStone(position);
+							int zeroLibertiesCount = 0;
+							List<Intersection> intersectionsPossiblyRemoved = intersectionGroupPossiblyRemoved.getIntersections();
+							if (!intersectionsPossiblyRemoved.isEmpty()) {
+								for (Intersection intersectionPossiblyRemoved : intersectionsPossiblyRemoved) {
+									if (intersectionPossiblyRemoved.getStone().getLiberties() == 0) {
+										zeroLibertiesCount++;
+									}
+								}
+								if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
+									removeStones(intersectionsPossiblyRemoved);
+								}
 							}
 						}
 					}
 				}
 			}
+		}
+	}
+
+	/** 
+	 * Remove a group of stones.
+	 * @param intersections
+	 * 			The list of intersections removed.
+	 */
+	private void removeStones(List<Intersection> intersectionsRemoved) {
+		for (Intersection intersection : intersectionsRemoved) {
+			if (isGoGUI) {
+				goGUI.removeStone(intersection.getPosition().getX(), intersection.getPosition().getY());
+				goGUI.removeStone(intersection.getPosition().getX(), intersection.getPosition().getY());
+			}
+			intersection.removeStone();
+		}
+		for (Intersection intersection: intersectionsRemoved) {
+			updateBoard(intersection.getPosition().getX(), intersection.getPosition().getY());
 		}
 	}
 
