@@ -69,14 +69,26 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			System.out.println("GO SERVER: " + opponent.getGoClientName() + 
 					" plays with BLACK stones and " + goClientName + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					General.BLACK + General.DELIMITER1 + boardSize + General.COMMAND_END);
+					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
+					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
+					General.COMMAND_END);
+			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
+					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
+					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
+					General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
 		} else if (stoneColor.equals(General.BLACK)) {
 			System.out.println("GO SERVER: " + goClientName  + " plays with BLACK stones and " + 
 					opponent.getGoClientName() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					General.WHITE + General.DELIMITER1 + boardSize + General.COMMAND_END);
+					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
+					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
+					General.COMMAND_END);
+			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
+					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
+					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
+					General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(goClientHandler, opponent);
 		}

@@ -48,6 +48,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The player. */
 	private Player player;
 	
+	private String opponentName;
+	
 	/**
 	 * Creates a new Go client actor.
 	 */
@@ -155,7 +157,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					} else {
 						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
 					}
-					player.setBoard(boardSize);
+//					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set white");
 				} catch (NumberFormatException e) {
@@ -172,7 +174,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					} else {
 						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
 					}
-					player.setBoard(boardSize);
+//					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set black");
 				} catch (NumberFormatException e) {
@@ -193,7 +195,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 
 	@Override
-	public void setReceivedGameSettings(String aStoneColor, String aBoardSize) {
+	public void setReceivedGameSettings(String aStoneColor, String aBoardSize, String playerName, String otherPlayerName) {
 		this.stoneColorString = aStoneColor;
 		this.boardSize = aBoardSize;
 		if (stoneColorString.equals(General.WHITE)) {
@@ -213,6 +215,13 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			}
 			player.setBoard(boardSize);
 		}
+		if (playerName.toUpperCase().equals(goClient.getName().toUpperCase())) {
+			opponentName = otherPlayerName.toUpperCase();
+		} else {
+			opponentName = playerName.toUpperCase();
+		}
+		setChanged();
+		notifyObservers("Opponent " + opponentName + " is found");
 		setChanged();
 		notifyObservers("Game settings received " + stoneColorString);
 	}
