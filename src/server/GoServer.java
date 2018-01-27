@@ -20,7 +20,7 @@ import game.GameManager;
 public class GoServer {
 	
 	/** The port of the server. */
-	private int port;
+	private String port;
 	
 	/** The server socket. */
 	private ServerSocket serverSocket;
@@ -41,7 +41,7 @@ public class GoServer {
 	 * @param port
 	 * 			The port of the server.
 	 */
-	public GoServer(int port) {
+	public GoServer(String port) {
 		this.port = port;
 		this.in = new Scanner(System.in);
 		this.goClientHandlers = new ArrayList<GoClientHandler>();
@@ -53,7 +53,7 @@ public class GoServer {
 	 */
 	public void run() {
 		try {
-			serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(Integer.parseInt(port));
 			System.out.println("GO SERVER: Initialized at port " + port);
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 			while (true) {
@@ -63,9 +63,13 @@ public class GoServer {
 				goClientHandlerThread.start();
 				this.addGoClientHandler(goClientHandler);
 			}
+		} catch (NumberFormatException e) {
+			System.out.println("ERROR: not a valid port number");
+			port = readString("New port number: ");
+			this.run();
 		} catch (BindException e) {
 			System.out.println("ERROR: Port " + port + " already in use.");
-			port = Integer.parseInt(readString("New port number: "));
+			port = readString("New port number: ");
 			this.run();
 		} catch (IOException e) {
 			System.out.println("ERROR: Could not set up a Go server.");
@@ -117,7 +121,7 @@ public class GoServer {
 			System.out.println("ERROR: A port number should be provided");
 			System.exit(0);
 		}
-		GoServer goServer = new GoServer(Integer.parseInt(args[0]));
+		GoServer goServer = new GoServer(args[0]);
 		goServer.run();
 	}
 
