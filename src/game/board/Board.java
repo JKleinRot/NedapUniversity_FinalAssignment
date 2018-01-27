@@ -120,9 +120,71 @@ public class Board {
 	private void updateBoard(int x, int y) {
 		List<Intersection> adjacentIntersections = getAdjacentIntersectionsWithStone(this.getIntersection(new Position(x, y)));
 		adjustLibertiesOfAdjacentIntersectionsWithStone(adjacentIntersections, this.getIntersection(new Position(x, y)));
+		addSetStoneToGroup(adjacentIntersections, new Position(x, y));
 		checkForSuicideMove(adjacentIntersections, getIntersection(new Position(x, y)));
 		removesStonesWithZeroLiberties();
 		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
+	}
+
+	private void addSetStoneToGroup(List<Intersection> adjacentIntersections, Position position) {
+		if (this.getIntersection(position).isOccupied()) {
+			for (Intersection adjacentIntersection : adjacentIntersections) {
+				if (adjacentIntersection.getStone().getColor().equals(this.getIntersection(position).getStone().getColor())) {
+					if (!intersectionGroups.isEmpty()) {
+						Iterator<IntersectionGroup> intersectionGroupsIterator = intersectionGroups.iterator();
+						List<IntersectionGroup> tempIntersectionGroups = new ArrayList<IntersectionGroup>();
+						List<IntersectionGroup> tempNewIntersectionGroups = new ArrayList<IntersectionGroup>();
+						while (intersectionGroupsIterator.hasNext()) {
+							IntersectionGroup intersectionGroup = intersectionGroupsIterator.next();
+							if (intersectionGroup.getIntersections().get(0).getStone().getColor().equals(adjacentIntersection.getStone().getColor())) {
+								if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
+									tempIntersectionGroups.add(intersectionGroup);
+								} else {
+									IntersectionGroup newIntersectionGroup = new IntersectionGroup();
+									newIntersectionGroup.addIntersection(this.getIntersection(position));
+									newIntersectionGroup.addIntersection(adjacentIntersection);
+									tempNewIntersectionGroups.add(newIntersectionGroup);
+								}
+							} else {
+								IntersectionGroup newIntersectionGroup = new IntersectionGroup();
+								newIntersectionGroup.addIntersection(this.getIntersection(position));
+								newIntersectionGroup.addIntersection(adjacentIntersection);
+								tempNewIntersectionGroups.add(newIntersectionGroup);
+							}
+						}
+						for (IntersectionGroup intersectionGroup : tempIntersectionGroups) {
+							intersectionGroup.addIntersection(this.getIntersection(position));
+						}
+						for (IntersectionGroup newIntersectionGroup : tempNewIntersectionGroups) {
+							intersectionGroups.add(newIntersectionGroup);
+						}
+					} else {
+						IntersectionGroup newIntersectionGroup = new IntersectionGroup();
+						newIntersectionGroup.addIntersection(this.getIntersection(position));
+						newIntersectionGroup.addIntersection(adjacentIntersection);
+						intersectionGroups.add(newIntersectionGroup);
+					}
+				}
+				List<IntersectionGroup> intersectionGroupsContainingSetStone = new ArrayList<IntersectionGroup>();
+				Iterator<IntersectionGroup> intersectionGroupsIterator = intersectionGroups.iterator();
+				while (intersectionGroupsIterator.hasNext()) {
+					IntersectionGroup intersectionGroup = intersectionGroupsIterator.next();
+					if (intersectionGroup.getIntersections().contains(this.getIntersection(position))) {
+						intersectionGroupsContainingSetStone.add(intersectionGroup);
+					}
+				}
+				if (intersectionGroupsContainingSetStone.size() > 1) {
+					IntersectionGroup resultingIntersectionGroup = intersectionGroupsContainingSetStone.get(0);
+					for (int i = 1; i < intersectionGroupsContainingSetStone.size(); i++) {
+						List<Intersection> intersectionsInGroup = intersectionGroupsContainingSetStone.get(i).getIntersections();
+						for (int j = 0; j < intersectionsInGroup.size(); j++) {
+							resultingIntersectionGroup.addIntersection(intersectionsInGroup.get(j));
+						}
+						intersectionGroups.remove(intersectionGroupsContainingSetStone.get(i));
+					}
+				}
+			}
+		} 
 	}
 
 	/**

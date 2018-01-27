@@ -1,8 +1,10 @@
 package game.board;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A group of intersections of which the stones are from the same color 
@@ -12,7 +14,7 @@ import java.util.List;
 public class IntersectionGroup {
 
 	/** A list of the intersections in the group. */
-	private List<Intersection> intersections;
+	private Set<Intersection> intersections;
 	
 	/** The liberties of the group. */
 	private int liberties;
@@ -21,7 +23,7 @@ public class IntersectionGroup {
 	 * Creates a new intersection group. 
 	 */
 	public IntersectionGroup() {
-		intersections = new ArrayList<Intersection>();
+		intersections = new HashSet<Intersection>();
 	}
 	
 	/**
@@ -45,5 +47,9 @@ public class IntersectionGroup {
 			liberties = liberties + intersection.getStone().getLiberties();
 		}
 		return liberties;
+	}
+	
+	public List<Intersection> getIntersections() {
+		return new ArrayList<Intersection>(intersections);
 	}
 }
