@@ -64,8 +64,8 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	@Override
 	public void processPreviousMove(String move, String previousPlayer) {
 		if (!move.equals(Server.FIRST)) {
-			if (!move.equals(Server.PASS)) {
-				if (previousPlayer.equals(name.toUpperCase())) {
+			if (previousPlayer.equals(name.toUpperCase())) {
+				if (!move.equals(Server.PASS)) {
 					previousBoard = board;
 					String[] moveCoordinates = move.split(General.DELIMITER2); 
 					board.setStone(Integer.parseInt(moveCoordinates[0]), 
@@ -74,7 +74,11 @@ public abstract class AbstractPlayer extends Observable implements Player {
 					nextBoard = board;
 					System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
 							Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
-				} else {
+				}
+				setChanged();
+				notifyObservers("Move made");
+			} else {
+				if (!move.equals(Server.PASS)) {
 					previousBoard = board;
 					String[] moveCoordinates = move.split(General.DELIMITER2); 
 					board.setStone(Integer.parseInt(moveCoordinates[0]), 
@@ -82,9 +86,10 @@ public abstract class AbstractPlayer extends Observable implements Player {
 							stoneColor.other());
 					nextBoard = board;
 				}
-			}
+				setChanged();
+				notifyObservers("Other move made");
+			} 
 		}
-		
 	}
 	
 	@Override

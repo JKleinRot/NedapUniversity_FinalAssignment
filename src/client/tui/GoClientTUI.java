@@ -197,6 +197,11 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (((String) object).contains("draw")) {
 			System.out.println(name + ": " + object);
+		} else if (object.equals("Move made")) {
+			System.out.println(name + stoneColor + ": The move is made");
+			System.out.println(name + stoneColor + ": Waiting on opponent...");
+		} else if (object.equals("Other move made")) {
+			System.out.println(name + stoneColor + ": Opponent made a move");
 		}
 		
 	}
