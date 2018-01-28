@@ -148,7 +148,7 @@ public class GameImpl implements Game {
 					nextBoard = board; 
 					notifyAll();
 				} else {
-					System.out.println("Invalid move found in Go server");
+					goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
 				}
 			} else {
 				this.move = moveMade;

@@ -192,6 +192,9 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": The game is finised");
 		} else if (((String) object).contains(name)) {
 			System.out.println(object);
+		} else if (object.equals("Invalid move server")) {
+			System.out.println("ERROR: Not a valid move (Checked by Go server)");
+			System.out.println(name + stoneColor + ": Waiting on move...");
 		}
 		
 	}

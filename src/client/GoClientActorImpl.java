@@ -244,6 +244,12 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 
 	@Override
+	public void handleInvalidMove() {
+		setChanged();
+		notifyObservers("Invalid move server");
+	}
+	
+	@Override
 	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, String losingPlayer,
 			String losingScore) {
 		if (reason.equals(Server.FINISHED)) {

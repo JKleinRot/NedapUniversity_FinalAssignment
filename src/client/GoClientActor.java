@@ -92,6 +92,11 @@ public interface GoClientActor {
 	 */
 	public void sendMove(String move);
 
+	/** 
+	 * Handle an invalid move checked by the Game. 
+	 */
+	public void handleInvalidMove();
+	
 	/**
 	 * Handles the end of a game.
 	 * @param reason
