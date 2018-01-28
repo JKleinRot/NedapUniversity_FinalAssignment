@@ -57,6 +57,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The number of games played. */
 	private int gamesPlayed;
 	
+	/** The GoGUI. */
+	private GoGUIIntegrator goGUI;
+	
 	/**
 	 * Creates a new Go client actor.
 	 */
@@ -219,8 +222,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			}
 			if (gamesPlayed == 0) {
 				player.setBoard(boardSize);
+				player.setGoGUI(boardSize);
+				goGUI = player.getBoard().getGoGUI();
 			} else {
-				player.adjustBoard(boardSize);
+				player.adjustBoard(boardSize, goGUI);
 			}
 		} else {
 			stoneColor = stoneColor.BLACK;
@@ -231,8 +236,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			}
 			if (gamesPlayed == 0) {
 				player.setBoard(boardSize);
+				player.setGoGUI(boardSize);
+				goGUI = player.getBoard().getGoGUI();
 			} else {
-				player.adjustBoard(boardSize);
+				player.adjustBoard(boardSize, goGUI);
 			}
 		}
 		if (playerName.toUpperCase().equals(goClient.getName().toUpperCase())) {

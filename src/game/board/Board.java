@@ -77,18 +77,21 @@ public class Board {
 				intersections[x][y] = new Intersection(new Position(x, y));
 			}
 		}
-		if (isGoGUI) {
-			goGUI = new GoGUIIntegrator(false, true, size);
-		}
 	}
 	
 	/** 
 	 * Start a GoGUI.
 	 */
-	public void startGoGUI() {
+	public GoGUIIntegrator startGoGUI() {
 		if (isGoGUI) {
+			goGUI = new GoGUIIntegrator(false, true, size);
 			goGUI.startGUI();
 		}
+		return goGUI;
+	}
+	
+	public void setGoGUI(GoGUIIntegrator goGUI) {
+		this.goGUI = goGUI;
 	}
 	
 	/**

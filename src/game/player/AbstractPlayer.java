@@ -7,6 +7,7 @@ import game.MoveCheckerImpl;
 import game.board.Board;
 import game.board.Position;
 import game.board.stone.StoneColor;
+import gui.GoGUIIntegrator;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
@@ -37,6 +38,16 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	/** The check message. */
 	private String checkMessage;
 	
+	/** The Go GUI. */
+	private GoGUIIntegrator goGUI;
+	
+	/** 
+	 * Create a new abstract player.
+	 * @param name
+	 * 			The name.
+	 * @param color
+	 * 			The stone color.
+	 */
 	public AbstractPlayer(String name, StoneColor color) {
 		this.name = name;
 		this.stoneColor = color;
@@ -58,15 +69,20 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	@Override
 	public void setBoard(String boardSize) {
 		board = new Board(Integer.parseInt(boardSize), true);
-		board.startGoGUI();
 		previousBoard = board;
 		nextBoard = board;
 	}
 	
 	@Override
-	public void adjustBoard(String boardSize) {
+	public void adjustBoard(String boardSize, GoGUIIntegrator goGUI) {
 		board = new Board(Integer.parseInt(boardSize), true);
+		board.setGoGUI(goGUI);
 		board.getGoGUI().setBoardSize(Integer.parseInt(boardSize));
+	}
+	
+	@Override
+	public void setGoGUI(String boardSize) {
+		goGUI = board.startGoGUI();
 	}
 	
 	@Override

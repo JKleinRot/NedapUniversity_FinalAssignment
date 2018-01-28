@@ -1,6 +1,7 @@
 package game.player;
 
 import game.board.Board;
+import gui.GoGUIIntegrator;
 
 /**
  * A player for Go.
@@ -23,11 +24,18 @@ public interface Player {
 	public void setBoard(String boardSize);
 	
 	/**
+	 * Set the GoGUI.
+	 * @param boardSize
+	 * 			The board size.
+	 */
+	public void setGoGUI(String boardSize);
+	
+	/**
 	 * Adjust the current board to the provided size.
 	 * @param boardSize
 	 * 			The board size.
 	 */
-	public void adjustBoard(String boardSize);
+	public void adjustBoard(String boardSize, GoGUIIntegrator goGUI);
 	
 	/**
 	 * Make a move if the move is valid.
