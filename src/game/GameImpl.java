@@ -128,14 +128,12 @@ public class GameImpl implements Game {
 				String[] moveCoordinates = moveMade.split(General.DELIMITER2);
 				int moveX = Integer.parseInt(moveCoordinates[0]);
 				int moveY = Integer.parseInt(moveCoordinates[1]);
-				if (numberOfMoves % 2 == 1 && numberOfMoves != 1) {
+				if (numberOfMoves % 2 == 1) {
 					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
 							previousBoard, nextBoard); 
 				} else if (numberOfMoves % 2 == 0) {
 					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
 							previousBoard, nextBoard); 
-				} else if (numberOfMoves == 1) {
-					isValidMove = true;
 				}
 				if (isValidMove) {
 					this.move = moveMade;
