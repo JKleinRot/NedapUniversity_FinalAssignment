@@ -192,6 +192,7 @@ public class GameImpl implements Game {
 					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
 					General.DELIMITER1 + blackScore + General.COMMAND_END);
 		}
+		isGameOver = true;
 	}
 
 	@Override
