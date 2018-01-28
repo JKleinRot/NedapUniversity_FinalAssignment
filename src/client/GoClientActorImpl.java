@@ -263,6 +263,5 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				notifyObservers("The game ended in a draw with " + winningScore + " points each for " + winningPlayer + " and " + losingPlayer);
 			}
 		}
-		
 	}
 }

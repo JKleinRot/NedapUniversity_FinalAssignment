@@ -78,7 +78,7 @@ public class GameManager implements GoClientStateListener {
 	@Override 
 	public void startGame(GoClientHandler firstGoClientHandler, 
 			GoClientHandler secondGoClientHandler) {
-		game = new GameImpl(firstGoClientHandler, secondGoClientHandler);
+		game = new GameImpl(firstGoClientHandler, secondGoClientHandler, this);
 		System.out.println("GO SERVER: Game started between " + 
 				firstGoClientHandler.getGoClientName() + " and " + 
 				secondGoClientHandler.getGoClientName());

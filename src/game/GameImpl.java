@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.GoClientState;
+import client.GoClientStateListener;
 import client.handler.GoClientHandler;
 import game.board.Board;
 import game.board.Intersection;
@@ -23,6 +25,9 @@ public class GameImpl implements Game {
 	
 	/** The GoClientHandler communicating with the GoClient playing with white. */
 	private GoClientHandler secondGoClientHandler;
+	
+	/** The game manager. */
+	private GoClientStateListener gameManager;
 	
 	/** The board. */
 	private Board board;
@@ -54,8 +59,10 @@ public class GameImpl implements Game {
 	/** The MoveChecker. */
 	private MoveChecker moveChecker;
 	
+	/** The score of the player with black stones. */
 	private int blackScore;
 	
+	/** The score of the player with white stones. */
 	private int whiteScore;
 	
 	/**
@@ -65,9 +72,10 @@ public class GameImpl implements Game {
 	 * @param secondGoClientHandler
 	 * 			The GoClientHandler communicating with the GoClient playing with white.
 	 */
-	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler) {
+	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler, GoClientStateListener gameManager) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;
+		this.gameManager = gameManager;
 		this.firstGoClientHandler.getGoClientHandlerActor().setGame(this);
 		this.secondGoClientHandler.getGoClientHandlerActor().setGame(this);
 		board = new Board(Integer.parseInt(firstGoClientHandler.getBoardSize()), false);
@@ -190,6 +198,10 @@ public class GameImpl implements Game {
 					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
 					General.DELIMITER1 + blackScore + General.COMMAND_END);
 		}
+		firstGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(firstGoClientHandler, GoClientState.CONNECTED);
+		secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
 		isGameOver = true;
 	}
 

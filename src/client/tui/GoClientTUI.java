@@ -139,10 +139,10 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + ": Game requested as computer player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game human")) {
-			System.out.println("ERROR: Already requested games as human player");
+			System.out.println("ERROR: Already requested game as human player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game computer")) {
-			System.out.println("ERROR: Already requested games as computer player");
+			System.out.println("ERROR: Already requested game as computer player");
 			System.out.println(name + ": Waiting for opponent...");
 		} else if (object.equals("Request game settings")) {
 			System.out.println(name + ": Waiting for game settings command...");
