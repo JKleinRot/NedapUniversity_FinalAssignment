@@ -52,8 +52,10 @@ public interface GoClientHandlerActor {
 	 * Confirm the move made by the player.
 	 * @param move
 	 * 			The move made.
+	 * @param goClientHandler
+	 * 			The GoClientHandler.
 	 */
-	public void confirmMove(String move);
+	public void confirmMove(String move, GoClientHandler goClientHandler);
 	
 	/**
 	 * Set the game of the GoClientHandlerActor to the provided Game.

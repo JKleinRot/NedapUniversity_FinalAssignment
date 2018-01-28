@@ -99,7 +99,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 					goClientHandlerActor.notifyOtherClientOfGameSettings(opponent, words[1], 
 							words[2]);
 				} else if (words.length == 2 && words[0].equals(Client.MOVE)) {
-					goClientHandlerActor.confirmMove(words[1]);
+					goClientHandlerActor.confirmMove(words[1], this);
 				}
 			}
 		} catch (IOException e) {

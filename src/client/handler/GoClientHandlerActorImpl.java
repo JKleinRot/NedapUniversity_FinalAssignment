@@ -108,8 +108,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	}
 	
 	@Override
-	public void confirmMove(String move) {
-		game.confirmMove(move);
+	public void confirmMove(String move, GoClientHandler goClientHandler) {
+		game.confirmMove(move, goClientHandler);
 		
 	}
 	

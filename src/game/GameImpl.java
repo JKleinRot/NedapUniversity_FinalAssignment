@@ -122,42 +122,44 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public synchronized void confirmMove(String moveMade) {
-		if (!moveMade.equals(Client.PASS)) {
-			String[] moveCoordinates = moveMade.split(General.DELIMITER2);
-			int moveX = Integer.parseInt(moveCoordinates[0]);
-			int moveY = Integer.parseInt(moveCoordinates[1]);
-			if (numberOfMoves % 2 == 1 && numberOfMoves != 1) {
-				isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
-						previousBoard, nextBoard); 
-			} else if (numberOfMoves % 2 == 0) {
-				isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
-						previousBoard, nextBoard); 
-			} else if (numberOfMoves == 1) {
-				isValidMove = true;
-			}
-			if (isValidMove) {
-				this.move = moveMade;
-				previousBoard = board;
-				if (numberOfMoves % 2 == 1) {
-					board.setStone(moveX, moveY, StoneColor.BLACK);
-				} else {
-					board.setStone(moveX, moveY, StoneColor.WHITE);
+	public synchronized void confirmMove(String moveMade, GoClientHandler goClientHandler) {
+		if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler) || (numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler)))) {
+			if (!moveMade.equals(Client.PASS)) {
+				String[] moveCoordinates = moveMade.split(General.DELIMITER2);
+				int moveX = Integer.parseInt(moveCoordinates[0]);
+				int moveY = Integer.parseInt(moveCoordinates[1]);
+				if (numberOfMoves % 2 == 1 && numberOfMoves != 1) {
+					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
+							previousBoard, nextBoard); 
+				} else if (numberOfMoves % 2 == 0) {
+					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
+							previousBoard, nextBoard); 
+				} else if (numberOfMoves == 1) {
+					isValidMove = true;
 				}
-				nextBoard = board; 
-				notifyAll();
+				if (isValidMove) {
+					this.move = moveMade;
+					previousBoard = board;
+					if (numberOfMoves % 2 == 1) {
+						board.setStone(moveX, moveY, StoneColor.BLACK);
+					} else {
+						board.setStone(moveX, moveY, StoneColor.WHITE);
+					}
+					nextBoard = board; 
+					notifyAll();
+				} else {
+					System.out.println("Invalid move found in Go server");
+				}
 			} else {
-				System.out.println("Invalid move found in Go server");
+				this.move = moveMade;
+				if (move.equals(previousMove)) {
+					calculateWinner();
+				} else {
+					notifyAll();
+				}
 			}
-		} else {
-			this.move = moveMade;
-			if (move.equals(previousMove)) {
-				calculateWinner();
-			} else {
-				notifyAll();
-			}
+			this.previousMove = moveMade;
 		}
-		this.previousMove = moveMade;
 	}
 	
 	/**
