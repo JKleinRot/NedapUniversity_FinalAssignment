@@ -87,6 +87,7 @@ public class GoClient extends Observable implements Runnable {
 					goClientActor.showConnectionConfirmed(words);
 				} else if (words.length == 3 && words[0].equals(Server.ERROR) && words[1].equals(Server.NAMETAKEN)) {
 					goClientActor.handleNameError();
+					socket = null;
 					isConnected = false;
 					readMessage();
 				} else if (words.length == 2 && words[0].equals(Server.START)) {
