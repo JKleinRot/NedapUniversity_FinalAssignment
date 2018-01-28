@@ -36,6 +36,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The board size. */
 	private String boardSize;
 	
+	/** The board size. */
+	private int boardSizeInt;
+	
 	/** The stone color represented in a string. */
 	private String stoneColorString;
 	
@@ -164,6 +167,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			if (stoneColorString.equals("white")) {
 				stoneColor = StoneColor.WHITE;
 				try {
+					boardSizeInt = Integer.parseInt(boardSize);
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					setChanged();
@@ -175,6 +179,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			} else if (stoneColorString.equals("black")) {
 				stoneColor = StoneColor.BLACK;
 				try {
+					boardSizeInt = Integer.parseInt(boardSize);
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					setChanged();
