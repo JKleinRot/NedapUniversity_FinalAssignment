@@ -94,6 +94,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	
 	@Override
 	public void makeMove(String move) {
+		board.getGoGUI().removeHintIdicator();
 		if (!move.equals(Client.PASS)) {
 			String[] moveCoordinates = move.split(General.DELIMITER2);
 			if (moveCoordinates.length != 2) {
@@ -138,5 +139,17 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	
 	public abstract void determineMove();
 	
+	@Override 
+	public void provideHint() {
+		for (int x = 0; x < getBoard().getSize(); x++) {
+			for (int y = 0; y < getBoard().getSize(); y++) {
+				if (!getBoard().getIntersection(new Position(x, y)).isOccupied()) {
+					board.getGoGUI().addHintIndicator(x, y);
+					return;
+				}
+			}
+			
+		}
+	}
 
 }

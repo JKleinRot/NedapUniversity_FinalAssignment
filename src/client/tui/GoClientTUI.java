@@ -66,6 +66,9 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
 				move = words[1];
 				goClientActor.getPlayer().makeMove(words[1]);
+			} else if (words.length == 1 && words[0].equals("HINT")) {
+				goClientActor.getPlayer().provideHint();
+				goClientActor.getPlayer().determineMove();
 			} else if (words.length == 1 && words[0].equals("HELP")) {
 				System.out.println(String.format("%-120s" + "%-30s", "Action", "Command"));
 				System.out.println(String.format("%-120s" + "%-30s", 
@@ -81,6 +84,8 @@ public class GoClientTUI implements Observer, Runnable {
 						"Make a move by placing a stone at a coordinate of the board or pass "
 						+ "(0, 0 is top left intersection)", 
 						"MOVE <row_column> or MOVE PASS"));
+				System.out.println(String.format("%-120s" + "%-30s", 
+						"Ask for a hint", "HINT"));
 				System.out.println(String.format("%-120s" + "%-30s", "Set a new name if the name "
 						+ "is already taken at the Go server", "NAME <Name>"));
 				System.out.println(name + ": Waiting for command... ");

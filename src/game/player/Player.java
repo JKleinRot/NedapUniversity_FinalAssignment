@@ -42,5 +42,11 @@ public interface Player {
 	 * Determine the next move.
 	 */
 	public void determineMove();
+	
+	/** 
+	 * Show the player a hint.
+	 */
+	public void provideHint();
+	
 
 }

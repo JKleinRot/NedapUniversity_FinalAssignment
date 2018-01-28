@@ -600,4 +600,8 @@ public class Board {
 			}
 		}
 	}
+	
+	public GoGUIIntegrator getGoGUI() {
+		return goGUI;
+	}
 }
