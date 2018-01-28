@@ -190,11 +190,13 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": Waiting on move...");
 		} else if (object.equals("The game is finished")) {
 			System.out.println(name + stoneColor + ": The game is finised");
-		} else if (((String) object).contains(name)) {
-			System.out.println(object);
+		} else if (((String) object).contains("won")) {
+			System.out.println(name + ": " + object);
 		} else if (object.equals("Invalid move server")) {
 			System.out.println("ERROR: Not a valid move (Checked by Go server)");
 			System.out.println(name + stoneColor + ": Waiting on move...");
+		} else if (((String) object).contains("draw")) {
+			System.out.println(name + ": " + object);
 		}
 		
 	}

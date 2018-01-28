@@ -255,8 +255,13 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		if (reason.equals(Server.FINISHED)) {
 			setChanged();
 			notifyObservers("The game is finished");
-			setChanged();
-			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+			if (!winningScore.equals(losingScore)) {
+				setChanged();
+				notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+			} else {
+				setChanged();
+				notifyObservers("The game ended in a draw with " + winningScore + " points each for " + winningPlayer + " and " + losingPlayer);
+			}
 		}
 		
 	}
