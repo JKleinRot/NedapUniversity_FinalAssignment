@@ -143,7 +143,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		if (playerType.isEmpty() && goClient.getSocket() != null && 
 				(goPlayerType.equals("human") || goPlayerType.equals("computer"))) {
 			this.playerType = goPlayerType;
-			goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 + 
+			goClient.sendMessage(Client.REQUESTGAME + General.DELIMITER1 + 2 +
 					General.DELIMITER1 + Client.RANDOM + General.COMMAND_END);
 			setChanged();
 			notifyObservers("Game requested " + playerType);
@@ -286,5 +286,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		playerType = "";
 		player.getBoard().clear();
 		gamesPlayed++;
+	}
+	
+	@Override
+	public void handleUnknownCommand() {
+		setChanged();
+		notifyObservers("Unknown command");
 	}
 }

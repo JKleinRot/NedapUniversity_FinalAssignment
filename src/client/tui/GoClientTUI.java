@@ -207,6 +207,9 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Other move made")) {
 			System.out.println(name + stoneColor + ": Opponent made a move");
+		} else if (object.equals("Unknown command")) {
+			System.out.println(name + ": Unknown command given to Go server");
+			System.out.println(name + ": Waiting on command...");
 		}
 		
 	}

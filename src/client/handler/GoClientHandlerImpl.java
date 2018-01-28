@@ -11,6 +11,7 @@ import client.GoClientState;
 import client.GoClientStateListener;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
+import protocol.Protocol.Server;
 import server.GoServer;
 
 /**
@@ -100,6 +101,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 							words[2]);
 				} else if (words.length == 2 && words[0].equals(Client.MOVE)) {
 					goClientHandlerActor.confirmMove(words[1], this);
+				} else {
+					sendMessage(Server.ERROR + General.DELIMITER1 + Server.UNKNOWN + General.DELIMITER1 + "Command not known by Go server" + General.COMMAND_END);
 				}
 			}
 		} catch (IOException e) {

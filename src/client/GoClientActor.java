@@ -98,6 +98,11 @@ public interface GoClientActor {
 	public void handleInvalidMove();
 	
 	/**
+	 * Handle unknown command given to Go server.
+	 */
+	public void handleUnknownCommand();
+	
+	/**
 	 * Handles the end of a game.
 	 * @param reason
 	 * 			The reason for the game to end.
