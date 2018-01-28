@@ -601,7 +601,21 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Return the GoGUI.
+	 * @return
+	 * 			The GoGUI.
+	 */
 	public GoGUIIntegrator getGoGUI() {
 		return goGUI;
+	}
+	
+	public void clear() {
+		for (Intersection[] intersections: intersections) {
+			for (Intersection intersection : intersections) {
+				intersection.removeStone();
+			}
+		}
+		goGUI.clearBoard();
 	}
 }
