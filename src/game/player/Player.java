@@ -23,6 +23,13 @@ public interface Player {
 	public void setBoard(String boardSize);
 	
 	/**
+	 * Adjust the current board to the provided size.
+	 * @param boardSize
+	 * 			The board size.
+	 */
+	public void adjustBoard(String boardSize);
+	
+	/**
 	 * Make a move if the move is valid.
 	 * @param move
 	 * 			The move.

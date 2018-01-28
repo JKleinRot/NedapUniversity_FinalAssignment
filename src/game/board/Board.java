@@ -79,10 +79,31 @@ public class Board {
 		}
 		if (isGoGUI) {
 			goGUI = new GoGUIIntegrator(false, true, size);
+		}
+	}
+	
+	/** 
+	 * Start a GoGUI.
+	 */
+	public void startGoGUI() {
+		if (isGoGUI) {
 			goGUI.startGUI();
 		}
 	}
 	
+	/**
+	 * Sets the size of the new board.
+	 * @param size
+	 * 			The new board size.
+	 */
+	public void setSize(int size) {
+		intersections = new Intersection[size][size];
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				intersections[x][y] = new Intersection(new Position(x, y));
+			}
+		}
+	}
 	/**
 	 * Return the intersection at the provided position.
 	 * @param position

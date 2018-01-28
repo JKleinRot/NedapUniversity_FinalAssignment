@@ -40,6 +40,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	public AbstractPlayer(String name, StoneColor color) {
 		this.name = name;
 		this.stoneColor = color;
+		moveChecker = new MoveCheckerImpl();
 	}
 	
 	public Board getBoard() {
@@ -54,11 +55,18 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		return stoneColor;
 	}
 	
+	@Override
 	public void setBoard(String boardSize) {
 		board = new Board(Integer.parseInt(boardSize), true);
+		board.startGoGUI();
 		previousBoard = board;
 		nextBoard = board;
-		moveChecker = new MoveCheckerImpl();
+	}
+	
+	@Override
+	public void adjustBoard(String boardSize) {
+		board = new Board(Integer.parseInt(boardSize), true);
+		board.getGoGUI().setBoardSize(Integer.parseInt(boardSize));
 	}
 	
 	@Override

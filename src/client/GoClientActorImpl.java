@@ -51,7 +51,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The player. */
 	private Player player;
 	
+	/** The name of the opponent. */
 	private String opponentName;
+	
+	/** The number of games played. */
+	private int gamesPlayed;
 	
 	/**
 	 * Creates a new Go client actor.
@@ -62,6 +66,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		playerType = "";
 		boardSize = "";
 		stoneColorString = "";
+		gamesPlayed = 0;
 	}
 	
 	@Override
@@ -212,7 +217,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			} else {
 				player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
 			}
-			player.setBoard(boardSize);
+			if (gamesPlayed == 0) {
+				player.setBoard(boardSize);
+			} else {
+				player.adjustBoard(boardSize);
+			}
 		} else {
 			stoneColor = stoneColor.BLACK;
 			if (playerType.equals("human")) {
@@ -220,7 +229,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			} else {
 				player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
 			}
-			player.setBoard(boardSize);
+			if (gamesPlayed == 0) {
+				player.setBoard(boardSize);
+			} else {
+				player.adjustBoard(boardSize);
+			}
 		}
 		if (playerName.toUpperCase().equals(goClient.getName().toUpperCase())) {
 			opponentName = otherPlayerName.toUpperCase();
@@ -265,5 +278,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		}
 		playerType = "";
 		player.getBoard().clear();
+		gamesPlayed++;
 	}
 }
