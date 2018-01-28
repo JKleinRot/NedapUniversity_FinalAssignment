@@ -57,6 +57,8 @@ public class GoClientTUI implements Observer, Runnable {
 			String[] words = input.split(" ");
 			if (words.length == 3 && words[0].equals("CONNECT")) {
 				goClientActor.connect(words[1], words[2]);
+			} else if (words.length == 2 && words[0].equals("NAME")) {
+				goClientActor.changeName(words[1]);
 			} else if (words.length == 2 && words[0].equals("REQUEST_GAME")) {
 				goClientActor.requestGame(words[1]);
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
@@ -79,6 +81,8 @@ public class GoClientTUI implements Observer, Runnable {
 						"Make a move by placing a stone at a coordinate of the board or pass "
 						+ "(0, 0 is top left intersection)", 
 						"MOVE <row_column> or MOVE PASS"));
+				System.out.println(String.format("%-120s" + "%-30s", "Set a new name if the name "
+						+ "is already taken at the Go server", "NAME <Name>"));
 				System.out.println(name + ": Waiting for command... ");
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
 				running = false;
@@ -113,6 +117,13 @@ public class GoClientTUI implements Observer, Runnable {
 		if (object.equals("Connected")) {
 			System.out.println(name + ": Connected to Go server");
 			System.out.println(name + ": Waiting for command...");
+		} else if (object.equals("Name error")) {
+			System.out.println(name + ": Name is already taken");
+			System.out.println(name + ": Waiting on new name...");
+		} else if (object.equals("Name changed")) {
+			name = goClientActor.getName().toUpperCase();
+			System.out.println(name + ": Name is changed");
+			System.out.println(name + ": Waiting on command...");
 		} else if (object.equals("Already connected")) {
 			System.out.println("ERROR: Already connected to Go server");
 			System.out.println(name + ": Waiting for command...");

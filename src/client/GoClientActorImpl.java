@@ -102,9 +102,23 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 
 	@Override
+	public void changeName(String name) {
+		goClient.setSocket(null);
+		goClient.changeName(name);
+		setChanged();
+		notifyObservers("Name changed");
+	}
+	
+	@Override
 	public void showConnectionConfirmed(String[] words) {
 		setChanged();
 		notifyObservers("Connected");
+	}
+	
+	@Override
+	public void handleNameError() {
+		setChanged();
+		notifyObservers("Name error");
 	}
 	
 	@Override
@@ -152,12 +166,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
-//					if (playerType.equals("human")) {
-//						player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
-//					} else {
-//						player = new ComputerPlayer(goClient.getName(), StoneColor.WHITE);
-//					}
-//					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set white");
 				} catch (NumberFormatException e) {
@@ -169,12 +177,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				try {
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
-//					if (playerType.equals("human")) {
-//						player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
-//					} else {
-//						player = new ComputerPlayer(goClient.getName(), StoneColor.BLACK);
-//					}
-//					player.setBoard(boardSize);
 					setChanged();
 					notifyObservers("Game settings set black");
 				} catch (NumberFormatException e) {

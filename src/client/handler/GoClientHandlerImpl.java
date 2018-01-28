@@ -11,12 +11,16 @@ import client.GoClientState;
 import client.GoClientStateListener;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
+import server.GoServer;
 
 /**
  * A client handler for the communication between the server and the clients.
  * @author janine.kleinrot
  */
 public class GoClientHandlerImpl implements GoClientHandler {
+	
+	/** The Go server. */
+	private GoServer goServer; 
 	
 	/** Reader to read from input stream. */
 	private BufferedReader in;
@@ -54,7 +58,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	 * @param gameManager
 	 * 			The gameManager of the GoServer.
 	 */
-	public GoClientHandlerImpl(Socket socket, GoClientStateListener gameManager) {
+	public GoClientHandlerImpl(Socket socket, GoClientStateListener gameManager, GoServer goServer) {
+		this.goServer = goServer;
 		this.name = "Go Server";
 		goClientHandlerActor = new GoClientHandlerActorImpl(this, gameManager);
 		goClientState = GoClientState.UNCONNECTED;
@@ -141,5 +146,10 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	@Override
 	public GoClientHandlerActor getGoClientHandlerActor() {
 		return goClientHandlerActor;
+	}
+	
+	@Override
+	public GoServer getGoServer() {
+		return goServer;
 	}
 }

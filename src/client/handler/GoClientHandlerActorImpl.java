@@ -24,6 +24,9 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	/** The game. */
 	private Game game;
 	
+	/** Whether the name of the GoClient is valid. */
+	private boolean isNameValid;
+	
 	/**
 	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
 	 * @param goClientHandler
@@ -38,15 +41,20 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void confirmConnection(String[] words, String name) {
 		goClientName = words[1].toUpperCase();
-		System.out.println("GO SERVER: Client " + goClientName + " connected");
-		goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
-				Server.VERSION + General.DELIMITER1 +  Server.VERSIONNO + 
-				General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
-				General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 
-				0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
-				General.DELIMITER1 + 0 + General.COMMAND_END);
-		setGoClientState(GoClientState.CONNECTED);
-		System.out.println("GO SERVER: Waiting for clients to connect...");
+		isNameValid = goClientHandler.getGoServer().addGoClientHandler(goClientHandler);
+		if (isNameValid) {
+			System.out.println("GO SERVER: Client " + goClientName + " connected");
+			goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
+					Server.VERSION + General.DELIMITER1 +  Server.VERSIONNO + 
+					General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
+					General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 
+					0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
+					General.DELIMITER1 + 0 + General.COMMAND_END);
+			setGoClientState(GoClientState.CONNECTED);
+			System.out.println("GO SERVER: Waiting for clients to connect...");
+		} else {
+			goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.NAMETAKEN + General.DELIMITER1 + "The name " + goClientName.toUpperCase() + " is already taken" + General.COMMAND_END);
+		}
 	}
 	
 	@Override

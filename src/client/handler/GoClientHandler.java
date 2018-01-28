@@ -1,6 +1,7 @@
 package client.handler;
 
 import client.GoClientState;
+import server.GoServer;
 
 /**
  * A client handler for the communication between the server and the clients.
@@ -71,4 +72,11 @@ public interface GoClientHandler extends Runnable {
 	 * 			The GoClientHandlerActor.
 	 */
 	public GoClientHandlerActor getGoClientHandlerActor();
+	
+	/**
+	 * Get the GoServer.
+	 * @return
+	 * 			The GoServer.
+	 */
+	public GoServer getGoServer();
 }

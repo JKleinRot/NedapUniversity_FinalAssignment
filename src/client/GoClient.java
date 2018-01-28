@@ -85,6 +85,10 @@ public class GoClient extends Observable implements Runnable {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12 && words[0].equals(Server.NAME)) {
 					goClientActor.showConnectionConfirmed(words);
+				} else if (words.length == 3 && words[0].equals(Server.ERROR) && words[1].equals(Server.NAMETAKEN)) {
+					goClientActor.handleNameError();
+					isConnected = false;
+					readMessage();
 				} else if (words.length == 2 && words[0].equals(Server.START)) {
 					goClientActor.getGameSettings();
 				} else if (words.length == 6 && words[0].equals(Server.START)) {
@@ -167,6 +171,15 @@ public class GoClient extends Observable implements Runnable {
 	public synchronized void setIsConnected() {
 		isConnected = true;
 		notifyAll();
+	}
+	
+	/**
+	 * Change the name of the GoClient.
+	 * @param name
+	 * 			The new name.
+	 */
+	public void changeName(String name) {
+		this.name = name;
 	}
 	
 	/** 

@@ -34,6 +34,19 @@ public interface GoClientActor {
 	public void showConnectionConfirmed(String[] words);
 	
 	/**
+	 * Ask the GoClient for a new name.
+	 */
+	public void handleNameError();
+	
+	
+	/**
+	 * Change the name to the provided name.
+	 * @param name
+	 * 			The new name.
+	 */
+	public void changeName(String name);
+	
+	/**
 	 * Notifies GoClientTUI that the client is already connected.
 	 */
 	public void alreadyConnected();

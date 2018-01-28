@@ -58,10 +58,9 @@ public class GoServer {
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket, gameManager);
+				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket, gameManager, this);
 				Thread goClientHandlerThread = new Thread(goClientHandler);
 				goClientHandlerThread.start();
-				this.addGoClientHandler(goClientHandler);
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: not a valid port number");
@@ -78,12 +77,20 @@ public class GoServer {
 	}
 	
 	/**
-	 * Adds the goClientHandler to the list of client h1andlers.
+	 * Adds the goClientHandler to the list of client handlers.
 	 * @param goClientHandler
 	 * 			The added client handler.
+	 * @return 
+	 * 			True if no GoClient tried to connect with this name and false otherwise.
 	 */
-	public void addGoClientHandler(GoClientHandler goClientHandler) {
+	public boolean addGoClientHandler(GoClientHandler goClientHandler) {
+		for (GoClientHandler connectedGoClientHandler : goClientHandlers) {
+			if (connectedGoClientHandler.getGoClientName().toUpperCase().equals(goClientHandler.getGoClientName().toUpperCase())) {
+				return false;
+			}
+		}
 		goClientHandlers.add(goClientHandler);
+		return true;
 	}
 	
 	/**
