@@ -67,6 +67,13 @@ public class Protocol {
 		 * Voorbeeld: QUIT
 		 */
 		public static final String QUIT = "QUIT";
+		
+		/**
+		 * Als je helemaal uit de server wilt stoppen. Wordt niet gestuurd als client abrupt 
+		 * afgesloten wordt.<br>
+		 * Format: EXIT<br>
+		 * Voorbeeld: EXIT
+		 */
 		public static final String EXIT = "EXIT";
 		
 		/**
