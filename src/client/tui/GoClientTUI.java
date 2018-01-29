@@ -235,11 +235,13 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Invalid move time")) {
 			System.out.println("ERROR: Invalid move time argument");
 			System.out.println(name + ": Waiting on command...");
-		} else if (object.equals("The game is aborted")) {
-			System.out.println(name + stoneColor + ": The game is aborted");
+		} else if (((String) object).contains("The game is aborted")) {
+			System.out.println("ERROR: " + object);
 		} else if (((String) object).contains("aborted the game")) {
-			System.out.println(name + ": " + object);
-		}
+			System.out.println("ERROR: " + object);
+		} else if (((String) object).contains("in time")) {
+			System.out.println("ERROR: " + object);
+		} 
 		
 	}
 	

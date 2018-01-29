@@ -7,8 +7,6 @@ import client.GoClientState;
 import client.GoClientStateListener;
 import client.handler.GoClientHandler;
 import game.board.Board;
-import game.board.Intersection;
-import game.board.Position;
 import game.board.stone.StoneColor;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
@@ -170,6 +168,42 @@ public class GameImpl implements Game {
 		}
 	}
 	
+	private void calculateWinnerTimeoutGame(GoClientHandler goClientHandler) {
+		board.calculateWinner();
+		blackScore = board.getBlackScore();
+		whiteScore = board.getWhiteScore();
+		if (goClientHandler.equals(firstGoClientHandler)) {
+			blackScore = 0;
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.TIMEOUT + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.TIMEOUT + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+		} else if (goClientHandler.equals(secondGoClientHandler)) {
+			whiteScore = 0;
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.TIMEOUT + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.TIMEOUT + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+		}
+		firstGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(firstGoClientHandler, GoClientState.CONNECTED);
+		secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
+		isGameOver = true;
+	}
+
 	/**
 	 * Calculates the winner after both players passed in adjacent moves.
 	 */

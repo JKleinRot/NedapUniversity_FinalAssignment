@@ -289,9 +289,14 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			}
 		} else if (reason.equals(Server.ABORTED)) {
 			setChanged();
-			notifyObservers("The game is aborted");
+			notifyObservers("The game is aborted by " + losingPlayer);
 			setChanged();
-			notifyObservers(losingPlayer + " aborted the game and " + winningPlayer + " has gained " + winningScore);
+			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+		} else if (reason.equals(Server.TIMEOUT)) {
+			setChanged();
+			notifyObservers("No move was made in time by " + losingPlayer);
+			setChanged();
+			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
 		}
 		playerType = "";
 		player.getBoard().clear();
