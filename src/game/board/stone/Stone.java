@@ -16,13 +16,14 @@ public class Stone {
 	private int initialLiberties;
 	
 	/** 
-	 * Creates a stone with the provided color.
+	 * Create a stone with the provided color.
 	 * @param color
 	 * 			The color of the stone.
 	 */
 	public Stone(StoneColor color) {
 		this.color = color;
 		liberties = 4;
+		initialLiberties = 4;
 	}
 	
 	/** 
@@ -51,12 +52,12 @@ public class Stone {
 	}
 	
 	/**
-	 * Set the amount of initial liberties
+	 * Set the amount of initial liberties.
 	 * @param liberties
 	 * 			The initial amount of liberties.
 	 */
-	public void setInitialLiberties(int liberties) {
-		initialLiberties = liberties;
+	public void setInitialLiberties(int initialLiberties) {
+		this.initialLiberties = initialLiberties;
 	}
 	
 	/**
@@ -68,6 +69,11 @@ public class Stone {
 		return initialLiberties;
 	}
 
+	/**
+	 * Create a copy of the stone.
+	 * @return
+	 * 			The copy of the stone.
+	 */
 	public Stone copy() {
 		Stone copy = new Stone(color);
 		copy.liberties = liberties;

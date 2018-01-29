@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public class StoneColorTest {
 	
 	/** 
-	 * Tests that StoneColor.WHITE and StoneColor.BLACK are present in StoneColor. 
+	 * Test that StoneColor.WHITE and StoneColor.BLACK are present in StoneColor. 
 	 */
 	@Test
 	public void testPossibleValues() {
@@ -23,7 +23,7 @@ public class StoneColorTest {
 	}
 	
 	/**
-	 * Tests that StoneColor.other() returns the opposite stonecolor.
+	 * Test that StoneColor.other() returns the opposite stonecolor.
 	 */
 	@Test
 	public void testOther() {
