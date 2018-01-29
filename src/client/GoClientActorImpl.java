@@ -60,6 +60,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The GoGUI. */
 	private GoGUIIntegrator goGUI;
 	
+	/** Whether the GoClient is connected. */
+	private boolean isConnected;
+	
 	/**
 	 * Creates a new Go client actor.
 	 */
@@ -70,6 +73,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		boardSize = "";
 		stoneColorString = "";
 		gamesPlayed = 0;
+		isConnected = false;
 	}
 	
 	@Override
@@ -89,6 +93,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 						General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
 						General.DELIMITER1 + 0 + General.COMMAND_END);
 				goClient.setIsConnected();
+				isConnected = true;
 			} else {
 				alreadyConnected();
 			}
@@ -301,11 +306,15 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 
 	@Override
 	public void exit() {
-		goClient.sendMessage("");
+		if (isConnected) {
+			goClient.sendMessage("");
+		}
 	}
 	
 	@Override
 	public void quitGame() {
-		goClient.sendMessage(Client.QUIT + General.COMMAND_END);
+		if (isConnected) {
+			goClient.sendMessage(Client.QUIT + General.COMMAND_END);
+		}
 	}
 }
