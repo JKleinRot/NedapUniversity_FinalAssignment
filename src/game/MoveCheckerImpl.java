@@ -47,7 +47,7 @@ public class MoveCheckerImpl implements MoveChecker {
 		if (checkMessage.contains("Occupied")) {
 			return false;
 		}
-//		checkMessage = checkMessage.concat(checkKoRule(moveX, moveY));
+		checkMessage = checkMessage.concat(checkKoRule(moveX, moveY));
 		if (checkMessage.contains("Ko")) {
 			return false;
 		} else {
@@ -109,9 +109,11 @@ public class MoveCheckerImpl implements MoveChecker {
 					if (previousBoard.getIntersection(new Position(x, y)).getStone().getColor().equals(
 							nextBoard.getIntersection(new Position(x, y)).getStone().getColor())) {
 						equalsCount++;
-					} else if (!previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
-						equalsCount++;
-					}
+					} 
+				} else if (previousBoard.getIntersection(new Position(x, y)).isOccupied() == 
+						nextBoard.getIntersection(new Position(x, y)).isOccupied() && 
+						!previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
+					equalsCount++;
 				}
 			}
 		}

@@ -79,8 +79,8 @@ public class GameImpl implements Game {
 		this.firstGoClientHandler.getGoClientHandlerActor().setGame(this);
 		this.secondGoClientHandler.getGoClientHandlerActor().setGame(this);
 		board = new Board(Integer.parseInt(firstGoClientHandler.getBoardSize()), false);
-		previousBoard = board;
-		nextBoard = board;
+		previousBoard = board.copy();
+		nextBoard = board.copy();
 		isGameOver = false;
 		isMoveMade = false;
 		numberOfMoves = 0;
@@ -145,13 +145,13 @@ public class GameImpl implements Game {
 				}
 				if (isValidMove) {
 					this.move = moveMade;
-					previousBoard = board;
+					previousBoard = board.copy();
 					if (numberOfMoves % 2 == 1) {
 						board.setStone(moveX, moveY, StoneColor.BLACK);
 					} else {
 						board.setStone(moveX, moveY, StoneColor.WHITE);
 					}
-					nextBoard = board; 
+					nextBoard = board.copy(); 
 					notifyAll();
 				} else {
 					goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);

@@ -36,6 +36,13 @@ public class Intersection {
 		this.position = position;
 	}
 	
+	public Intersection copy() {
+		Intersection copy = new Intersection(position);
+		copy.isOccupied = isOccupied;
+		copy.stone = stone == null ? null : stone.copy();
+		return copy;
+	}
+	
 	/** 
 	 * Put a stone at the intersection with the provided color. 
 	 * @param color

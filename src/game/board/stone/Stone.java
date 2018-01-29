@@ -67,4 +67,11 @@ public class Stone {
 	public int getInitialLiberties() {
 		return initialLiberties;
 	}
+
+	public Stone copy() {
+		Stone copy = new Stone(color);
+		copy.liberties = liberties;
+		copy.initialLiberties = initialLiberties;
+		return copy;
+	}
 }

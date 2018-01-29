@@ -79,6 +79,43 @@ public class Board {
 		}
 	}
 	
+	public Board copy() {
+		Board copy = new Board(size, false);
+		copy.intersections = copyIntersections();
+		copy.intersectionGroups = copyIntersectionGroups();
+		copy.emptyIntersectionGroups = copyEmptyIntersectionGroups();
+		copy.color = color;
+		copy.blackScore = blackScore;
+		copy.whiteScore = whiteScore;
+		return copy;
+	}
+	
+	private List<IntersectionGroup> copyEmptyIntersectionGroups() {
+		List<IntersectionGroup> copy = new ArrayList<IntersectionGroup>();
+		for (IntersectionGroup emptyIntersectionGroup : emptyIntersectionGroups) {
+			copy.add(emptyIntersectionGroup.copy());
+		}
+		return copy;
+	}
+
+	private List<IntersectionGroup> copyIntersectionGroups() {
+		List<IntersectionGroup> copy = new ArrayList<IntersectionGroup>();
+		for (IntersectionGroup intersectionGroup : intersectionGroups) {
+			copy.add(intersectionGroup.copy());
+		}
+		return copy;
+	}
+
+	private Intersection[][] copyIntersections() {
+		Intersection[][] copy = new Intersection[size][size];
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				copy[x][y] = intersections[x][y].copy();
+			}
+		}
+		return copy;
+	}
+
 	/** 
 	 * Start a GoGUI.
 	 */

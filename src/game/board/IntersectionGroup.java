@@ -60,4 +60,14 @@ public class IntersectionGroup {
 	public List<Intersection> getIntersections() {
 		return new ArrayList<Intersection>(intersections);
 	}
+
+	public IntersectionGroup copy() {
+		IntersectionGroup copy = new IntersectionGroup();
+		copy.liberties = liberties;
+		copy.intersections = new HashSet<Intersection>();
+		for (Intersection intersection : intersections) {
+			copy.intersections.add(intersection.copy());
+		}
+		return copy;
+	}
 }
