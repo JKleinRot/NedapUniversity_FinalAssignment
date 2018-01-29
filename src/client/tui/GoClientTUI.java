@@ -111,9 +111,10 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 1 && words[0].equals("QUIT")) {
 				goClientActor.quitGame();
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
+				System.out.println("Goodbye");
 				goClientActor.exit();
 				running = false;
-				System.out.println("Goodbye");
+				Thread.interrupted();
 			} else {
 				System.out.println("Unknown command. Enter 'HELP' for a list of commands");
 			}

@@ -126,4 +126,11 @@ public interface GoClientActor {
 	 * Quit a currently running game.
 	 */
 	public void quitGame();
+	
+	/**
+	 * Return the GoClient.
+	 * @return goClient
+	 * 			The goClient.
+	 */
+	public GoClient getGoClient();
 }

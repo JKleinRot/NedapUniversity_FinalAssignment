@@ -203,4 +203,9 @@ public class GoClient extends Observable implements Runnable {
 		goClientThread.start();
 	}
 
+	public void exit() {
+		Thread.interrupted();
+		System.exit(0);
+	}
+
 }

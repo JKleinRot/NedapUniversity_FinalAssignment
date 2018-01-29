@@ -289,4 +289,35 @@ public class GameImpl implements Game {
 		secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
 		gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
 	}
+
+	@Override
+	public void endGameExit(GoClientHandler goClientHandler) {
+		calculateWinnerExitGame(goClientHandler);
+		isGameOver = true;
+	}
+
+	private void calculateWinnerExitGame(GoClientHandler goClientHandler) {
+		board.calculateWinner();
+		blackScore = board.getBlackScore();
+		whiteScore = board.getWhiteScore();
+		if (goClientHandler.equals(firstGoClientHandler)) {
+			blackScore = 0;
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+			secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+			gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
+		} else if (goClientHandler.equals(secondGoClientHandler)) {
+			whiteScore = 0;
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+			firstGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+			gameManager.goClientStateChanged(firstGoClientHandler, GoClientState.CONNECTED);
+		}
+	}
 }

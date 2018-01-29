@@ -33,4 +33,11 @@ public interface Game extends Runnable {
 	 * 			The goClientHandler.
 	 */
 	public void endAbortedGame(GoClientHandler goClientHandler);
+
+	/**
+	 * End the game after a client exits the Go server.
+	 * @param goClientHandler
+	 * 			The goClientHandler.
+	 */
+	public void endGameExit(GoClientHandler goClientHandler);
 }

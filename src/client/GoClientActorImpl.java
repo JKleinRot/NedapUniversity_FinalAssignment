@@ -312,8 +312,9 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	@Override
 	public void exit() {
 		if (isConnected) {
-			goClient.sendMessage("");
+			goClient.sendMessage(Client.EXIT);
 		}
+		goClient.exit();
 	}
 	
 	@Override
@@ -321,5 +322,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		if (isConnected) {
 			goClient.sendMessage(Client.QUIT + General.COMMAND_END);
 		}
+	}
+	
+	@Override
+	public GoClient getGoClient() {
+		return goClient;
 	}
 }

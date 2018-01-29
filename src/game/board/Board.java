@@ -72,8 +72,8 @@ public class Board {
 			intersections = new Intersection[size][size];
 			this.size = size;
 		}
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
+		for (int x = 0; x < this.size; x++) {
+			for (int y = 0; y < this.size; y++) {
 				intersections[x][y] = new Intersection(new Position(x, y));
 			}
 		}

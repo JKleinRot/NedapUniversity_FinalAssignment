@@ -69,5 +69,10 @@ public interface GoClientHandlerActor {
 	 */
 	public void endAbortedGame();
 	
+	/**
+	 * End the connection with the Go server.
+	 */
+	public void endConnection();
+	
 }
 

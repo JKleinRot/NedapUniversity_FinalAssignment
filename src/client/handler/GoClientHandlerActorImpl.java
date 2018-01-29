@@ -123,5 +123,15 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			game.endAbortedGame(goClientHandler);
 		}
 	}
+	
+	@Override
+	public void endConnection() {
+		if (game != null) {
+			game.endGameExit(goClientHandler);
+		}
+		goClientHandler.setGoClientState(GoClientState.UNCONNECTED);
+		goClientHandler.getGoServer().removeGoClientHandler(goClientHandler);
+		Thread.interrupted();
+	}
 
 }

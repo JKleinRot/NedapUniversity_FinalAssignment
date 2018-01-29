@@ -100,6 +100,8 @@ public class GoServer {
 	 */
 	public void removeGoClientHandler(GoClientHandler goClientHandler) {
 		goClientHandlers.remove(goClientHandler);
+		System.out.println("GO SERVER: Client " + goClientHandler.getGoClientName() + " disconnected");
+		System.out.println("GO SERVER: Waiting for clients to connect...");
 	}
 	
 	/**

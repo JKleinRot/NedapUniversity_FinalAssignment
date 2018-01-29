@@ -67,6 +67,7 @@ public class Protocol {
 		 * Voorbeeld: QUIT
 		 */
 		public static final String QUIT = "QUIT";
+		public static final String EXIT = "EXIT";
 		
 		/**
 		 * Sturen als je een spel wilt spelen. De eerste keer en als een spel afgelopen is opnieuw.
