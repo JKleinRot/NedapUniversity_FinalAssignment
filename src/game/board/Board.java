@@ -289,6 +289,7 @@ public class Board {
 			if (otherColorCountAdjacent == adjacentIntersectionsOfAdjacentIntersection.size() && adjacentIntersection.getStone().getLiberties() == 0) {
 				removeStone(adjacentIntersection.getPosition());
 			} else {
+				List<IntersectionGroup> intersectionGroupsRemoved = new ArrayList<IntersectionGroup>();
 				for (IntersectionGroup intersectionGroup : intersectionGroups) {
 					if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
 						int zeroLibertiesCount = 0;
@@ -303,9 +304,13 @@ public class Board {
 							}
 							if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
 								removeStones(intersectionsPossiblyRemoved);
+								intersectionGroupsRemoved.add(intersectionGroup);
 							}
 						}
 					}
+				}
+				for (IntersectionGroup intersectionGroup : intersectionGroupsRemoved) {
+					intersectionGroups.remove(intersectionGroup);
 				}
 			}
 		}

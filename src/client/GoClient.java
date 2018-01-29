@@ -167,6 +167,7 @@ public class GoClient extends Observable implements Runnable {
 	 */
 	public String getName() {
 		return name;
+
 	}
 	
 	/**
