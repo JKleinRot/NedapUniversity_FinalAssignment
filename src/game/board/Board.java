@@ -160,6 +160,7 @@ public class Board {
 				intersections[x][y] = new Intersection(new Position(x, y));
 			}
 		}
+		this.size = size;
 	}
 	
 	/**
@@ -213,8 +214,7 @@ public class Board {
 				this.getIntersection(new Position(x, y)));
 		addSetStoneToGroup(adjacentIntersections, new Position(x, y));
 		checkForSuicideMove(adjacentIntersections, getIntersection(new Position(x, y)));
-		removesStonesWithZeroLiberties();
-		System.out.println("Size of adjacentStones list: " + adjacentIntersections.size());
+		removeStonesWithZeroLiberties();
 	}
 
 	/**
@@ -388,21 +388,21 @@ public class Board {
 						int zeroLibertiesCount = 0;
 						List<Intersection> intersectionsPossiblyRemoved = 
 								intersectionGroup.getIntersections();
-						if (!intersectionsPossiblyRemoved.isEmpty()) {
-							for (Intersection intersectionPossiblyRemoved : 
-								intersectionsPossiblyRemoved) {
-								if (intersectionPossiblyRemoved.getStone() != null) {
-									if (intersectionPossiblyRemoved.getStone().getLiberties() == 
-											0) {
-										zeroLibertiesCount++;
-									}
-								}
+//						if (!intersectionsPossiblyRemoved.isEmpty()) {
+						for (Intersection intersectionPossiblyRemoved : 
+							intersectionsPossiblyRemoved) {
+//								if (intersectionPossiblyRemoved.getStone() != null) {
+							if (intersectionPossiblyRemoved.getStone().getLiberties() == 
+									0) {
+								zeroLibertiesCount++;
 							}
-							if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
-								removeStones(intersectionsPossiblyRemoved);
-								intersectionGroupsRemoved.add(intersectionGroup);
-							}
+//								}
 						}
+						if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
+							removeStones(intersectionsPossiblyRemoved);
+							intersectionGroupsRemoved.add(intersectionGroup);
+						}
+//						}
 					}
 				}
 				for (IntersectionGroup intersectionGroup : intersectionGroupsRemoved) {
@@ -421,7 +421,7 @@ public class Board {
 	/** 
 	 * Loop through the board to remove stones with zero liberties.
 	 */
-	private void removesStonesWithZeroLiberties() {
+	private void removeStonesWithZeroLiberties() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				Position position = new Position(x, y);
@@ -457,20 +457,20 @@ public class Board {
 							int zeroLibertiesCount = 0;
 							List<Intersection> intersectionsPossiblyRemoved = 
 									intersectionGroupPossiblyRemoved.getIntersections();
-							if (!intersectionsPossiblyRemoved.isEmpty()) {
+//							if (!intersectionsPossiblyRemoved.isEmpty()) {
 								for (Intersection intersectionPossiblyRemoved : 
 									intersectionsPossiblyRemoved) {
-									if (intersectionPossiblyRemoved != null) {
+//									if (intersectionPossiblyRemoved != null) {
 										if (intersectionPossiblyRemoved.getStone()
 												.getLiberties() == 0) {
 											zeroLibertiesCount++;
 										}
-									}
+//									}
 								}
 								if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
 									removeStones(intersectionsPossiblyRemoved);
 								}
-							}
+//							}
 						}
 					}
 				}
@@ -744,6 +744,19 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Return the list of intersection groups.
+	 */
+	public List<IntersectionGroup> getIntersectionGroups() {
+		return intersectionGroups;
+	}
+	
+	/**
+	 * Return the list of empty intersection groups.
+	 */
+	public List<IntersectionGroup> getEmptyIntersectionGroups() {
+		return emptyIntersectionGroups;
+	}
 	/**
 	 * Return the GoGUI.
 	 * @return
