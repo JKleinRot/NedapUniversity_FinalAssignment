@@ -117,4 +117,11 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 		this.game = game;
 	}
 
+	@Override
+	public void endAbortedGame() {
+		if (game != null) {
+			game.endAbortedGame(goClientHandler);
+		}
+	}
+
 }

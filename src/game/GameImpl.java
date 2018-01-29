@@ -131,40 +131,42 @@ public class GameImpl implements Game {
 
 	@Override
 	public synchronized void confirmMove(String moveMade, GoClientHandler goClientHandler) {
-		if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler) || (numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler)))) {
-			if (!moveMade.equals(Client.PASS)) {
-				String[] moveCoordinates = moveMade.split(General.DELIMITER2);
-				int moveX = Integer.parseInt(moveCoordinates[0]);
-				int moveY = Integer.parseInt(moveCoordinates[1]);
-				if (numberOfMoves % 2 == 1) {
-					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
-							previousBoard, nextBoard); 
-				} else if (numberOfMoves % 2 == 0) {
-					isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
-							previousBoard, nextBoard); 
-				}
-				if (isValidMove) {
-					this.move = moveMade;
-					previousBoard = board.copy();
+		if (!isGameOver) {
+			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler) || (numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler)))) {
+				if (!moveMade.equals(Client.PASS)) {
+					String[] moveCoordinates = moveMade.split(General.DELIMITER2);
+					int moveX = Integer.parseInt(moveCoordinates[0]);
+					int moveY = Integer.parseInt(moveCoordinates[1]);
 					if (numberOfMoves % 2 == 1) {
-						board.setStone(moveX, moveY, StoneColor.BLACK);
-					} else {
-						board.setStone(moveX, moveY, StoneColor.WHITE);
+						isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
+								previousBoard, nextBoard); 
+					} else if (numberOfMoves % 2 == 0) {
+						isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
+								previousBoard, nextBoard); 
 					}
-					nextBoard = board.copy(); 
-					notifyAll();
+					if (isValidMove) {
+						this.move = moveMade;
+						previousBoard = board.copy();
+						if (numberOfMoves % 2 == 1) {
+							board.setStone(moveX, moveY, StoneColor.BLACK);
+						} else {
+							board.setStone(moveX, moveY, StoneColor.WHITE);
+						}
+						nextBoard = board.copy(); 
+						notifyAll();
+					} else {
+						goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
+					}
 				} else {
-					goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
+					this.move = moveMade;
+					if (move.equals(previousMove)) {
+						calculateWinner();
+					} else {
+						notifyAll();
+					}
 				}
-			} else {
-				this.move = moveMade;
-				if (move.equals(previousMove)) {
-					calculateWinner();
-				} else {
-					notifyAll();
-				}
+				this.previousMove = moveMade;
 			}
-			this.previousMove = moveMade;
 		}
 	}
 	
@@ -211,5 +213,46 @@ public class GameImpl implements Game {
 		goClientHandlers.add(firstGoClientHandler);
 		goClientHandlers.add(secondGoClientHandler);
 		return goClientHandlers;
+	}
+
+	@Override
+	public void endAbortedGame(GoClientHandler goClientHandler) {
+		calculateWinnerAbortedGame(goClientHandler);
+		isGameOver = true;
+	}
+
+	private void calculateWinnerAbortedGame(GoClientHandler goClientHandler) {
+		board.calculateWinner();
+		blackScore = board.getBlackScore();
+		whiteScore = board.getWhiteScore();
+		if (goClientHandler.equals(secondGoClientHandler)) {
+			whiteScore = 0;
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
+					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + whiteScore + General.COMMAND_END);
+		} else if (goClientHandler.equals(firstGoClientHandler)) {
+			blackScore = 0;
+			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
+					Server.ABORTED + General.DELIMITER1 + 
+					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
+					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
+					General.DELIMITER1 + blackScore + General.COMMAND_END);
+		}
+		firstGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(firstGoClientHandler, GoClientState.CONNECTED);
+		secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
+		gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
 	}
 }

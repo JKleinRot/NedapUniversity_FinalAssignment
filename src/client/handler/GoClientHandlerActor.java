@@ -64,6 +64,10 @@ public interface GoClientHandlerActor {
 	 */
 	public void setGame(Game game);
 	
+	/** 
+	 * End the game if one of the GoClients aborted the game.
+	 */
+	public void endAbortedGame();
 	
 }
 

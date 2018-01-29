@@ -3,6 +3,7 @@ package game;
 import java.util.List;
 
 import client.handler.GoClientHandler;
+import client.handler.GoClientHandlerActorImpl;
 
 /**
  * A game of Go.
@@ -25,4 +26,11 @@ public interface Game extends Runnable {
 	 * 			A list of GoClientHandlers.
 	 */
 	public List<GoClientHandler> getGoClientHandlers();
+
+	/**
+	 * End the game aborted by the goClientHandler.
+	 * @param goClientHandler
+	 * 			The goClientHandler.
+	 */
+	public void endAbortedGame(GoClientHandler goClientHandler);
 }

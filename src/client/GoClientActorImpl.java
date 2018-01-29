@@ -282,6 +282,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				setChanged();
 				notifyObservers("The game ended in a draw with " + winningScore + " points each for " + winningPlayer + " and " + losingPlayer);
 			}
+		} else if (reason.equals(Server.ABORTED)) {
+			setChanged();
+			notifyObservers("The game is aborted");
+			setChanged();
+			notifyObservers(losingPlayer + " aborted the game and " + winningPlayer + " has gained " + winningScore);
 		}
 		playerType = "";
 		player.getBoard().clear();
@@ -292,5 +297,15 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	public void handleUnknownCommand() {
 		setChanged();
 		notifyObservers("Unknown command");
+	}
+
+	@Override
+	public void exit() {
+		goClient.sendMessage("");
+	}
+	
+	@Override
+	public void quitGame() {
+		goClient.sendMessage(Client.QUIT + General.COMMAND_END);
 	}
 }

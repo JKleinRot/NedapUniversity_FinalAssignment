@@ -116,4 +116,14 @@ public interface GoClientActor {
 	 * 			The score of the losing player.
 	 */
 	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, String losingPlayer, String losingScore);
+
+	/** 
+	 * Exit the Go server.
+	 */
+	public void exit();
+	
+	/**
+	 * Quit a currently running game.
+	 */
+	public void quitGame();
 }

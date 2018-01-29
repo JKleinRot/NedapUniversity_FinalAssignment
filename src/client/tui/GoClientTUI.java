@@ -103,8 +103,15 @@ public class GoClientTUI implements Observer, Runnable {
 						"Ask for a hint", "HINT"));
 				System.out.println(String.format("%-120s" + "%-30s", "Set a new name if the name "
 						+ "is already taken at the Go server", "NAME <Name>"));
+				System.out.println(String.format("%-120s" + "%-30s", 
+						"Quit a current game", "QUIT"));
+				System.out.println(String.format("%-120s" + "%-30s", 
+						"Exit from the Go server", "EXIT"));
 				System.out.println(name + ": Waiting for command... ");
+			} else if (words.length == 1 && words[0].equals("QUIT")) {
+				goClientActor.quitGame();
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
+				goClientActor.exit();
 				running = false;
 				System.out.println("Goodbye");
 			} else {
@@ -228,6 +235,10 @@ public class GoClientTUI implements Observer, Runnable {
 		} else if (object.equals("Invalid move time")) {
 			System.out.println("ERROR: Invalid move time argument");
 			System.out.println(name + ": Waiting on command...");
+		} else if (object.equals("The game is aborted")) {
+			System.out.println(name + stoneColor + ": The game is aborted");
+		} else if (((String) object).contains("aborted the game")) {
+			System.out.println(name + ": " + object);
 		}
 		
 	}
