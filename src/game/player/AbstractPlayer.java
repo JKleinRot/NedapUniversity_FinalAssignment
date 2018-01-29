@@ -41,6 +41,9 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	/** The Go GUI. */
 	private GoGUIIntegrator goGUI;
 	
+	/** The move time. */
+	private int moveTime;
+	
 	/** 
 	 * Create a new abstract player.
 	 * @param name
@@ -52,6 +55,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		this.name = name;
 		this.stoneColor = color;
 		moveChecker = new MoveCheckerImpl();
+		moveTime = 5;
 	}
 	
 	public Board getBoard() {
@@ -176,6 +180,28 @@ public abstract class AbstractPlayer extends Observable implements Player {
 			}
 			
 		}
+	}
+	
+	@Override
+	public void setMoveTime(String moveTime) {
+		int requestedMoveTime;
+		try {
+			requestedMoveTime = Integer.parseInt(moveTime);
+			if (requestedMoveTime < 0) {
+				setChanged();
+				notifyObservers("Invalid move time");
+			} else {
+				this.moveTime = requestedMoveTime;
+			}
+		} catch (NumberFormatException e) {
+			setChanged();
+			notifyObservers("Invalid move time");
+		}
+		
+	}
+	
+	public int getMoveTime() {
+		return moveTime;
 	}
 
 }

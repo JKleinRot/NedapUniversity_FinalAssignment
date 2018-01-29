@@ -62,6 +62,12 @@ public interface Player {
 	 * Show the player a hint.
 	 */
 	public void provideHint();
-	
 
+	/**
+	 * Set the move time of the computer player.
+	 * @param moveTime
+	 * 			The move time.
+	 */
+	public void setMoveTime(String moveTime);
+	
 }

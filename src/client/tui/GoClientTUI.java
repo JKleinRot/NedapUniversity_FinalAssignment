@@ -5,6 +5,8 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import client.GoClientActor;
+import game.player.ComputerPlayer;
+import game.player.HumanPlayer;
 
 /**
  * A TUI for the client connected to a Go server.
@@ -61,6 +63,16 @@ public class GoClientTUI implements Observer, Runnable {
 				goClientActor.changeName(words[1]);
 			} else if (words.length == 2 && words[0].equals("REQUEST_GAME")) {
 				goClientActor.requestGame(words[1]);
+			} else if (words.length == 2 && words[0].equals("MOVE_TIME")) {
+				if (goClientActor.getPlayer() instanceof ComputerPlayer) {
+					goClientActor.getPlayer().setMoveTime(words[1]);
+				} else if (goClientActor.getPlayer() instanceof HumanPlayer) {
+					System.out.println("ERROR: Move time only avaible for computer player");
+					System.out.println(name + ": Waiting on command...");
+				} else {
+					System.out.println("ERROR: Computer player needed to set move time");
+					System.out.println(name + ": Waiting on command...");
+				}
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
@@ -77,6 +89,9 @@ public class GoClientTUI implements Observer, Runnable {
 				System.out.println(String.format("%-120s" + "%-30s", 
 						"Request to play a game yourself or let a computer play a game", 
 						"REQUEST_GAME <player type>"));
+				System.out.println(String.format("%-120s" + "%-30s", 
+						"Adjust the maximum move time of the computer player", 
+						"MOVE_TIME <move time in seconds>"));
 				System.out.println(String.format("%-120s" + "%-30s", 
 						"Choose settings for the requested game", 
 						"SETTINGS <stone color> <board size>"));
@@ -209,6 +224,9 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println(name + stoneColor + ": Opponent made a move");
 		} else if (object.equals("Unknown command")) {
 			System.out.println(name + ": Unknown command given to Go server");
+			System.out.println(name + ": Waiting on command...");
+		} else if (object.equals("Invalid move time")) {
+			System.out.println("ERROR: Invalid move time argument");
 			System.out.println(name + ": Waiting on command...");
 		}
 		
