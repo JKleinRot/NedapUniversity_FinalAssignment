@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import game.board.stone.StoneColor;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -17,8 +18,17 @@ public class StoneColorTest {
 	 */
 	@Test
 	public void testPossibleValues() {
-		assertNotNull(StoneColor.valueOf("WHITE"));
 		assertNotNull(StoneColor.valueOf("BLACK"));
+		assertNotNull(StoneColor.valueOf("WHITE"));
+	}
+	
+	/**
+	 * Tests that StoneColor.other() returns the opposite stonecolor.
+	 */
+	@Test
+	public void testOther() {
+		assertEquals(StoneColor.BLACK, StoneColor.WHITE.other());
+		assertEquals(StoneColor.WHITE, StoneColor.BLACK.other());
 	}
 	
 }
