@@ -185,8 +185,13 @@ public class GameImpl implements Game {
 	 */
 	private void calculateWinner() {
 		board.calculateWinner();
-		blackScore = board.getBlackScore();
-		whiteScore = board.getWhiteScore();
+		if (numberOfMoves == 2) {
+			blackScore = 0;
+			whiteScore = 0;
+		} else {
+			blackScore = board.getBlackScore();
+			whiteScore = board.getWhiteScore();
+		}
 		if (blackScore >= whiteScore) {
 			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
 					Server.FINISHED + General.DELIMITER1 + 
