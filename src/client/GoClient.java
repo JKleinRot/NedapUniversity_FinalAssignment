@@ -38,10 +38,10 @@ public class GoClient extends Observable implements Runnable {
 	private GoClientActor goClientActor;
 	
 	/**
-	 * Creates a new client with the provided name that can connect to the Go server.
-	 * Initializes and starts the TUI.
-	 * Adds the TUI as an observer.
-	 * Initializes isConnected to false;
+	 * Create a new client with the provided name that can connect to the Go server.
+	 * Initialize and start the TUI.
+	 * Add the TUI as an observer.
+	 * Initialize isConnected to false;
 	 * @param name
 	 * 			The name of the client.
 	 */
@@ -55,7 +55,7 @@ public class GoClient extends Observable implements Runnable {
 	}
 	
 	/**
-	 * Sends provided message over socket to GoClientHandler.
+	 * Send provided message over socket to GoClientHandler.
 	 * @param message
 	 * 			Message send.
 	 */
@@ -69,7 +69,7 @@ public class GoClient extends Observable implements Runnable {
 	}
 	
 	/**
-	 * Reads message over socket from GoClientHandler.
+	 * Read message over socket from GoClientHandler.
 	 */
 	public synchronized void readMessage() {
 		while (!isConnected) {
@@ -85,7 +85,8 @@ public class GoClient extends Observable implements Runnable {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12 && words[0].equals(Server.NAME)) {
 					goClientActor.showConnectionConfirmed(words);
-				} else if (words.length == 3 && words[0].equals(Server.ERROR) && words[1].equals(Server.NAMETAKEN)) {
+				} else if (words.length == 3 && words[0].equals(Server.ERROR) && 
+						words[1].equals(Server.NAMETAKEN)) {
 					goClientActor.handleNameError();
 					socket = null;
 					isConnected = false;
@@ -101,11 +102,13 @@ public class GoClient extends Observable implements Runnable {
 				} else if (words.length == 4 && words[0].equals(Server.TURN) 
 						&& !words[3].equals(name.toUpperCase())) {
 					goClientActor.getPlayer().processPreviousMove(words[2], words[1]);
-				} else if (words.length == 3 && words[0].equals(Server.ERROR) && words[1].equals(Server.INVALID)) {
+				} else if (words.length == 3 && words[0].equals(Server.ERROR) && 
+						words[1].equals(Server.INVALID)) {
 					goClientActor.handleInvalidMove();
 				} else if (words.length == 6 && words[0].equals(Server.ENDGAME)) {
 					goClientActor.handleEndOfGame(words[1], words[2], words[3], words[4], words[5]);
-				} else if (words.length == 3 && words[0].equals(Server.ERROR) && words[1].equals(Server.UNKNOWN)) {
+				} else if (words.length == 3 && words[0].equals(Server.ERROR) && 
+						words[1].equals(Server.UNKNOWN)) {
 					goClientActor.handleUnknownCommand();
 				}
 			}
@@ -120,7 +123,7 @@ public class GoClient extends Observable implements Runnable {
 	}
 	
 	/**
-	 * Runs continuously while the thread is running.
+	 * Run continuously while the thread is running.
 	 */
 	public void run() {
 		
@@ -174,7 +177,7 @@ public class GoClient extends Observable implements Runnable {
 	}
 	
 	/**
-	 * Notifies the GoClient that is is connected and can start the reading and writing 
+	 * Notify the GoClient that is is connected and can start the reading and writing 
 	 * with the GoServer.
 	 */
 	public synchronized void setIsConnected() {
@@ -187,12 +190,12 @@ public class GoClient extends Observable implements Runnable {
 	 * @param name
 	 * 			The new name.
 	 */
-	public void changeName(String name) {
-		this.name = name;
+	public void changeName(String clientName) {
+		this.name = clientName;
 	}
 	
 	/** 
-	 * Starts a new client with the provided name to connect to a Go server.
+	 * Start a new client with the provided name to connect to a Go server.
 	 * @param args
 	 * 			The name of the client.
 	 */
@@ -206,6 +209,9 @@ public class GoClient extends Observable implements Runnable {
 		goClientThread.start();
 	}
 
+	/**
+	 * Stops the GoClient.
+	 */
 	public void exit() {
 		Thread.interrupted();
 		System.exit(0);

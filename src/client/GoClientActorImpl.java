@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 
-import game.board.Board;
 import game.board.stone.StoneColor;
 import game.player.ComputerPlayer;
 import game.player.HumanPlayer;
@@ -22,7 +21,7 @@ import protocol.Protocol.General;
 import protocol.Protocol.Server;
 
 /**
- * Handles the actions required after input received from the GoClientHandler and GoClientTUI.
+ * Handle the actions required after input received from the GoClientHandler and GoClientTUI.
  * @author janine.kleinrot
  */
 public class GoClientActorImpl extends Observable implements GoClientActor {
@@ -36,14 +35,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	/** The board size. */
 	private String boardSize;
 	
-	/** The board size. */
-	private int boardSizeInt;
-	
 	/** The stone color represented in a string. */
 	private String stoneColorString;
-	
-	/** The stone color. */
-	private StoneColor stoneColor;
 	
 	/** Whether game settings are required yet. */
 	private boolean areGameSettingsRequested;
@@ -64,7 +57,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	private boolean isConnected;
 	
 	/**
-	 * Creates a new Go client actor.
+	 * Create a new Go client actor.
 	 */
 	public GoClientActorImpl(GoClient goClient) {
 		this.goClient = goClient;
@@ -178,9 +171,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			this.stoneColorString = goStoneColor;
 			this.boardSize = goBoardSize;
 			if (stoneColorString.equals("white")) {
-				stoneColor = StoneColor.WHITE;
 				try {
-					boardSizeInt = Integer.parseInt(boardSize);
+					Integer.parseInt(boardSize);
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.WHITE + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					setChanged();
@@ -190,9 +182,8 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					notifyObservers("Illegal board size");
 				}
 			} else if (stoneColorString.equals("black")) {
-				stoneColor = StoneColor.BLACK;
 				try {
-					boardSizeInt = Integer.parseInt(boardSize);
+					Integer.parseInt(boardSize);
 					goClient.sendMessage(Client.SETTINGS + General.DELIMITER1 + General.BLACK + 
 							General.DELIMITER1 + boardSize + General.COMMAND_END);
 					setChanged();
@@ -215,11 +206,11 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 
 	@Override
-	public void setReceivedGameSettings(String aStoneColor, String aBoardSize, String playerName, String otherPlayerName) {
+	public void setReceivedGameSettings(String aStoneColor, String aBoardSize, String playerName, 
+			String otherPlayerName) {
 		this.stoneColorString = aStoneColor;
 		this.boardSize = aBoardSize;
 		if (stoneColorString.equals(General.WHITE)) {
-			stoneColor = StoneColor.WHITE;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.WHITE);
 			} else {
@@ -233,7 +224,6 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				player.adjustBoard(boardSize, goGUI);
 			}
 		} else {
-			stoneColor = stoneColor.BLACK;
 			if (playerType.equals("human")) {
 				player = new HumanPlayer(goClient.getName(), StoneColor.BLACK);
 			} else {
@@ -275,28 +265,32 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	}
 	
 	@Override
-	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, String losingPlayer,
-			String losingScore) {
+	public void handleEndOfGame(String reason, String winningPlayer, String winningScore, 
+			String losingPlayer, String losingScore) {
 		if (reason.equals(Server.FINISHED)) {
 			setChanged();
 			notifyObservers("The game is finished");
 			if (!winningScore.equals(losingScore)) {
 				setChanged();
-				notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+				notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
+						losingPlayer + " has gained " + losingScore + " points");
 			} else {
 				setChanged();
-				notifyObservers("The game ended in a draw with " + winningScore + " points each for " + winningPlayer + " and " + losingPlayer);
+				notifyObservers("The game ended in a draw with " + winningScore + 
+						" points each for " + winningPlayer + " and " + losingPlayer);
 			}
 		} else if (reason.equals(Server.ABORTED)) {
 			setChanged();
 			notifyObservers("The game is aborted by " + losingPlayer);
 			setChanged();
-			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
+					losingPlayer + " has gained " + losingScore + " points");
 		} else if (reason.equals(Server.TIMEOUT)) {
 			setChanged();
 			notifyObservers("No move was made in time by " + losingPlayer);
 			setChanged();
-			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + losingPlayer + " has gained " + losingScore + " points");
+			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
+					losingPlayer + " has gained " + losingScore + " points");
 		}
 		playerType = "";
 		player.getBoard().clear();
@@ -340,4 +334,5 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 		setChanged();
 		notifyObservers("Connection lost");
 	}
+	
 }

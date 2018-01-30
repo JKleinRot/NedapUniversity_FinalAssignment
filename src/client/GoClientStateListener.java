@@ -1,7 +1,6 @@
 package client;
 
 import client.handler.GoClientHandler;
-import game.Game;
 
 /**
  * Performs actions if the GoClientState changes.

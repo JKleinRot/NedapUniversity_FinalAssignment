@@ -20,7 +20,7 @@ public enum GoClientState {
 			new ArrayList<GoClientStateListener>();
 	
 	/**
-	 * Adds the provided GoClientStateListener to the list of goClientStateListeners.
+	 * Add the provided GoClientStateListener to the list of goClientStateListeners.
 	 * @param goClientStateListener
 	 * 			The GoClientStateListener added to the list.
 	 */
@@ -29,7 +29,7 @@ public enum GoClientState {
 	}
 	
 	/**
-	 * Removes the provided GoClientStateListener from the list of goClientStateListeners.
+	 * Remove the provided GoClientStateListener from the list of goClientStateListeners.
 	 * @param goClientStateListener
 	 * 			The GoClientStateListener removed from the list.
 	 */
