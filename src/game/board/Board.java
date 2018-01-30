@@ -240,16 +240,17 @@ public class Board {
 							IntersectionGroup intersectionGroup = intersectionGroupsIterator.next();
 //							if (intersectionGroup.getIntersections().get(0).getStone().getColor()
 //									.equals(adjacentIntersection.getStone().getColor())) {
-								if (intersectionGroup.getIntersections()
-										.contains(adjacentIntersection)) {
-									tempIntersectionGroups.add(intersectionGroup);
-								} else {
-									IntersectionGroup newIntersectionGroup = 
-											new IntersectionGroup();
-									newIntersectionGroup.addIntersection(
-											this.getIntersection(position));
-									newIntersectionGroup.addIntersection(adjacentIntersection);
-									tempNewIntersectionGroups.add(newIntersectionGroup);
+								for (Intersection intersectionInGroup : intersectionGroup.getIntersections()) {
+									if (intersectionInGroup.getPosition().equals(adjacentIntersection.getPosition())) {
+										tempIntersectionGroups.add(intersectionGroup);
+									} else {
+										IntersectionGroup newIntersectionGroup = 
+												new IntersectionGroup();
+										newIntersectionGroup.addIntersection(
+												this.getIntersection(position));
+										newIntersectionGroup.addIntersection(adjacentIntersection);
+										tempNewIntersectionGroups.add(newIntersectionGroup);
+									}
 								}
 //							}
 //							} else {
@@ -394,6 +395,7 @@ public class Board {
 						if (zeroLibertiesCount == intersectionGroup.getIntersections().size()) {
 							removeStones(intersectionGroup.getIntersections());
 							removedIntersectionGroups.add(intersectionGroup);
+							intersectionGroups.remove(intersectionGroup);
 							return;
 						}
 					}
@@ -440,6 +442,7 @@ public class Board {
 					if (zeroLibertiesCount == intersectionGroup.getIntersections().size()) {
 						removeStones(intersectionGroup.getIntersections());
 						removedIntersectionGroups.add(intersectionGroup);
+						intersectionGroups.remove(intersectionGroup);
 						return;
 					}
 				}
