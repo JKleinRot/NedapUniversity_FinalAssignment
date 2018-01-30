@@ -18,27 +18,32 @@ import static org.junit.Assert.assertNull;
  */
 public class IntersectionTest {
 
-	/**Test variable for an Intersection object. */
+	/** Test variable for an Intersection object. */
 	private Intersection intersection;
 	
+	/** Test variable for a Position object. */
+	private Position position;
+	
 	/** 
-	 * Creates an intersection.
+	 * Create an intersection.
 	 */
 	@Before
 	public void setUp() {
-		intersection = new Intersection(new Position(0, 0));
+		position = new Position(0, 0);
+		intersection = new Intersection(position);
 	}
 	
 	/**
-	 * Tests that the intersection is initially unoccupied.
+	 * Test that the intersection is initially unoccupied.
 	 */
 	@Test
 	public void testInitialState() {
 		assertFalse(intersection.isOccupied());
+		assertEquals(position, intersection.getPosition());
 	}
 	
 	/**
-	 * Tests setting a stone at the intersection.
+	 * Test setting a stone at the intersection.
 	 */
 	@Test
 	public void testSetStone() {
@@ -48,7 +53,7 @@ public class IntersectionTest {
 	}
 	
 	/**
-	 * Tests removing a stone from the intersection.
+	 * Test removing a stone from the intersection.
 	 */
 	@Test
 	public void testRemoveStone() {
@@ -59,4 +64,26 @@ public class IntersectionTest {
 		assertFalse(intersection.isOccupied());
 	}
 	
+	/**
+	 * Test the copy of the intersection with a stone.
+	 */
+	@Test
+	public void testCopyWithStone() {
+		intersection.setStone(StoneColor.BLACK);
+		Intersection newIntersection = intersection.copy();
+		assertEquals(StoneColor.BLACK, newIntersection.getStone().getColor());
+		assertTrue(intersection.isOccupied());
+		assertEquals(position, newIntersection.getPosition());
+	}
+	
+	/**
+	 * Test the copy of the intersection without a stone.
+	 */
+	@Test
+	public void testCopyWithoutStone() {
+		Intersection newIntersection = intersection.copy();
+		assertNull(newIntersection.getStone());
+		assertFalse(intersection.isOccupied());
+		assertEquals(position, newIntersection.getPosition());
+	}
 }
