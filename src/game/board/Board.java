@@ -426,8 +426,6 @@ public class Board {
 			for (int y = 0; y < size; y++) {
 				Position position = new Position(x, y);
 				if (this.getIntersection(position).isOccupied()) {
-					System.out.println("Stone at " + x + y + 
-							this.getIntersection(position).getStone().getLiberties());
 					if (this.getIntersection(position).getStone().getLiberties() == 0) {
 						int notEqualColorCount = 0;
 						List<Intersection> adjacentIntersectionsWithStone = 
@@ -458,18 +456,18 @@ public class Board {
 							List<Intersection> intersectionsPossiblyRemoved = 
 									intersectionGroupPossiblyRemoved.getIntersections();
 //							if (!intersectionsPossiblyRemoved.isEmpty()) {
-								for (Intersection intersectionPossiblyRemoved : 
-									intersectionsPossiblyRemoved) {
+							for (Intersection intersectionPossiblyRemoved : 
+								intersectionsPossiblyRemoved) {
 //									if (intersectionPossiblyRemoved != null) {
-										if (intersectionPossiblyRemoved.getStone()
-												.getLiberties() == 0) {
-											zeroLibertiesCount++;
-										}
+								if (intersectionPossiblyRemoved.getStone()
+										.getLiberties() == 0) {
+									zeroLibertiesCount++;
+								}
 //									}
-								}
-								if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
-									removeStones(intersectionsPossiblyRemoved);
-								}
+							}
+							if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
+								removeStones(intersectionsPossiblyRemoved);
+							}
 //							}
 						}
 					}
@@ -757,6 +755,7 @@ public class Board {
 	public List<IntersectionGroup> getEmptyIntersectionGroups() {
 		return emptyIntersectionGroups;
 	}
+	
 	/**
 	 * Return the GoGUI.
 	 * @return
@@ -775,6 +774,8 @@ public class Board {
 				intersection.removeStone();
 			}
 		}
-		goGUI.clearBoard();
+		if (isGoGUI) {
+			goGUI.clearBoard();
+		}
 	}
 }

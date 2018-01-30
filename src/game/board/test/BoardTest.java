@@ -38,6 +38,9 @@ public class BoardTest {
 	/** Test variable for a Board object with a GoGUI. */
 	private Board boardGoGUI;
 	
+	/** Test variable for a GoGUI. */
+	private GoGUIIntegrator goGUI;
+	
 	/**
 	 * Create a Go board of -1 x -1, 5 x 5, 9 x 9, 19 x 19 and 22 x 22 intersections.
 	 */
@@ -49,6 +52,7 @@ public class BoardTest {
 		board19x19 = new Board(19, false);
 		board22x22 = new Board(22, false);
 		boardGoGUI = new Board(5, true);
+		goGUI = boardGoGUI.startGoGUI();
 	}
 	
 	/**
@@ -66,25 +70,46 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test setting a stone at the intersection.
+	 * Test setting a stone at the intersection and the corresponding initial liberties.
 	 */
 	@Test
 	public void testSetStone() {
 		board9x9.setStone(0, 0, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(0, 0)).getStone()
 				.getColor());
+		assertEquals(2, board9x9.getIntersection(new Position(0, 0)).getStone().getLiberties());
 		board9x9.setStone(0, 8, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(0, 8)).getStone()
 				.getColor());
+		assertEquals(2, board9x9.getIntersection(new Position(0, 8)).getStone().getLiberties());
 		board9x9.setStone(8, 0, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(8, 0)).getStone()
 				.getColor());
+		assertEquals(2, board9x9.getIntersection(new Position(8, 0)).getStone().getLiberties());
 		board9x9.setStone(8, 8, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(8, 8)).getStone()
 				.getColor());
+		assertEquals(2, board9x9.getIntersection(new Position(8, 8)).getStone().getLiberties());
 		board9x9.setStone(4, 5, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(4, 5)).getStone()
 				.getColor());
+		assertEquals(4, board9x9.getIntersection(new Position(4, 5)).getStone().getLiberties());
+		board9x9.setStone(4, 0, StoneColor.BLACK);
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(4, 0)).getStone()
+				.getColor());
+		assertEquals(3, board9x9.getIntersection(new Position(4, 0)).getStone().getLiberties());
+		board9x9.setStone(0, 4, StoneColor.BLACK);
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(0, 4)).getStone()
+				.getColor());
+		assertEquals(3, board9x9.getIntersection(new Position(0, 4)).getStone().getLiberties());
+		board9x9.setStone(4, 8, StoneColor.BLACK);
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(4, 8)).getStone()
+				.getColor());
+		assertEquals(3, board9x9.getIntersection(new Position(4, 8)).getStone().getLiberties());
+		board9x9.setStone(8, 4, StoneColor.BLACK);
+		assertEquals(StoneColor.BLACK, board9x9.getIntersection(new Position(8, 4)).getStone()
+				.getColor());
+		assertEquals(3, board9x9.getIntersection(new Position(8, 4)).getStone().getLiberties());
 		boardGoGUI.startGoGUI();
 		boardGoGUI.setStone(2, 2, StoneColor.BLACK);
 		assertEquals(StoneColor.BLACK, boardGoGUI.getIntersection(new Position(2, 2)).getStone()
@@ -115,7 +140,38 @@ public class BoardTest {
 		Board newBoard9x9 = board9x9.copy();
 		assertEquals(StoneColor.BLACK, newBoard9x9.getIntersection(new Position(0, 0)).getStone()
 				.getColor());
-		assertNull(newBoard9x9.getIntersection(new Position(1, 0)).getStone());
+	}
+	
+	/**
+	 * Test that the copy of the board with intersection groups equals the original board.
+	 */
+	@Test
+	public void testCopyWithIntersectionGroups() {
+		board9x9.setStone(0, 0, StoneColor.BLACK);
+		board9x9.setStone(0, 1, StoneColor.BLACK);
+		Board newBoard9x9 = board9x9.copy();
+		assertEquals(StoneColor.BLACK, newBoard9x9.getIntersection(new Position(0, 0)).getStone()
+				.getColor());
+		assertEquals(StoneColor.BLACK, newBoard9x9.getIntersection(new Position(0, 1)).getStone()
+				.getColor());
+		assertEquals(1, newBoard9x9.getIntersectionGroups().size());
+	}
+	
+	/**
+	 * Test that the copy of the board with empty intersection groups equals the original board.
+	 */
+	@Test
+	public void testCopyWithEmptyIntersectionGroups() {
+		board9x9.setStone(1, 0, StoneColor.BLACK);
+		board9x9.setStone(0, 1, StoneColor.BLACK);
+		board9x9.setStone(8, 8, StoneColor.WHITE);
+		board9x9.calculateWinner();
+		Board newBoard9x9 = board9x9.copy();
+		assertEquals(StoneColor.BLACK, newBoard9x9.getIntersection(new Position(1, 0)).getStone()
+				.getColor());
+		assertEquals(StoneColor.BLACK, newBoard9x9.getIntersection(new Position(0, 1)).getStone()
+				.getColor());
+		assertEquals(2, newBoard9x9.getEmptyIntersectionGroups().size());
 	}
 	
 	/**
@@ -123,7 +179,6 @@ public class BoardTest {
 	 */
 	@Test
 	public void testStartGoGUI() {
-		GoGUIIntegrator goGUI = boardGoGUI.startGoGUI();
 		GoGUIIntegrator noGoGUI = board9x9.startGoGUI();
 		assertNotNull(goGUI instanceof GoGUIIntegrator);
 		assertNull(noGoGUI);
@@ -134,7 +189,6 @@ public class BoardTest {
 	 */
 	@Test
 	public void testSetGoGUI() {
-		GoGUIIntegrator goGUI = boardGoGUI.startGoGUI();
 		board9x9.setGoGUI(goGUI);
 		assertNotNull(board9x9.getGoGUI());
 	}
@@ -255,44 +309,6 @@ public class BoardTest {
 				board9x9.getIntersection(new Position(1, 4))));
 	}
 	
-//	/**
-//	 * Test that the liberties are adjusted if a stone is set. 
-//	 */
-//	@Test
-//	public void testAdjustLibertiesofAdjacentIntersectionsWithStone() {
-//		board9x9.setStone(1, 1, StoneColor.BLACK);
-//		board9x9.setStone(1, 2, StoneColor.WHITE);
-//		assertEquals(3, board9x9.getIntersection(new Position(1, 1)).getStone().getLiberties());
-//		assertEquals(3, board9x9.getIntersection(new Position(1, 2)).getStone().getLiberties());
-//	}
-//	
-//	/**
-//	 * Test that the liberties are adjusted after a suicide move 
-//	 * if the remaining stones are not surrounded by other stones.
-//	 */
-//	@Test
-//	public void testAdjustLibertiesofAdjacentIntersectionsWithStoneAfterRemovingStoneNoAdjacent() {
-//		board9x9.setStone(1, 0, StoneColor.BLACK);
-//		board9x9.setStone(0, 0, StoneColor.WHITE);
-//		board9x9.setStone(0, 1, StoneColor.BLACK);
-//		assertEquals(3, board9x9.getIntersection(new Position(1, 0)).getStone().getLiberties());
-//		assertEquals(3, board9x9.getIntersection(new Position(0, 1)).getStone().getLiberties());
-//	}
-//	
-//	/**
-//	 * Test that the liberties are adjusted after a suicide move 
-//	 * if the remaining stones are surrounded by other stones.
-//	 */
-//	@Test
-//	public void testAdjustLibertiesofAdjacentIntersectionsWithStoneAfterRemovingStoneAdjacent() {
-//		board9x9.setStone(1, 0, StoneColor.BLACK);
-//		board9x9.setStone(1, 1, StoneColor.BLACK);
-//		board9x9.setStone(0, 0, StoneColor.WHITE);
-//		board9x9.setStone(0, 1, StoneColor.BLACK);
-//		assertEquals(2, board9x9.getIntersection(new Position(1, 0)).getStone().getLiberties());
-//		assertEquals(2, board9x9.getIntersection(new Position(0, 1)).getStone().getLiberties());
-//	}
-	
 	/**
 	 * Test that the liberties are correct after a suicide move of one stone 
 	 * and that the stone is removed.
@@ -342,6 +358,24 @@ public class BoardTest {
 	}
 	
 	/**
+	 * Test that the liberties are correct after closed in stone and that the stone is removed 
+	 * on the GoGUI.
+	 */
+	@Test
+	public void testRemoveStonesWithZeroLibertiesOneStoneGoGUI() {
+		boardGoGUI.setStone(1, 1, StoneColor.WHITE);
+		boardGoGUI.setStone(1, 0, StoneColor.BLACK);
+		boardGoGUI.setStone(0, 1, StoneColor.BLACK);
+		boardGoGUI.setStone(1, 2, StoneColor.BLACK);
+		boardGoGUI.setStone(2, 1, StoneColor.BLACK);
+		assertNull(boardGoGUI.getIntersection(new Position(1, 1)).getStone());
+		assertEquals(3, boardGoGUI.getIntersection(new Position(1, 0)).getStone().getLiberties());
+		assertEquals(3, boardGoGUI.getIntersection(new Position(0, 1)).getStone().getLiberties());
+		assertEquals(4, boardGoGUI.getIntersection(new Position(1, 2)).getStone().getLiberties());
+		assertEquals(4, boardGoGUI.getIntersection(new Position(2, 1)).getStone().getLiberties());
+	}
+	
+	/**
 	 * Test that the liberties are correct after closed in group of stones 
 	 * and that the group of stones is removed.
 	 */
@@ -365,4 +399,96 @@ public class BoardTest {
 		assertEquals(3, board9x9.getIntersection(new Position(0, 1)).getStone().getLiberties());
 	}
 	
+	/**
+	 * Test that the liberties are correct after closed in group of stones 
+	 * and that the group of stones is removed on the GoGUI.
+	 */
+	@Test
+	public void testRemoveStonesWithZeroLibertiesMultipleStonesGoGUI() {
+		boardGoGUI.setStone(1, 1, StoneColor.WHITE);
+		boardGoGUI.setStone(2, 1, StoneColor.WHITE);
+		boardGoGUI.setStone(1, 0, StoneColor.BLACK);
+		boardGoGUI.setStone(2, 0, StoneColor.BLACK);
+		boardGoGUI.setStone(3, 1, StoneColor.BLACK);
+		boardGoGUI.setStone(2, 2, StoneColor.BLACK);
+		boardGoGUI.setStone(1, 2, StoneColor.BLACK);
+		boardGoGUI.setStone(0, 1, StoneColor.BLACK);
+		assertNull(boardGoGUI.getIntersection(new Position(1, 1)).getStone());
+		assertNull(boardGoGUI.getIntersection(new Position(2, 1)).getStone());
+		assertEquals(2, boardGoGUI.getIntersection(new Position(1, 0)).getStone().getLiberties());
+		assertEquals(2, boardGoGUI.getIntersection(new Position(2, 0)).getStone().getLiberties());
+		assertEquals(4, boardGoGUI.getIntersection(new Position(3, 1)).getStone().getLiberties());
+		assertEquals(3, boardGoGUI.getIntersection(new Position(2, 2)).getStone().getLiberties());
+		assertEquals(3, boardGoGUI.getIntersection(new Position(1, 2)).getStone().getLiberties());
+		assertEquals(3, boardGoGUI.getIntersection(new Position(0, 1)).getStone().getLiberties());
+	}
+	
+	/**
+	 * Test a draw.
+	 */
+	@Test
+	public void testCalculateWinnerDraw() {
+		board9x9.setStone(1, 1, StoneColor.BLACK);
+		board9x9.setStone(4, 4, StoneColor.WHITE);
+		board9x9.calculateWinner();
+		assertEquals(1, board9x9.getBlackScore());
+		assertEquals(1, board9x9.getWhiteScore());
+	}
+	
+	/**
+	 * Test winner with black stones.
+	 */
+	@Test
+	public void testCalculateWinnerBlack() {
+		board9x9.setStone(1, 1, StoneColor.BLACK);
+		board9x9.calculateWinner();
+		assertEquals(81, board9x9.getBlackScore());
+		assertEquals(0, board9x9.getWhiteScore());
+	}
+	
+	/**
+	 * Test winner with white stones.
+	 */
+	@Test
+	public void testCalculateWinnerWhite() {
+		board9x9.setStone(1, 1, StoneColor.WHITE);
+		board9x9.calculateWinner();
+		assertEquals(0, board9x9.getBlackScore());
+		assertEquals(81, board9x9.getWhiteScore());
+	}
+	
+	/**
+	 * Test winner with multiple areas.
+	 */
+	@Test
+	public void testCalculateWinnerMultipleAreas() {
+		board9x9.setStone(0, 1, StoneColor.BLACK);
+		board9x9.setStone(1, 0, StoneColor.BLACK);
+		board9x9.setStone(7, 7, StoneColor.WHITE);
+		board9x9.setStone(8, 7, StoneColor.WHITE);
+		board9x9.setStone(6, 8, StoneColor.WHITE);
+		board9x9.calculateWinner();
+		assertEquals(3, board9x9.getBlackScore());
+		assertEquals(5, board9x9.getWhiteScore());
+	}
+	
+	/**
+	 * Test clearing the board.
+	 */
+	@Test
+	public void testClear() {
+		board9x9.setStone(1, 1, StoneColor.BLACK);
+		board9x9.clear();
+		assertNull(board9x9.getIntersection(new Position(1, 1)).getStone());
+	}
+	
+	/**
+	 * Test clearing the board on the GoGUI.
+	 */
+	@Test
+	public void testClearGoGUI() {
+		boardGoGUI.setStone(1, 1, StoneColor.BLACK);
+		boardGoGUI.clear();
+		assertNull(boardGoGUI.getIntersection(new Position(1, 1)).getStone());
+	}
 }
