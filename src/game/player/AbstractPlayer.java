@@ -38,9 +38,6 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	/** The check message. */
 	private String checkMessage;
 	
-	/** The Go GUI. */
-	private GoGUIIntegrator goGUI;
-	
 	/** The move time. */
 	private int moveTime;
 	
@@ -78,9 +75,9 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	}
 	
 	@Override
-	public void adjustBoard(String boardSize, GoGUIIntegrator goGUI) {
+	public void adjustBoard(String boardSize, GoGUIIntegrator aGoGUI) {
 		board = new Board(Integer.parseInt(boardSize), true);
-		board.setGoGUI(goGUI);
+		board.setGoGUI(aGoGUI);
 		board.getGoGUI().setBoardSize(Integer.parseInt(boardSize));
 		previousBoard = board.copy();
 		nextBoard = board.copy();
@@ -88,7 +85,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	
 	@Override
 	public void setGoGUI(String boardSize) {
-		goGUI = board.startGoGUI();
+		board.startGoGUI();
 	}
 	
 	@Override

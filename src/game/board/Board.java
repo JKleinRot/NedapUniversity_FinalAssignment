@@ -131,12 +131,17 @@ public class Board {
 	/** 
 	 * Start a GoGUI.
 	 */
-	public GoGUIIntegrator startGoGUI() {
+	public void startGoGUI() {
 		if (isGoGUI) {
-			goGUI = new GoGUIIntegrator(false, true, size);
+			if (size < 5) {
+				goGUI = new GoGUIIntegrator(false, true, 5);
+			} else if (size > 19) {
+				goGUI = new GoGUIIntegrator(false, true, 19);
+			} else {
+				goGUI = new GoGUIIntegrator(false, true, size);
+			}
 			goGUI.startGUI();
 		}
-		return goGUI;
 	}
 	
 	/**
