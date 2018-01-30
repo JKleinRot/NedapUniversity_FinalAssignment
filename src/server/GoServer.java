@@ -35,9 +35,9 @@ public class GoServer {
 	private GoClientStateListener gameManager;
 	
 	/**
-	 * Creates a new server with the provided port number to play a game of Go. 
-	 * Reads standard input using the initialized scanner.
-	 * Initializes a list of client handlers and a GameManager.
+	 * Create a new server with the provided port number to play a game of Go. 
+	 * Read standard input using the initialized scanner.
+	 * Initialize a list of client handlers and a GameManager.
 	 * @param port
 	 * 			The port of the server.
 	 */
@@ -49,7 +49,7 @@ public class GoServer {
 	}
 	
 	/**
-	 * Waits for clients to connect to the Go server. 
+	 * Wait for clients to connect to the Go server. 
 	 */
 	public void run() {
 		try {
@@ -58,7 +58,8 @@ public class GoServer {
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				GoClientHandler goClientHandler = new GoClientHandlerImpl(socket, gameManager, this);
+				GoClientHandler goClientHandler = 
+						new GoClientHandlerImpl(socket, gameManager, this);
 				Thread goClientHandlerThread = new Thread(goClientHandler);
 				goClientHandlerThread.start();
 			}
@@ -77,7 +78,7 @@ public class GoServer {
 	}
 	
 	/**
-	 * Adds the goClientHandler to the list of client handlers.
+	 * Add the goClientHandler to the list of client handlers.
 	 * @param goClientHandler
 	 * 			The added client handler.
 	 * @return 
@@ -85,7 +86,8 @@ public class GoServer {
 	 */
 	public boolean addGoClientHandler(GoClientHandler goClientHandler) {
 		for (GoClientHandler connectedGoClientHandler : goClientHandlers) {
-			if (connectedGoClientHandler.getGoClientName().toUpperCase().equals(goClientHandler.getGoClientName().toUpperCase())) {
+			if (connectedGoClientHandler.getGoClientName().toUpperCase()
+					.equals(goClientHandler.getGoClientName().toUpperCase())) {
 				return false;
 			}
 		}
@@ -94,18 +96,19 @@ public class GoServer {
 	}
 	
 	/**
-	 * Removes the goClientHandler of the list of client handlers.
+	 * Remove the goClientHandler of the list of client handlers.
 	 * @param goClientHandler
 	 * 			The removed client handler.
 	 */
 	public void removeGoClientHandler(GoClientHandler goClientHandler) {
 		goClientHandlers.remove(goClientHandler);
-		System.out.println("GO SERVER: Client " + goClientHandler.getGoClientName() + " disconnected");
+		System.out.println("GO SERVER: Client " + goClientHandler.getGoClientName() + 
+				" disconnected");
 		System.out.println("GO SERVER: Waiting for clients to connect...");
 	}
 	
 	/**
-	 * Reads standard input after sending prompt to standard output.
+	 * Read standard input after sending prompt to standard output.
 	 * @param prompt
 	 * 			The message displayed at standard output.
 	 * @return
