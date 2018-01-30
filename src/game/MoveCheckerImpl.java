@@ -5,7 +5,7 @@ import game.board.Position;
 import game.board.stone.StoneColor;
 
 /**
- * Checks if a move is valid.
+ * Check if a move is valid.
  * @author janine.kleinrot
  */
 public class MoveCheckerImpl implements MoveChecker {
@@ -26,7 +26,7 @@ public class MoveCheckerImpl implements MoveChecker {
 	private String checkMessage;
 	
 	/**
-	 * Creates a new MoveCheckerImpl.
+	 * Create a new MoveCheckerImpl.
 	 */
 	public MoveCheckerImpl() {
 
@@ -56,13 +56,13 @@ public class MoveCheckerImpl implements MoveChecker {
 	}
 	
 	/**
-	 * Checks if the move is out of range of the board.
+	 * Check if the move is out of range of the board.
 	 * @param moveX
 	 * 			The x coordinate of the move.
 	 * @param moveY
 	 * 			The y coordinate of the move.
 	 * @return
-	 * 			A message describing the possible error.
+	 * 			A message describing the error or an empty string.
 	 */
 	private String checkOutOfRange(int moveX, int moveY) {
 		if (moveX >= board.getSize() || moveY >= board.getSize()) {
@@ -73,13 +73,13 @@ public class MoveCheckerImpl implements MoveChecker {
 	}
 	
 	/**
-	 * Checks if the intersection of the move is already occupied.
+	 * Check if the intersection of the move is already occupied.
 	 * @param moveX
 	 * 			The x coordinate of the move.
 	 * @param moveY
 	 * 			The y coordinate of the move.
 	 * @return
-	 * 			A message describing the possible error.
+	 * 			A message describing the error or an empty string.
 	 */
 	private String checkIsOccupied(int moveX, int moveY) {
 		if (board.getIntersection(new Position(moveX, moveY)).isOccupied()) {
@@ -90,13 +90,13 @@ public class MoveCheckerImpl implements MoveChecker {
 	}
 	
 	/**
-	 * Checks if the move violates the Ko rule.
+	 * Check if the move violates the Ko rule.
 	 * @param moveX
 	 * 			The x coordinate of the move.
 	 * @param moveY
 	 * 			The y coordinate of the move.
 	 * @return
-	 * 			A message describing the possible error.
+	 * 			A message describing the error or an empty string.
 	 */
 	private String checkKoRule(int moveX, int moveY) {
 		nextBoard.setStone(moveX, moveY, stoneColor);
@@ -106,8 +106,9 @@ public class MoveCheckerImpl implements MoveChecker {
 				if (previousBoard.getIntersection(new Position(x, y)).isOccupied() == 
 						nextBoard.getIntersection(new Position(x, y)).isOccupied() && 
 						previousBoard.getIntersection(new Position(x, y)).isOccupied()) {
-					if (previousBoard.getIntersection(new Position(x, y)).getStone().getColor().equals(
-							nextBoard.getIntersection(new Position(x, y)).getStone().getColor())) {
+					if (previousBoard.getIntersection(new Position(x, y)).getStone().getColor()
+							.equals(nextBoard.getIntersection(new Position(x, y)).getStone()
+									.getColor())) {
 						equalsCount++;
 					} 
 				} else if (previousBoard.getIntersection(new Position(x, y)).isOccupied() == 
@@ -128,4 +129,5 @@ public class MoveCheckerImpl implements MoveChecker {
 	public String getMoveViolations() {
 		return checkMessage;
 	}
+	
 }

@@ -3,7 +3,6 @@ package game;
 import java.util.List;
 
 import client.handler.GoClientHandler;
-import client.handler.GoClientHandlerActorImpl;
 
 /**
  * A game of Go.
@@ -14,9 +13,11 @@ public interface Game extends Runnable {
 	public void run();
 	
 	/**
-	 * Confirms the move made by the GoClient.
+	 * Confirm the move made by the GoClient.
 	 * @param moveMade
 	 * 			The move.
+	 * @param goClientHandler
+	 * 			The GoClientHandler that made the move.
 	 */
 	public void confirmMove(String moveMade, GoClientHandler goClientHandler);
 	

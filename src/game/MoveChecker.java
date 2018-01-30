@@ -4,13 +4,13 @@ import game.board.Board;
 import game.board.stone.StoneColor;
 
 /**
- * Checks if a move is valid.
+ * Check if a move is valid.
  * @author janine.kleinrot
  */
 public interface MoveChecker {
 
 	/**
-	 * Checks if a move is valid.
+	 * Check if a move is valid.
 	 * @param moveX
 	 * 			The x coordinate of the move.
 	 * @param moveY

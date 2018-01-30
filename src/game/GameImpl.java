@@ -42,7 +42,7 @@ public class GameImpl implements Game {
 	/** The number of moves made in the game. */
 	private int numberOfMoves;
 	
-	/** Wheter a move is made. */
+	/** Whether a move is made. */
 	private boolean isMoveMade;
 	
 	/** Whether the move is valid. */
@@ -64,13 +64,16 @@ public class GameImpl implements Game {
 	private int whiteScore;
 	
 	/**
-	 * Creates a new Game.
+	 * Create a new Game.
 	 * @param firstGoClientHandler
 	 * 			The GoClientHandler communicating with the GoClient playing with black.
 	 * @param secondGoClientHandler
 	 * 			The GoClientHandler communicating with the GoClient playing with white.
+	 * @param gameManager
+	 * 			The gameManager.
 	 */
-	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler, GoClientStateListener gameManager) {
+	public GameImpl(GoClientHandler firstGoClientHandler, GoClientHandler secondGoClientHandler, 
+			GoClientStateListener gameManager) {
 		this.firstGoClientHandler = firstGoClientHandler;
 		this.secondGoClientHandler = secondGoClientHandler;
 		this.gameManager = gameManager;
@@ -130,18 +133,19 @@ public class GameImpl implements Game {
 	@Override
 	public synchronized void confirmMove(String moveMade, GoClientHandler goClientHandler) {
 		if (!isGameOver) {
-			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler) || (numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler)))) {
+			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler)) || 
+					(numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler))) {
 				if (!moveMade.equals(Client.PASS)) {
 					String[] moveCoordinates = moveMade.split(General.DELIMITER2);
 					try {
 						int moveX = Integer.parseInt(moveCoordinates[0]);
 						int moveY = Integer.parseInt(moveCoordinates[1]);
 						if (numberOfMoves % 2 == 1) {
-							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
-									previousBoard, nextBoard); 
+							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, 
+									board, previousBoard, nextBoard); 
 						} else if (numberOfMoves % 2 == 0) {
-							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
-									previousBoard, nextBoard); 
+							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, 
+									board, previousBoard, nextBoard); 
 						}
 						if (isValidMove) {
 							this.move = moveMade;
@@ -154,10 +158,14 @@ public class GameImpl implements Game {
 							nextBoard = board.copy(); 
 							notifyAll();
 						} else {
-							goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
+							goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
+									Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
+									" was invalid" + General.COMMAND_END);
 						}
 					} catch (NumberFormatException e) {
-						goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
+						goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
+								Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
+								" was invalid" + General.COMMAND_END);
 					}
 				} else {
 					this.move = moveMade;
@@ -171,45 +179,9 @@ public class GameImpl implements Game {
 			}
 		}
 	}
-	
-	private void calculateWinnerTimeoutGame(GoClientHandler goClientHandler) {
-		board.calculateWinner();
-		blackScore = board.getBlackScore();
-		whiteScore = board.getWhiteScore();
-		if (goClientHandler.equals(firstGoClientHandler)) {
-			blackScore = 0;
-			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
-					Server.TIMEOUT + General.DELIMITER1 + 
-					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
-					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
-					General.DELIMITER1 + blackScore + General.COMMAND_END);
-			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
-					Server.TIMEOUT + General.DELIMITER1 + 
-					secondGoClientHandler.getGoClientName() + General.DELIMITER1 + whiteScore + 
-					General.DELIMITER1 + firstGoClientHandler.getGoClientName() + 
-					General.DELIMITER1 + blackScore + General.COMMAND_END);
-		} else if (goClientHandler.equals(secondGoClientHandler)) {
-			whiteScore = 0;
-			firstGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
-					Server.TIMEOUT + General.DELIMITER1 + 
-					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
-					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
-					General.DELIMITER1 + whiteScore + General.COMMAND_END);
-			secondGoClientHandler.sendMessage(Server.ENDGAME + General.DELIMITER1 + 
-					Server.TIMEOUT + General.DELIMITER1 + 
-					firstGoClientHandler.getGoClientName() + General.DELIMITER1 + blackScore + 
-					General.DELIMITER1 + secondGoClientHandler.getGoClientName() + 
-					General.DELIMITER1 + whiteScore + General.COMMAND_END);
-		}
-		firstGoClientHandler.setGoClientState(GoClientState.CONNECTED);
-		gameManager.goClientStateChanged(firstGoClientHandler, GoClientState.CONNECTED);
-		secondGoClientHandler.setGoClientState(GoClientState.CONNECTED);
-		gameManager.goClientStateChanged(secondGoClientHandler, GoClientState.CONNECTED);
-		isGameOver = true;
-	}
 
 	/**
-	 * Calculates the winner after both players passed in adjacent moves.
+	 * Calculate the winner after both players passed in adjacent moves.
 	 */
 	private void calculateWinner() {
 		board.calculateWinner();
@@ -259,6 +231,11 @@ public class GameImpl implements Game {
 		isGameOver = true;
 	}
 
+	/**
+	 * Calculate the winner if one of the players aborted the game.
+	 * @param goClientHandler
+	 * 			The GoClientHandler of the GoClient ending the game.
+	 */
 	private void calculateWinnerAbortedGame(GoClientHandler goClientHandler) {
 		board.calculateWinner();
 		blackScore = board.getBlackScore();
@@ -300,6 +277,11 @@ public class GameImpl implements Game {
 		isGameOver = true;
 	}
 
+	/**
+	 * Calculate the winner if one of the players left the GoServer.
+	 * @param goClientHandler
+	 * 			The GoClientHandler of the GoClient ending the game.
+	 */
 	private void calculateWinnerExitGame(GoClientHandler goClientHandler) {
 		board.calculateWinner();
 		blackScore = board.getBlackScore();

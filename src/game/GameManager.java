@@ -10,7 +10,7 @@ import client.GoClientState;
 import client.GoClientStateListener;
 
 /**
- * Manages the initiation of a game for GoClients that requested a game.
+ * Manage the initiation of a game for GoClients that requested a game.
  * @author janine.kleinrot
  *
  */
@@ -26,7 +26,7 @@ public class GameManager implements GoClientStateListener {
 	private Game game;
 	
 	/**
-	 * Creates a GameManager.
+	 * Create a GameManager.
 	 */
 	public GameManager() {
 		goClientHandlersGameRequested = new ArrayList<GoClientHandler>();
