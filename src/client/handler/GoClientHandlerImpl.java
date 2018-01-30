@@ -21,7 +21,10 @@ import server.GoServer;
 public class GoClientHandlerImpl implements GoClientHandler {
 	
 	/** The Go server. */
-	private GoServer goServer; 
+	private GoServer goServer;
+	
+	/** The socket. */
+	private Socket socket;
 	
 	/** Reader to read from input stream. */
 	private BufferedReader in;
@@ -60,6 +63,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	 * 			The gameManager of the GoServer.
 	 */
 	public GoClientHandlerImpl(Socket socket, GoClientStateListener gameManager, GoServer goServer) {
+		this.socket = socket;
 		this.goServer = goServer;
 		this.name = "Go Server";
 		goClientHandlerActor = new GoClientHandlerActorImpl(this, gameManager);
@@ -109,6 +113,8 @@ public class GoClientHandlerImpl implements GoClientHandler {
 					sendMessage(Server.ERROR + General.DELIMITER1 + Server.UNKNOWN + General.DELIMITER1 + "Command not known by Go server" + General.COMMAND_END);
 				}
 			}
+			goClientHandlerActor.endAbortedGame();
+			goServer.removeGoClientHandler(this);
 		} catch (IOException e) {
 			System.out.println("ERROR: Connection lost with Go server");
 		}
@@ -159,4 +165,5 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	public GoServer getGoServer() {
 		return goServer;
 	}
+
 }

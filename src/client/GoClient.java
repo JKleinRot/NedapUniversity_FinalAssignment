@@ -64,12 +64,7 @@ public class GoClient extends Observable implements Runnable {
 			out.write(message);
 			out.flush();
 		} catch (IOException e) {
-			goClientActor.handleEndOfConnection();
-			socket = null;
-			isConnected = false;
-			Thread goClientTUIThread = new Thread(goClientTUI);
-			goClientTUIThread.start();
-			readMessage();
+			e.printStackTrace();
 		}
 	}
 	
@@ -114,6 +109,9 @@ public class GoClient extends Observable implements Runnable {
 					goClientActor.handleUnknownCommand();
 				}
 			}
+			goClientActor.handleEndOfConnection();
+			socket = null;
+			isConnected = false;
 		} catch (IOException e) {
 			System.out.println("ERROR: Connection lost with Go server");
 		} catch (NullPointerException e) {
