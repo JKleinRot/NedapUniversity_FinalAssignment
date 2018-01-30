@@ -52,7 +52,7 @@ public class BoardTest {
 		board19x19 = new Board(19, false);
 		board22x22 = new Board(22, false);
 		boardGoGUI = new Board(5, true);
-		goGUI = boardGoGUI.startGoGUI();
+		boardGoGUI.startGoGUI();
 	}
 	
 	/**
@@ -179,18 +179,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void testStartGoGUI() {
-		GoGUIIntegrator noGoGUI = board9x9.startGoGUI();
+		board9x9.startGoGUI();
 		assertNotNull(goGUI instanceof GoGUIIntegrator);
-		assertNull(noGoGUI);
-	}
-	
-	/**
-	 * Test setting the goGUI of a board.
-	 */
-	@Test
-	public void testSetGoGUI() {
-		board9x9.setGoGUI(goGUI);
-		assertNotNull(board9x9.getGoGUI());
+		assertNull(board9x9.getGoGUI());
 	}
 	
 	/**
