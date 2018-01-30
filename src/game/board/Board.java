@@ -214,7 +214,6 @@ public class Board {
 				this.getIntersection(new Position(x, y)));
 		addSetStoneToGroup(adjacentIntersections, new Position(x, y));
 		checkForRemovingStones(adjacentIntersections, getIntersection(new Position(x, y)));
-//		removeStonesWithZeroLiberties();
 	}
 
 	/**
@@ -238,28 +237,20 @@ public class Board {
 								new ArrayList<IntersectionGroup>();
 						while (intersectionGroupsIterator.hasNext()) {
 							IntersectionGroup intersectionGroup = intersectionGroupsIterator.next();
-//							if (intersectionGroup.getIntersections().get(0).getStone().getColor()
-//									.equals(adjacentIntersection.getStone().getColor())) {
-								for (Intersection intersectionInGroup : intersectionGroup.getIntersections()) {
-									if (intersectionInGroup.getPosition().equals(adjacentIntersection.getPosition())) {
-										tempIntersectionGroups.add(intersectionGroup);
-									} else {
-										IntersectionGroup newIntersectionGroup = 
-												new IntersectionGroup();
-										newIntersectionGroup.addIntersection(
-												this.getIntersection(position));
-										newIntersectionGroup.addIntersection(adjacentIntersection);
-										tempNewIntersectionGroups.add(newIntersectionGroup);
-									}
+							for (Intersection intersectionInGroup : 
+								intersectionGroup.getIntersections()) {
+								if (intersectionInGroup.getPosition()
+										.equals(adjacentIntersection.getPosition())) {
+									tempIntersectionGroups.add(intersectionGroup);
+								} else {
+									IntersectionGroup newIntersectionGroup = 
+											new IntersectionGroup();
+									newIntersectionGroup.addIntersection(
+											this.getIntersection(position));
+									newIntersectionGroup.addIntersection(adjacentIntersection);
+									tempNewIntersectionGroups.add(newIntersectionGroup);
 								}
-//							}
-//							} else {
-//								IntersectionGroup newIntersectionGroup = new IntersectionGroup();
-//								newIntersectionGroup.addIntersection(
-//										this.getIntersection(position));
-//								newIntersectionGroup.addIntersection(adjacentIntersection);
-//								tempNewIntersectionGroups.add(newIntersectionGroup);
-//							}
+							}
 						}
 						for (IntersectionGroup intersectionGroup : tempIntersectionGroups) {
 							intersectionGroup.addIntersection(this.getIntersection(position));
@@ -370,12 +361,22 @@ public class Board {
 		}
 	}
 
-	private void checkForRemovingStones(List<Intersection> adjacentIntersections, Intersection intersection) {
+	/**
+	 * Check if an adjacent stone of the set stone or a group that the adjacent stone is in 
+	 * should be removed.
+	 * @param adjacentIntersections
+	 * 			The adjacent intersections of the set stone.
+	 * @param intersection
+	 * 			The intersection.
+	 */
+	private void checkForRemovingStones(List<Intersection> adjacentIntersections, 
+			Intersection intersection) {
 		if (intersection.isOccupied()) {
 			// Make list of all adjacent intersections of the other color
 			List<Intersection> adjacentIntersectionsOtherColor = new ArrayList<Intersection>();
 			for (Intersection adjacentIntersection : adjacentIntersections) {
-				if (!adjacentIntersection.getStone().getColor().equals(intersection.getStone().getColor())) {
+				if (!adjacentIntersection.getStone().getColor().equals(intersection.getStone()
+						.getColor())) {
 					adjacentIntersectionsOtherColor.add(adjacentIntersection);
 				}
 			}
@@ -383,9 +384,11 @@ public class Board {
 			List<IntersectionGroup> removedIntersectionGroups = new ArrayList<IntersectionGroup>();
 			for (Intersection adjacentIntersectionOtherColor : adjacentIntersectionsOtherColor) {
 				for (IntersectionGroup intersectionGroup : intersectionGroups) {
-					if (intersectionGroup.getIntersections().contains(adjacentIntersectionOtherColor)) {
+					if (intersectionGroup.getIntersections()
+							.contains(adjacentIntersectionOtherColor)) {
 						int zeroLibertiesCount = 0;
-						for (Intersection intersectionInGroup : intersectionGroup.getIntersections()) {
+						for (Intersection intersectionInGroup : 
+							intersectionGroup.getIntersections()) {
 							if (intersectionInGroup.isOccupied()) {
 								if (intersectionInGroup.getStone().getLiberties() == 0) {
 									zeroLibertiesCount++;
@@ -409,14 +412,20 @@ public class Board {
 				if (adjacentIntersectionOtherColor.isOccupied()) {
 					if (adjacentIntersectionOtherColor.getStone().getLiberties() == 0) {
 						int otherColorCount = 0;
-						List<Intersection> adjacentIntersectionsOfAdjacentIntersectionOtherColor = this.getAdjacentIntersectionsWithStone(adjacentIntersectionOtherColor);
+						List<Intersection> adjacentIntersectionsOfAdjacentIntersectionOtherColor = 
+								this.getAdjacentIntersectionsWithStone(
+										adjacentIntersectionOtherColor);
 						
-						for (Intersection adjacentIntersectionOfAdjacentIntersectionOtherColor : adjacentIntersectionsOfAdjacentIntersectionOtherColor) {
-							if (!adjacentIntersectionOfAdjacentIntersectionOtherColor.getStone().getColor().equals(adjacentIntersectionOtherColor.getStone().getColor())) {
+						for (Intersection adjacentIntersectionOfAdjacentIntersectionOtherColor : 
+							adjacentIntersectionsOfAdjacentIntersectionOtherColor) {
+							if (!adjacentIntersectionOfAdjacentIntersectionOtherColor.getStone()
+									.getColor().equals(adjacentIntersectionOtherColor.getStone()
+											.getColor())) {
 								otherColorCount++;
 							}
 						}
-						if (otherColorCount == adjacentIntersectionsOfAdjacentIntersectionOtherColor.size()) {
+						if (otherColorCount == adjacentIntersectionsOfAdjacentIntersectionOtherColor
+								.size()) {
 							removeStone(adjacentIntersectionOtherColor.getPosition());
 							return;
 						}
@@ -424,7 +433,8 @@ public class Board {
 				}
 			}
 			// See if the move is suicide
-			if (adjacentIntersectionsOtherColor.size() == intersection.getStone().getInitialLiberties()) {
+			if (adjacentIntersectionsOtherColor.size() == 
+					intersection.getStone().getInitialLiberties()) {
 				removeStone(intersection.getPosition());
 				return;
 			}
@@ -452,166 +462,10 @@ public class Board {
 			}
 		}
 	}
-	/**
-	 * Check for suicide move of placed stone at provided intersection.
-	 * Remove other (groups of) stones if it seems to be a suicide move but really is not.
-	 * @param adjacentIntersections
-	 * 			The adjacent intersections of the placed stone.
-	 * @param intersection
-	 * 			The intersection at which the stone is placed.
-	 */
-	private void checkForSuicideMove(List<Intersection> adjacentIntersections, 
-			Intersection intersection) {
-		int otherColorCount = 0;
-		int inIntersectionGroupCount = 0;
-		Iterator<Intersection> adjacentIntersectionsIterator = adjacentIntersections.iterator();
-		while (adjacentIntersectionsIterator.hasNext()) {
-			Intersection adjacentIntersection = adjacentIntersectionsIterator.next();
-			IntersectionGroup adjacentIntersectionGroupRemove = new IntersectionGroup();
-			int zeroLibertiesInGroupCount = 0;
-			for (IntersectionGroup intersectionGroup : intersectionGroups) {
-				if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
-					for (Intersection intersectionInGroup : intersectionGroup.getIntersections()) {
-						if (intersectionInGroup.getStone().getLiberties() == 0) {
-							zeroLibertiesInGroupCount++;
-						}
-					}
-					if (zeroLibertiesInGroupCount == intersectionGroup.getIntersections().size()) {
-						adjacentIntersectionGroupRemove = intersectionGroup;
-					}
-				}
-			}
-			removeStones(adjacentIntersectionGroupRemove.getIntersections());
-			List<Intersection> adjacentIntersectionsOfAdjacentIntersection = 
-					new ArrayList<Intersection>();
-			adjacentIntersectionsOfAdjacentIntersection = 
-					getAdjacentIntersectionsWithStone(adjacentIntersection);
-			Iterator<Intersection> adjacentIntersectionsOfAdjacentIntersectionIterator = 
-					adjacentIntersectionsOfAdjacentIntersection.iterator();
-			int otherColorCountAdjacent = 0;
-			
-			while (adjacentIntersectionsOfAdjacentIntersectionIterator.hasNext()) {
-				Intersection adjacentIntersectionOfAdjacentIntersection = 
-						adjacentIntersectionsOfAdjacentIntersectionIterator.next();
-				if (!adjacentIntersectionOfAdjacentIntersection.getStone().getColor().equals(
-						adjacentIntersection.getStone().getColor())) {
-					otherColorCountAdjacent++;
-				}
-			}
-			if (!adjacentIntersection.getStone().getColor().equals(color)) {
-				otherColorCount++;
-			}
-			if (otherColorCountAdjacent == adjacentIntersectionsOfAdjacentIntersection.size() && 
-					adjacentIntersection.getStone().getLiberties() == 0 && inIntersectionGroupCount == 0) {
-				removeStone(adjacentIntersection.getPosition());
-			} else {
-				List<IntersectionGroup> intersectionGroupsRemoved = 
-						new ArrayList<IntersectionGroup>();
-				for (IntersectionGroup intersectionGroup : intersectionGroups) {
-					if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
-						int zeroLibertiesCount = 0;
-						List<Intersection> intersectionsPossiblyRemoved = 
-								intersectionGroup.getIntersections();
-						for (Intersection intersectionPossiblyRemoved : 
-							intersectionsPossiblyRemoved) {
-							if (intersectionPossiblyRemoved.getStone().getLiberties() == 
-									0) {
-								zeroLibertiesCount++;
-							}
-						}
-						if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
-							removeStones(intersectionsPossiblyRemoved);
-							intersectionGroupsRemoved.add(intersectionGroup);
-						}
-					}
-				}
-				for (IntersectionGroup intersectionGroup : intersectionGroupsRemoved) {
-					intersectionGroups.remove(intersectionGroup);
-				}
-			}
-		
-			if (inIntersectionGroupCount != 0) {
-				List<IntersectionGroup> intersectionGroupsRemoved = 
-						new ArrayList<IntersectionGroup>();
-				for (IntersectionGroup intersectionGroup : intersectionGroups) {
-					if (intersectionGroup.getIntersections().contains(adjacentIntersection)) {
-						int zeroLibertiesCount = 0;
-						List<Intersection> intersectionsPossiblyRemoved = 
-								intersectionGroup.getIntersections();
-						for (Intersection intersectionPossiblyRemoved : 
-							intersectionsPossiblyRemoved) {
-							if (intersectionPossiblyRemoved.getStone().getLiberties() == 
-									0) {
-								zeroLibertiesCount++;
-							}
-						}
-						if (zeroLibertiesCount == intersectionsPossiblyRemoved.size()) {
-							removeStones(intersectionsPossiblyRemoved);
-							intersectionGroupsRemoved.add(intersectionGroup);
-						}
-					}
-				}
-				for (IntersectionGroup intersectionGroup : intersectionGroupsRemoved) {
-					intersectionGroups.remove(intersectionGroup);
-				}
-			}
-		}
-		if (otherColorCount == adjacentIntersections.size() && 
-				intersection.isOccupied() &&
-				intersection.getStone().getLiberties() == 0) {
-			removeStone(intersection.getPosition());
-		}
-	}
-
-	/** 
-	 * Loop through the board to remove stones with zero liberties.
-	 */
-	private void removeStonesWithZeroLiberties() {
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				Position position = new Position(x, y);
-				if (this.getIntersection(position).isOccupied()) {
-					if (this.getIntersection(position).getStone().getLiberties() == 0) {
-						int notEqualColorCount = 0;
-						List<Intersection> adjacentIntersectionsWithStone = 
-								getAdjacentIntersectionsWithStone(this.getIntersection(position));
-						Iterator<Intersection> adjacentIntersectionsWithStoneIterator = 
-								adjacentIntersectionsWithStone.iterator();
-						while (adjacentIntersectionsWithStoneIterator.hasNext()) {
-							Intersection adjacentIntersectionWithStone = 
-									adjacentIntersectionsWithStoneIterator.next();
-							if (!adjacentIntersectionWithStone.getStone().getColor().equals(
-									this.getIntersection(position).getStone().getColor())) {
-								notEqualColorCount++;
-							}
-						}
-						IntersectionGroup intersectionGroupPossiblyRemoved = 
-								new IntersectionGroup();
-						for (IntersectionGroup intersectionGroup : intersectionGroups) {
-							if (intersectionGroup.getIntersections().contains(
-									this.getIntersection(position))) {
-								intersectionGroupPossiblyRemoved = intersectionGroup;
-							}
-							int zeroLibertiesCount = 0;
-							List<Intersection> intersectionsPossiblyRemoved = 
-									intersectionGroupPossiblyRemoved.getIntersections();
-							for (Intersection intersectionPossiblyRemoved : 
-								intersectionsPossiblyRemoved) {
-								if (intersectionPossiblyRemoved.getStone()
-										.getLiberties() == 0) {
-									zeroLibertiesCount++;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	/** 
 	 * Remove a group of stones.
-	 * @param intersections
+	 * @param intersectionsRemoved
 	 * 			The list of intersections removed.
 	 */
 	private void removeStones(List<Intersection> intersectionsRemoved) {
@@ -798,10 +652,20 @@ public class Board {
 		whiteScore = whiteArea + whiteStone;
 	}
 	
+	/**
+	 * Return the score of the black stones.
+	 * @return
+	 * 			The score of the black stones.
+	 */
 	public int getBlackScore() {
 		return blackScore;
 	}
 	
+	/**
+	 * Return the score of the white stones.
+	 * @return
+	 * 			The score of the white stones.
+	 */
 	public int getWhiteScore() {
 		return whiteScore;
 	}
@@ -877,6 +741,8 @@ public class Board {
 	
 	/**
 	 * Return the list of intersection groups.
+	 * @return 
+	 * 			The list of intersection groups.
 	 */
 	public List<IntersectionGroup> getIntersectionGroups() {
 		return intersectionGroups;
@@ -884,6 +750,8 @@ public class Board {
 	
 	/**
 	 * Return the list of empty intersection groups.
+	 * @return 
+	 * 			The list of empty intersection groups.
 	 */
 	public List<IntersectionGroup> getEmptyIntersectionGroups() {
 		return emptyIntersectionGroups;

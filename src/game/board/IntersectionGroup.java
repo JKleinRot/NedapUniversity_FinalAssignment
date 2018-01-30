@@ -2,7 +2,6 @@ package game.board;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ public class IntersectionGroup {
 	private int liberties;
 	
 	/**
-	 * Creates a new intersection group. 
+	 * Create a new intersection group. 
 	 */
 	public IntersectionGroup() {
 		intersections = new HashSet<Intersection>();
@@ -36,31 +35,19 @@ public class IntersectionGroup {
 	}
 	
 	/**
-	 * Set the amount of liberties of the group. 
-	 */
-	public void setLiberties() {
-		liberties = 0;
-		Iterator<Intersection> intersectionsIterator = intersections.iterator();
-		while (intersectionsIterator.hasNext()) {
-			Intersection intersection = intersectionsIterator.next();
-			liberties = liberties + intersection.getStone().getLiberties();
-		}
-	}
-	
-	/**
-	 * Return the amount of liberties.
+	 * Return the list of intersections in the intersection group.
 	 * @return
-	 * 			The amount of liberties.
+	 * 			The intersections in the intersection group.
 	 */
-	public int getLiberties() {
-		setLiberties();
-		return liberties;
-	}
-	
 	public List<Intersection> getIntersections() {
 		return new ArrayList<Intersection>(intersections);
 	}
 
+	/**
+	 * Create a copy of the current intersection group.
+	 * @return
+	 * 			The copy of the intersection group.
+	 */
 	public IntersectionGroup copy() {
 		IntersectionGroup copy = new IntersectionGroup();
 		copy.liberties = liberties;
@@ -70,4 +57,5 @@ public class IntersectionGroup {
 		}
 		return copy;
 	}
+	
 }
