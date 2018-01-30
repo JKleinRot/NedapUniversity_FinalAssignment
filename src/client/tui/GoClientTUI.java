@@ -25,9 +25,6 @@ public class GoClientTUI implements Observer, Runnable {
 	
 	/** The stone color of the GoClient player. */
 	private String stoneColor;
-	
-	/** The move made by the player. */
-	private String move;
 
 	/**
 	 * Creates a new TUI for the client.
@@ -77,7 +74,6 @@ public class GoClientTUI implements Observer, Runnable {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
 				if (goClientActor.getPlayer() != null) {
-					move = words[1];
 					goClientActor.getPlayer().makeMove(words[1]);
 				} else {
 					System.out.println("ERROR: Need a game to make a move");
