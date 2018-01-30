@@ -10,57 +10,59 @@ import server.GoServer;
 public interface GoClientHandler extends Runnable {
 
 	/**
-	 * Runs continuously while the thread is running.
+	 * Run continuously while the thread is running.
 	 */
 	public void run();
 	
 	/**
-	 * Sends provided message over socket to GoClient.
+	 * Send provided message over socket to GoClient.
 	 * @param message
 	 * 			Message send.
 	 */
 	public void sendMessage(String message);
 	
 	/**
-	 * Reads message over socket from GoClient.
+	 * Read message over socket from GoClient.
 	 */
 	public void readMessage();
 	
 	/**
-	 * Sets the GoClientState.
+	 * Set the GoClientState.
+	 * @param goClientState
+	 * 			The goClientState.
 	 */
 	public void setGoClientState(GoClientState goClientState);
 	
 	/**
-	 * Sets the opponent in the game.
+	 * Set the opponent in the game.
 	 * @param opponent
 	 * 			The opponent.
 	 */
 	public void setOpponent(GoClientHandler opponent);
 	
 	/**
-	 * Gets the name of the GoClient.
+	 * Get the name of the GoClient.
 	 * @return
 	 * 			The name of the GoClient.
 	 */
 	public String getGoClientName();
 	
 	/**
-	 * Returns the stone color of the GoClient of the GoClientHandler.
+	 * Return the stone color of the GoClient of the GoClientHandler.
 	 * @return
 	 * 			The stone color.
 	 */
 	public String getStoneColor();
 	
 	/**
-	 * Returns the board size.
+	 * Return the board size.
 	 * @return
 	 * 			The board size.
 	 */
 	public String getBoardSize();
 	
 	/**
-	 * Sets the board size.
+	 * Set the board size.
 	 * @return
 	 * 			The board size.
 	 */
@@ -79,4 +81,5 @@ public interface GoClientHandler extends Runnable {
 	 * 			The GoServer.
 	 */
 	public GoServer getGoServer();
+	
 }

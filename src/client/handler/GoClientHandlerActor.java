@@ -4,15 +4,17 @@ import client.GoClientState;
 import game.Game;
 
 /**
- * Handles the actions required after input received from the GoClient.
+ * Handle the actions required after input received from the GoClient.
  * @author janine.kleinrot
  */
 public interface GoClientHandlerActor {
 
 	/**
-	 * Sends information of itself to the client.
+	 * Send information of itself to the client.
 	 * @param words
 	 * 			Decomposed received message.
+	 * @param name
+	 * 			The name of the GoServer.
 	 */
 	public void confirmConnection(String[] words, String name);
 
@@ -24,13 +26,13 @@ public interface GoClientHandlerActor {
 	public void setGoClientState(GoClientState goClientState);
 	
 	/**
-	 * Handles the game request of the client of the GoClientHandler.
-	 * Adds the GoClientHandler to the game requested list in the GameManager
+	 * Handle the game request of the client of the GoClientHandler.
+	 * Add the GoClientHandler to the game requested list in the GameManager
 	 */
 	public void handleGameRequest();
 	
 	/**
-	 * Notifies the other client of the choice made by the client on game settings.
+	 * Notify the other client of the choice made by the client on game settings.
 	 * @param opponent
 	 * 			The opponent GoClientHandler. 
 	 * @param stoneColor
@@ -42,7 +44,7 @@ public interface GoClientHandlerActor {
 			String stoneColor, String boardSize);
 	
 	/**
-	 * Sets the boardSize.
+	 * Set the boardSize.
 	 * @param boardSize
 	 * 			The board size.
 	 */

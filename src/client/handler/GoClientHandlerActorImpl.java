@@ -7,7 +7,7 @@ import protocol.Protocol.General;
 import protocol.Protocol.Server;
 
 /**
- * Handles the actions required after input received from the GoClient.
+ * Handle the actions required after input received from the GoClient.
  * @author janine.kleinrot
  */
 public class GoClientHandlerActorImpl implements GoClientHandlerActor {
@@ -28,9 +28,11 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	private boolean isNameValid;
 	
 	/**
-	 * Creates a new GoClientHandlerActor for the provided goClientHandler.
+	 * Create a new GoClientHandlerActor for the provided goClientHandler.
 	 * @param goClientHandler
 	 * 			The goClientHandler.
+	 * @param gameManager
+	 * 			The gameManager.
 	 */
 	public GoClientHandlerActorImpl(GoClientHandler goClientHandler, 
 			GoClientStateListener gameManager) {
@@ -44,8 +46,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 		isNameValid = goClientHandler.getGoServer().addGoClientHandler(goClientHandler);
 		if (isNameValid) {
 			System.out.println("GO SERVER: Client " + goClientName + " connected");
-			goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + General.DELIMITER1 + 
-					Server.VERSION + General.DELIMITER1 +  Server.VERSIONNO + 
+			goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + 
+					General.DELIMITER1 + Server.VERSION + General.DELIMITER1 + Server.VERSIONNO + 
 					General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
 					General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 
 					0 + General.DELIMITER1 + 0 + General.DELIMITER1 + 0 + 
@@ -53,7 +55,9 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			setGoClientState(GoClientState.CONNECTED);
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 		} else {
-			goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.NAMETAKEN + General.DELIMITER1 + "The name " + goClientName.toUpperCase() + " is already taken" + General.COMMAND_END);
+			goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.NAMETAKEN + 
+					General.DELIMITER1 + "The name " + goClientName.toUpperCase() + 
+					" is already taken" + General.COMMAND_END);
 		}
 	}
 	
@@ -80,10 +84,10 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
 					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
 					General.COMMAND_END);
-			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
-					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
-					General.COMMAND_END);
+			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
+					General.DELIMITER1 + General.WHITE + General.DELIMITER1 + boardSize + 
+					General.DELIMITER1 + goClientName + General.DELIMITER1 + 
+					opponent.getGoClientName() + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
 		} else if (stoneColor.equals(General.BLACK)) {
@@ -93,10 +97,10 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
 					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
 					General.COMMAND_END);
-			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
-					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
-					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
-					General.COMMAND_END);
+			goClientHandler.sendMessage(Server.START + General.DELIMITER1 + 2 + 
+					General.DELIMITER1 + General.BLACK + General.DELIMITER1 + boardSize + 
+					General.DELIMITER1 + goClientName + General.DELIMITER1 + 
+					opponent.getGoClientName() + General.COMMAND_END);
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(goClientHandler, opponent);
 		}
@@ -108,8 +112,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	}
 	
 	@Override
-	public void confirmMove(String move, GoClientHandler goClientHandler) {
-		game.confirmMove(move, goClientHandler);
+	public void confirmMove(String move, GoClientHandler aGoClientHandler) {
+		game.confirmMove(move, aGoClientHandler);
 		
 	}
 	
