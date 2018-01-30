@@ -54,15 +54,18 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		moveChecker = new MoveCheckerImpl();
 		moveTime = 5;
 	}
-	
+
+	@Override
 	public Board getBoard() {
 		return board;
 	}
 	
+	@Override
 	public String getName() {
 		return name;
 	}
 	
+	@Override
 	public StoneColor getStoneColor() {
 		return stoneColor;
 	}
@@ -99,8 +102,6 @@ public abstract class AbstractPlayer extends Observable implements Player {
 							Integer.parseInt(moveCoordinates[1]), 
 							stoneColor);
 					nextBoard = board.copy();
-					System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
-							Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
 				}
 				setChanged();
 				notifyObservers("Move made");
@@ -151,6 +152,11 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		}
 	}
 
+	/**
+	 * Handle the output on the TUI.
+	 * @param aCheckMessage
+	 * 			The check message received from the MoveChecker.
+	 */
 	private void handleCheckMessage(String aCheckMessage) {
 		if (checkMessage.contains("Move")) {
 			setChanged();
@@ -164,6 +170,9 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		}
 	}
 	
+	/**
+	 * Determine the move.
+	 */
 	public abstract void determineMove();
 	
 	@Override 
@@ -197,6 +206,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 		
 	}
 	
+	@Override
 	public int getMoveTime() {
 		return moveTime;
 	}

@@ -1,11 +1,9 @@
 package game.player;
 
-import game.board.Board;
 import game.board.Position;
 import game.board.stone.StoneColor;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
-import protocol.Protocol.Server;
 
 /**
  * Computer player for Go.
@@ -13,10 +11,13 @@ import protocol.Protocol.Server;
  */
 public class ComputerPlayer extends AbstractPlayer {
 	
+	/**
+	 * The amount of moves made.
+	 */
 	private int moveCount;
 	
 	/**
-	 * Creates a computer player with a given name and stone color.
+	 * Create a computer player with a given name and stone color.
 	 * @param name
 	 * 			The name of the computer player.
 	 * @param color
@@ -27,12 +28,16 @@ public class ComputerPlayer extends AbstractPlayer {
 		moveCount = 0;
 	}
 
+	/**
+	 * Determine the move.
+	 */
 	public void determineMove() {
 		long startTime = System.currentTimeMillis() / 1000;
 		if (moveCount <= 2) {
 			for (int x = 0; x < getBoard().getSize(); x++) {
 				for (int y = 0; y < getBoard().getSize(); y++) {
-					if (!getBoard().getIntersection(new Position(x, y)).isOccupied()  && (System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
+					if (!getBoard().getIntersection(new Position(x, y)).isOccupied()  && 
+							(System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
 						makeMove(x + General.DELIMITER2 + y);
 						moveCount++;
 						return;

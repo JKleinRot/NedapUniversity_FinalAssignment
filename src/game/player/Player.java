@@ -1,6 +1,7 @@
 package game.player;
 
 import game.board.Board;
+import game.board.stone.StoneColor;
 import gui.GoGUIIntegrator;
 
 /**
@@ -69,5 +70,25 @@ public interface Player {
 	 * 			The move time.
 	 */
 	public void setMoveTime(String moveTime);
+
+	/**
+	 * Return the name of the player.
+	 * @return
+	 * 			The name.
+	 */
+	public String getName();
 	
+	/**
+	 * Return the stone color.
+	 * @return
+	 * 			The stone color.
+	 */
+	public StoneColor getStoneColor();
+	
+	/**
+	 * Return the move time of the computer player.
+	 * @return
+	 * 			The move time in seconds.
+	 */
+	public int getMoveTime();
 }

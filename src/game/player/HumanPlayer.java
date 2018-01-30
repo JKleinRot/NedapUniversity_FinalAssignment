@@ -1,15 +1,7 @@
 package game.player;
 
-import java.util.Observable;
-
-import game.MoveChecker;
-import game.MoveCheckerImpl;
-import game.board.Board;
-import game.board.Position;
 import game.board.stone.StoneColor;
-import protocol.Protocol.Client;
-import protocol.Protocol.General;
-import protocol.Protocol.Server;
+
 /**
  * Human player for Go.
  * @author janine.kleinrot
@@ -17,7 +9,7 @@ import protocol.Protocol.Server;
 public class HumanPlayer extends AbstractPlayer {
 	
 	/**
-	 * Creates a human player with a given name and stone color.
+	 * Create a human player with a given name and stone color.
 	 * @param name
 	 * 			The name of the human player.
 	 * @param color
@@ -25,102 +17,14 @@ public class HumanPlayer extends AbstractPlayer {
 	 */
 	public HumanPlayer(String name, StoneColor color) {
 		super(name, color);
-//		this.name = name;
-//		this.stoneColor = color;
 	}
 	
-//	public Board getBoard() {
-//		return board;
-//	}
-//	
-//	public String getName() {
-//		return name;
-//	}
-//	
-//	public StoneColor getStoneColor() {
-//		return stoneColor;
-//	}
-//	
-//	public void setBoard(String boardSize) {
-//		board = new Board(Integer.parseInt(boardSize), true);
-//		previousBoard = board;
-//		nextBoard = board;
-//		moveChecker = new MoveCheckerImpl();
-//	}
-//	
-//	@Override
-//	public void processPreviousMove(String move, String previousPlayer) {
-//		if (!move.equals(Server.FIRST)) {
-//			if (!move.equals(Server.PASS)) {
-//				if (previousPlayer.equals(name.toUpperCase())) {
-//					previousBoard = board;
-//					String[] moveCoordinates = move.split(General.DELIMITER2); 
-//					board.setStone(Integer.parseInt(moveCoordinates[0]), 
-//							Integer.parseInt(moveCoordinates[1]), 
-//							stoneColor);
-//					nextBoard = board;
-//					System.out.println("Liberties " + board.getIntersection(new Position(Integer.parseInt(moveCoordinates[0]), 
-//							Integer.parseInt(moveCoordinates[1]))).getStone().getLiberties() + "");
-//				} else {
-//					previousBoard = board;
-//					String[] moveCoordinates = move.split(General.DELIMITER2); 
-//					board.setStone(Integer.parseInt(moveCoordinates[0]), 
-//							Integer.parseInt(moveCoordinates[1]), 
-//							stoneColor.other());
-//					nextBoard = board;
-//				}
-//			}
-//		}
-//		
-//	}
-	
+	/**
+	 * Determine the move.
+	 */
 	public void determineMove() {
 		setChanged();
 		notifyObservers("Move requested");
 	}
-
-//	@Override
-//	public void makeMove(String move) {
-//		if (!move.equals(Client.PASS)) {
-//			String[] moveCoordinates = move.split(General.DELIMITER2);
-//			if (moveCoordinates.length != 2) {
-//				setChanged();
-//				notifyObservers("Invalid move input");
-//			} else {
-//				try {
-//					int moveX = Integer.parseInt(moveCoordinates[0]);
-//					int moveY = Integer.parseInt(moveCoordinates[1]);
-//					isValidMove = moveChecker.checkMove(moveX, moveY, stoneColor, board, 
-//							previousBoard, nextBoard);
-//					if (isValidMove) {
-//						setChanged();
-//						notifyObservers("Valid move");
-//					} else {
-//						checkMessage = moveChecker.getMoveViolations();
-//						handleCheckMessage(checkMessage);
-//					}
-//				} catch (NumberFormatException e) {
-//					setChanged();
-//					notifyObservers("Invalid move input");
-//				}
-//			}
-//		} else {
-//			setChanged();
-//			notifyObservers("Valid move");
-//		}
-//	}
-//
-//	private void handleCheckMessage(String aCheckMessage) {
-//		if (checkMessage.contains("Move")) {
-//			setChanged();
-//			notifyObservers("Move not on board");
-//		} else if (checkMessage.contains("Occupied")) {
-//			setChanged();
-//			notifyObservers("Occupied intersection");
-//		} else if (checkMessage.contains("Ko")) {
-//			setChanged();
-//			notifyObservers("Ko rule");
-//		}
-//	}
 	
 }
