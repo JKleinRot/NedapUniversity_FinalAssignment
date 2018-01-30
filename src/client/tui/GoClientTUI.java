@@ -76,8 +76,13 @@ public class GoClientTUI implements Observer, Runnable {
 			} else if (words.length == 3 && words[0].equals("SETTINGS")) {
 				goClientActor.setGameSettings(words[1], words[2]);
 			} else if (words.length == 2 && words[0].equals("MOVE")) {
-				move = words[1];
-				goClientActor.getPlayer().makeMove(words[1]);
+				if (goClientActor.getPlayer() != null) {
+					move = words[1];
+					goClientActor.getPlayer().makeMove(words[1]);
+				} else {
+					System.out.println("ERROR: Need a game to make a move");
+					System.out.println(name + ": Waiting on command...");
+				}
 			} else if (words.length == 1 && words[0].equals("HINT")) {
 				goClientActor.getPlayer().provideHint();
 				goClientActor.getPlayer().determineMove();
@@ -242,7 +247,10 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println("ERROR: " + object);
 		} else if (((String) object).contains("in time")) {
 			System.out.println("ERROR: " + object);
-		} 
+		} else if (object.equals("Connection lost")) {
+			System.out.println("ERROR: Connection lost with Go server");
+			System.out.println(name + ": Waiting on command...");
+		}
 		
 	}
 	

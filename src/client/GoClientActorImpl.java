@@ -328,4 +328,16 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	public GoClient getGoClient() {
 		return goClient;
 	}
+	
+	@Override
+	public void handleEndOfConnection() {
+		playerType = "";
+		areGameSettingsRequested = false;
+		isConnected = false;
+		gamesPlayed = 0;
+		opponentName = "";
+		player = null;
+		setChanged();
+		notifyObservers("Connection lost");
+	}
 }

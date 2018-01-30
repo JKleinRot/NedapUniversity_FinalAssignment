@@ -64,7 +64,12 @@ public class GoClient extends Observable implements Runnable {
 			out.write(message);
 			out.flush();
 		} catch (IOException e) {
-			System.out.println("ERROR: Connection lost with Go server");
+			goClientActor.handleEndOfConnection();
+			socket = null;
+			isConnected = false;
+			Thread goClientTUIThread = new Thread(goClientTUI);
+			goClientTUIThread.start();
+			readMessage();
 		}
 	}
 	

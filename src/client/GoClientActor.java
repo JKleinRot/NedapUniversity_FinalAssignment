@@ -133,4 +133,10 @@ public interface GoClientActor {
 	 * 			The goClient.
 	 */
 	public GoClient getGoClient();
+	
+	/**
+	 * Handle end of connection.
+	 */
+	public void handleEndOfConnection();
+	
 }
