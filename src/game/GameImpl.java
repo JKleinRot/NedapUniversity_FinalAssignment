@@ -133,26 +133,30 @@ public class GameImpl implements Game {
 			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler) || (numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler)))) {
 				if (!moveMade.equals(Client.PASS)) {
 					String[] moveCoordinates = moveMade.split(General.DELIMITER2);
-					int moveX = Integer.parseInt(moveCoordinates[0]);
-					int moveY = Integer.parseInt(moveCoordinates[1]);
-					if (numberOfMoves % 2 == 1) {
-						isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
-								previousBoard, nextBoard); 
-					} else if (numberOfMoves % 2 == 0) {
-						isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
-								previousBoard, nextBoard); 
-					}
-					if (isValidMove) {
-						this.move = moveMade;
-						previousBoard = board.copy();
+					try {
+						int moveX = Integer.parseInt(moveCoordinates[0]);
+						int moveY = Integer.parseInt(moveCoordinates[1]);
 						if (numberOfMoves % 2 == 1) {
-							board.setStone(moveX, moveY, StoneColor.BLACK);
-						} else {
-							board.setStone(moveX, moveY, StoneColor.WHITE);
+							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, board, 
+									previousBoard, nextBoard); 
+						} else if (numberOfMoves % 2 == 0) {
+							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, board, 
+									previousBoard, nextBoard); 
 						}
-						nextBoard = board.copy(); 
-						notifyAll();
-					} else {
+						if (isValidMove) {
+							this.move = moveMade;
+							previousBoard = board.copy();
+							if (numberOfMoves % 2 == 1) {
+								board.setStone(moveX, moveY, StoneColor.BLACK);
+							} else {
+								board.setStone(moveX, moveY, StoneColor.WHITE);
+							}
+							nextBoard = board.copy(); 
+							notifyAll();
+						} else {
+							goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
+						}
+					} catch (NumberFormatException e) {
 						goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.INVALID + General.DELIMITER1 + "The move " + moveMade + " was invalid" + General.COMMAND_END);
 					}
 				} else {
