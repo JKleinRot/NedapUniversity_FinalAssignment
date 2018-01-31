@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.GoClientState;
-import client.GoClientStateListener;
 import client.handler.GoClientHandler;
 import game.board.Board;
 import game.board.stone.StoneColor;

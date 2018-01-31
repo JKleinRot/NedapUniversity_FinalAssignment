@@ -7,7 +7,6 @@ import client.handler.GoClientHandler;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 import client.GoClientState;
-import client.GoClientStateListener;
 
 /**
  * Manage the initiation of a game for GoClients that requested a game.

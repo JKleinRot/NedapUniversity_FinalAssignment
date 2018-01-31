@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import client.GoClientState;
-import client.GoClientStateListener;
+import game.GoClientStateListener;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;

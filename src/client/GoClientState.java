@@ -3,6 +3,8 @@ package client;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.GoClientStateListener;
+
 /**
  * The state in which the client is. 
  * Possible values are:

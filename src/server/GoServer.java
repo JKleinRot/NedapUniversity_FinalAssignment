@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import client.GoClientStateListener;
 import client.handler.GoClientHandler;
 import client.handler.GoClientHandlerImpl;
 import game.GameManager;
+import game.GoClientStateListener;
 
 /**
  * Server to play a game of Go.

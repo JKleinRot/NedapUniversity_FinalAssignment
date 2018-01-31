@@ -1,8 +1,8 @@
 package client.handler;
 
 import client.GoClientState;
-import client.GoClientStateListener;
 import game.Game;
+import game.GoClientStateListener;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;
 

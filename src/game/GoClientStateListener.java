@@ -1,5 +1,6 @@
-package client;
+package game;
 
+import client.GoClientState;
 import client.handler.GoClientHandler;
 
 /**
