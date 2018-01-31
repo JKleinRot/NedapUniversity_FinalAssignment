@@ -1,8 +1,8 @@
 package game.player;
 
 import game.board.Board;
+import game.board.gui.GoGUIIntegrator;
 import game.board.stone.StoneColor;
-import gui.GoGUIIntegrator;
 
 /**
  * A player for Go.

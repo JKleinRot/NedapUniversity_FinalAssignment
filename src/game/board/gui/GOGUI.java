@@ -1,4 +1,4 @@
-package gui;
+package game.board.gui;
 
 /**
  * Created by daan.vanbeek on 13-12-16.

@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import game.board.Board;
 import game.board.Position;
+import game.board.gui.GoGUIIntegrator;
 import game.board.stone.StoneColor;
-import gui.GoGUIIntegrator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

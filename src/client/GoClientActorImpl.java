@@ -11,11 +11,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 
+import game.board.gui.GoGUIIntegrator;
 import game.board.stone.StoneColor;
 import game.player.ComputerPlayer;
 import game.player.HumanPlayer;
 import game.player.Player;
-import gui.GoGUIIntegrator;
 import protocol.Protocol.Client;
 import protocol.Protocol.General;
 import protocol.Protocol.Server;

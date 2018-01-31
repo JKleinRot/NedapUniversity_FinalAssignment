@@ -1,4 +1,4 @@
-package gui;
+package game.board.gui;
 
 import javafx.application.Platform;
 

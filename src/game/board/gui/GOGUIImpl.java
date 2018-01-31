@@ -1,4 +1,4 @@
-package gui;
+package game.board.gui;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

@@ -1,4 +1,4 @@
-package gui;
+package game.board.gui;
 
 /**
  * Example on how to use the GOGUI.

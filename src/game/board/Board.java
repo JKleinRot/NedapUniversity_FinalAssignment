@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import game.board.gui.GoGUIIntegrator;
 import game.board.stone.StoneColor;
-import gui.GoGUIIntegrator;
 
 /**
  * The Go board.
