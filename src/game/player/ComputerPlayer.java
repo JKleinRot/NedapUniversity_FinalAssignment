@@ -33,9 +33,9 @@ public class ComputerPlayer extends AbstractPlayer {
 	 */
 	public void determineMove() {
 		long startTime = System.currentTimeMillis() / 1000;
-		if (moveCount <= 20) {
-			int x = (int) (Math.random() * getBoard().getSize());
-			int y = (int) (Math.random() * getBoard().getSize());
+		if (moveCount <= 50) {
+			int x = (int) (Math.floor(Math.random() * getBoard().getSize()));
+			int y = (int) (Math.floor(Math.random() * getBoard().getSize()));
 			if (!getBoard().getIntersection(new Position(x, y)).isOccupied()  && 
 					(System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
 				makeMove(x + General.DELIMITER2 + y);
