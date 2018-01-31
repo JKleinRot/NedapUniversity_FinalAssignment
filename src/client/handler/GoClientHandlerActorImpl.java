@@ -70,7 +70,6 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	@Override
 	public void handleGameRequest() {
 		System.out.println("GO SERVER: " + goClientName + " requested a game");
-		System.out.println("GO SERVER: Waiting for clients to connect...");
 		setGoClientState(GoClientState.GAME_REQUESTED);
 	}
 

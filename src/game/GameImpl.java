@@ -170,6 +170,9 @@ public class GameImpl implements Game {
 					this.move = moveMade;
 					if (move.equals(previousMove)) {
 						calculateWinner();
+						System.out.println("GO SERVER: Game ended between " + 
+								firstGoClientHandler.getGoClientName() + " and " + 
+								secondGoClientHandler.getGoClientName());
 					} else {
 						notifyAll();
 					}
@@ -232,6 +235,9 @@ public class GameImpl implements Game {
 	@Override
 	public void endAbortedGame(GoClientHandler goClientHandler) {
 		calculateWinnerAbortedGame(goClientHandler);
+		System.out.println("GO SERVER: Game ended between " + 
+				firstGoClientHandler.getGoClientName() + " and " + 
+				secondGoClientHandler.getGoClientName());
 		isGameOver = true;
 	}
 
@@ -278,6 +284,9 @@ public class GameImpl implements Game {
 	@Override
 	public void endGameExit(GoClientHandler goClientHandler) {
 		calculateWinnerExitGame(goClientHandler);
+		System.out.println("GO SERVER: Game ended between " + 
+				firstGoClientHandler.getGoClientName() + " and " + 
+				secondGoClientHandler.getGoClientName());
 		isGameOver = true;
 	}
 
