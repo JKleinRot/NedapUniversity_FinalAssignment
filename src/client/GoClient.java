@@ -116,7 +116,7 @@ public class GoClient extends Observable implements Runnable {
 			socket = null;
 			isConnected = false;
 		} catch (IOException e) {
-			System.out.println("ERROR: Connection lost with Go server");
+			socket = null;
 		} catch (NullPointerException e) {
 			readMessage();
 		}
