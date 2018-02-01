@@ -65,7 +65,7 @@ public class MoveCheckerImpl implements MoveChecker {
 	 * 			A message describing the error or an empty string.
 	 */
 	private String checkOutOfRange(int moveX, int moveY) {
-		if (moveX >= board.getSize() || moveY >= board.getSize()) {
+		if (moveX >= board.getSize() || moveY >= board.getSize() || moveX < 0 || moveY < 0) {
 			return "Move not on board ";
 		} else {
 			return "";
