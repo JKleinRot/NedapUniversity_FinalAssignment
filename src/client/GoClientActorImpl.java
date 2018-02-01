@@ -95,13 +95,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 					+ "IP address and port number");
 		} catch (NumberFormatException e) {
 			System.out.println("ERROR: Not a valid port number");
-			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			System.out.println("ERROR: Not a valid host");
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("ERROR: Could not connect to Go server");
-			e.printStackTrace();
 		}
 	}
 	
