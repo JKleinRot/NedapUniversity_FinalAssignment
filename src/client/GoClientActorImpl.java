@@ -118,7 +118,7 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 	@Override
 	public void showConnectionConfirmed(String[] words) {
 		setChanged();
-		notifyObservers("Connected");
+		notifyObservers("Connected to " + words[1]);
 	}
 	
 	@Override

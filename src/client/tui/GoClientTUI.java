@@ -143,8 +143,8 @@ public class GoClientTUI implements Observer, Runnable {
 	 * Prints a messages to the standard output to show the changes made.
 	 */
 	public void update(Observable observable, Object object) {
-		if (object.equals("Connected")) {
-			System.out.println(name.toUpperCase() + ": Connected to Go server");
+		if (((String) object).contains("Connected")) {
+			System.out.println(name.toUpperCase() + ": " + object);
 			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (object.equals("Name error")) {
 			System.out.println(name.toUpperCase() + ": Name is already taken");
