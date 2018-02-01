@@ -139,65 +139,67 @@ public class GameImpl implements Game {
 
 	@Override
 	public synchronized void confirmMove(String moveMade, GoClientHandler goClientHandler) {
-		if (!isGameOver && maxBlackStones != (board.getSize() * board.getSize() / 2) && 
+		if (!isGameOver) {
+			if (maxBlackStones != (board.getSize() * board.getSize() / 2) && 
 				maxWhiteStones != (board.getSize() * board.getSize() / 2)) {
-			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler)) || 
-					(numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler))) {
-				if (!moveMade.equals(Client.PASS)) {
-					if (goClientHandler.equals(firstGoClientHandler)) {
-						maxBlackStones++;
-					} else if (goClientHandler.equals(secondGoClientHandler)) {
-						maxWhiteStones++;
-					}
-					String[] moveCoordinates = moveMade.split(General.DELIMITER2);
-					try {
-						int moveX = Integer.parseInt(moveCoordinates[0]);
-						int moveY = Integer.parseInt(moveCoordinates[1]);
-						if (numberOfMoves % 2 == 1) {
-							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, 
-									board, previousBoard, nextBoard); 
-						} else if (numberOfMoves % 2 == 0) {
-							isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, 
-									board, previousBoard, nextBoard); 
+				if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler)) || 
+						(numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler))) {
+					if (!moveMade.equals(Client.PASS)) {
+						if (goClientHandler.equals(firstGoClientHandler)) {
+							maxBlackStones++;
+						} else if (goClientHandler.equals(secondGoClientHandler)) {
+							maxWhiteStones++;
 						}
-						if (isValidMove) {
-							this.move = moveMade;
-							previousBoard = board.copy();
+						String[] moveCoordinates = moveMade.split(General.DELIMITER2);
+						try {
+							int moveX = Integer.parseInt(moveCoordinates[0]);
+							int moveY = Integer.parseInt(moveCoordinates[1]);
 							if (numberOfMoves % 2 == 1) {
-								board.setStone(moveX, moveY, StoneColor.BLACK);
-							} else {
-								board.setStone(moveX, moveY, StoneColor.WHITE);
+								isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.BLACK, 
+										board, previousBoard, nextBoard); 
+							} else if (numberOfMoves % 2 == 0) {
+								isValidMove = moveChecker.checkMove(moveX, moveY, StoneColor.WHITE, 
+										board, previousBoard, nextBoard); 
 							}
-							nextBoard = board.copy(); 
-							notifyAll();
-						} else {
+							if (isValidMove) {
+								this.move = moveMade;
+								previousBoard = board.copy();
+								if (numberOfMoves % 2 == 1) {
+									board.setStone(moveX, moveY, StoneColor.BLACK);
+								} else {
+									board.setStone(moveX, moveY, StoneColor.WHITE);
+								}
+								nextBoard = board.copy(); 
+								notifyAll();
+							} else {
+								goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
+										Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
+										" was invalid" + General.COMMAND_END);
+							}
+						} catch (NumberFormatException e) {
 							goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
 									Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
 									" was invalid" + General.COMMAND_END);
 						}
-					} catch (NumberFormatException e) {
-						goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
-								Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
-								" was invalid" + General.COMMAND_END);
-					}
-				} else {
-					this.move = moveMade;
-					if (move.equals(previousMove)) {
-						calculateWinner();
-						System.out.println("GO SERVER: Game ended between " + 
-								firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
-								secondGoClientHandler.getGoClientName().toUpperCase());
 					} else {
-						notifyAll();
+						this.move = moveMade;
+						if (move.equals(previousMove)) {
+							calculateWinner();
+							System.out.println("GO SERVER: Game ended between " + 
+									firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
+									secondGoClientHandler.getGoClientName().toUpperCase());
+						} else {
+							notifyAll();
+						}
 					}
+					this.previousMove = moveMade;
 				}
-				this.previousMove = moveMade;
-			}
-		} else {
+			} else {
 			calculateWinner();
 			System.out.println("GO SERVER: Game ended between " + 
 					firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
 					secondGoClientHandler.getGoClientName().toUpperCase());
+			}
 		}
 	}
 
