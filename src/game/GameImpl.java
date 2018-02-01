@@ -62,6 +62,12 @@ public class GameImpl implements Game {
 	/** The score of the player with white stones. */
 	private int whiteScore;
 	
+	/**	The maximum amount of moves with black stones. */
+	private int maxBlackStones;
+	
+	/**	The maximum amount of moves with white stones. */
+	private int maxWhiteStones;
+	
 	/**
 	 * Create a new Game.
 	 * @param firstGoClientHandler
@@ -85,6 +91,8 @@ public class GameImpl implements Game {
 		isMoveMade = false;
 		numberOfMoves = 0;
 		moveChecker = new MoveCheckerImpl();
+		maxBlackStones = 0;
+		maxWhiteStones = 0;
 	}
 
 	@Override
@@ -131,10 +139,16 @@ public class GameImpl implements Game {
 
 	@Override
 	public synchronized void confirmMove(String moveMade, GoClientHandler goClientHandler) {
-		if (!isGameOver) {
+		if (!isGameOver && maxBlackStones != (board.getSize() * board.getSize() / 2) && 
+				maxWhiteStones != (board.getSize() * board.getSize() / 2)) {
 			if ((numberOfMoves % 2 == 1 && goClientHandler.equals(firstGoClientHandler)) || 
 					(numberOfMoves % 2 == 0 && goClientHandler.equals(secondGoClientHandler))) {
 				if (!moveMade.equals(Client.PASS)) {
+					if (goClientHandler.equals(firstGoClientHandler)) {
+						maxBlackStones++;
+					} else if (goClientHandler.equals(secondGoClientHandler)) {
+						maxWhiteStones++;
+					}
 					String[] moveCoordinates = moveMade.split(General.DELIMITER2);
 					try {
 						int moveX = Integer.parseInt(moveCoordinates[0]);
@@ -179,6 +193,11 @@ public class GameImpl implements Game {
 				}
 				this.previousMove = moveMade;
 			}
+		} else {
+			calculateWinner();
+			System.out.println("GO SERVER: Game ended between " + 
+					firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
+					secondGoClientHandler.getGoClientName().toUpperCase());
 		}
 	}
 

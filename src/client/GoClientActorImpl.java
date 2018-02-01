@@ -272,25 +272,25 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 			notifyObservers("The game is finished");
 			if (!winningScore.equals(losingScore)) {
 				setChanged();
-				notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
-						losingPlayer + " has gained " + losingScore + " points");
+				notifyObservers(winningPlayer.toUpperCase() + " has won with " + winningScore + " points and " + 
+						losingPlayer.toUpperCase() + " has gained " + losingScore + " points");
 			} else {
 				setChanged();
 				notifyObservers("The game ended in a draw with " + winningScore + 
-						" points each for " + winningPlayer + " and " + losingPlayer);
+						" points each for " + winningPlayer.toUpperCase() + " and " + losingPlayer.toUpperCase());
 			}
 		} else if (reason.equals(Server.ABORTED)) {
 			setChanged();
 			notifyObservers("The game is aborted by " + losingPlayer);
 			setChanged();
-			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
-					losingPlayer + " has gained " + losingScore + " points");
+			notifyObservers(winningPlayer.toUpperCase() + " has won with " + winningScore + " points and " + 
+					losingPlayer.toUpperCase() + " has gained " + losingScore + " points");
 		} else if (reason.equals(Server.TIMEOUT)) {
 			setChanged();
 			notifyObservers("No move was made in time by " + losingPlayer);
 			setChanged();
-			notifyObservers(winningPlayer + " has won with " + winningScore + " points and " + 
-					losingPlayer + " has gained " + losingScore + " points");
+			notifyObservers(winningPlayer.toUpperCase() + " has won with " + winningScore + " points and " + 
+					losingPlayer.toUpperCase() + " has gained " + losingScore + " points");
 		}
 		playerType = "";
 		player.getBoard().clear();
