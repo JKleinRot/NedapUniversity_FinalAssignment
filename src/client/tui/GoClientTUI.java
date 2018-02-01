@@ -36,7 +36,7 @@ public class GoClientTUI implements Observer, Runnable {
 		this.goClientActor = goClientActor;
 		((Observable) goClientActor).addObserver(this);
 		in = new Scanner(System.in);
-		name = goClientActor.getName().toUpperCase();
+		name = goClientActor.getName();
 	}
 	
 	/**
@@ -144,38 +144,38 @@ public class GoClientTUI implements Observer, Runnable {
 	 */
 	public void update(Observable observable, Object object) {
 		if (object.equals("Connected")) {
-			System.out.println(name + ": Connected to Go server");
-			System.out.println(name + ": Waiting for command...");
+			System.out.println(name.toUpperCase() + ": Connected to Go server");
+			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (object.equals("Name error")) {
-			System.out.println(name + ": Name is already taken");
-			System.out.println(name + ": Waiting on new name...");
+			System.out.println(name.toUpperCase() + ": Name is already taken");
+			System.out.println(name.toUpperCase() + ": Waiting on new name...");
 		} else if (object.equals("Name changed")) {
-			name = goClientActor.getName().toUpperCase();
-			System.out.println(name + ": Name is changed");
-			System.out.println(name + ": Waiting on command...");
+			name = goClientActor.getName();
+			System.out.println(name.toUpperCase() + ": Name is changed");
+			System.out.println(name.toUpperCase() + ": Waiting on command...");
 		} else if (object.equals("Already connected")) {
 			System.out.println("ERROR: Already connected to Go server");
-			System.out.println(name + ": Waiting for command...");
+			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (object.equals("Game requested human")) {
-			System.out.println(name + ": Game requested as human player");
-			System.out.println(name + ": Waiting for opponent...");
+			System.out.println(name.toUpperCase() + ": Game requested as human player");
+			System.out.println(name.toUpperCase() + ": Waiting for opponent...");
 		} else if (object.equals("Game requested computer")) {
-			System.out.println(name + ": Game requested as computer player");
-			System.out.println(name + ": Waiting for opponent...");
+			System.out.println(name.toUpperCase() + ": Game requested as computer player");
+			System.out.println(name.toUpperCase() + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game human")) {
 			System.out.println("ERROR: Already requested game as human player");
-			System.out.println(name + ": Waiting for opponent...");
+			System.out.println(name.toUpperCase() + ": Waiting for opponent...");
 		} else if (object.equals("Already requested game computer")) {
 			System.out.println("ERROR: Already requested game as computer player");
-			System.out.println(name + ": Waiting for opponent...");
+			System.out.println(name.toUpperCase() + ": Waiting for opponent...");
 		} else if (object.equals("Request game settings")) {
-			System.out.println(name + ": Waiting for game settings command...");
+			System.out.println(name.toUpperCase() + ": Waiting for game settings command...");
 		} else if (object.equals("Illegal stone color")) {
 			System.out.println("ERROR: Not a valid stone color");
-			System.out.println(name + ": Waiting for game settings command...");
+			System.out.println(name.toUpperCase() + ": Waiting for game settings command...");
 		} else if (object.equals("No game settings requested")) {
 			System.out.println("ERROR: No game requested to set game settings for");
-			System.out.println(name + ": Waiting for command...");
+			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (((String) object).contains("Opponent")) {
 			System.out.println(object);
 		} else if (object.equals("Game settings received BLACK")) {
@@ -183,60 +183,60 @@ public class GoClientTUI implements Observer, Runnable {
 			stoneColor = " BLACK";
 		} else if (object.equals("Game settings received WHITE")) {
 			((Observable) goClientActor.getPlayer()).addObserver(this);
-			System.out.println(name + ": Game settings received");
+			System.out.println(name.toUpperCase() + ": Game settings received");
 			stoneColor = " WHITE";
-			System.out.println(name + stoneColor + ": Waiting on opponent...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Not connected yet")) {
 			System.out.println("ERROR: Not connected to Go server yet");
-			System.out.println(name + ": Waiting for command...");
+			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (object.equals("No opponent found")) {
 			System.out.println("ERROR: No game settings requested yet");
-			System.out.println(name + ": Waiting for opponent...");
+			System.out.println(name.toUpperCase() + ": Waiting for opponent...");
 		} else if (object.equals("Invalid player type")) {
 			System.out.println("ERROR: Not a valid player type");
-			System.out.println(name + ": Waiting for command...");
+			System.out.println(name.toUpperCase() + ": Waiting for command...");
 		} else if (object.equals("Illegal board size")) {
 			System.out.println("ERROR: Not a valid board size");
-			System.out.println(name + ": Waiting for game settings command...");
+			System.out.println(name.toUpperCase() + ": Waiting for game settings command...");
 		} else if (object.equals("Move requested")) {
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (((String) object).contains("Valid move")) {
 			String[] words = ((String) object).split(" ");
 			goClientActor.sendMove(words[2]);
 		} else if (object.equals("Invalid move input")) {
 			System.out.println("ERROR: Not a valid move");
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Move not on board")) {
 			System.out.println("ERROR: Not a valid move "
 					+ "(Intersection out of range of board)");
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Occupied intersection")) {
 			System.out.println("ERROR: Not a valid move "
 					+ "(Intersection already occupied with stone)");
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (object.equals("Ko rule")) {
 			System.out.println("ERROR: Not a valid move (Ko rule violated");
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (object.equals("The game is finished")) {
-			System.out.println(name + stoneColor + ": The game is finised");
+			System.out.println(name.toUpperCase() + stoneColor + ": The game is finised");
 		} else if (((String) object).contains("won")) {
-			System.out.println(name + ": " + object);
+			System.out.println(name.toUpperCase() + ": " + object);
 		} else if (object.equals("Invalid move server")) {
 			System.out.println("ERROR: Not a valid move (Checked by Go server)");
-			System.out.println(name + stoneColor + ": Waiting on move...");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on move...");
 		} else if (((String) object).contains("draw")) {
-			System.out.println(name + ": " + object);
+			System.out.println(name.toUpperCase() + ": " + object);
 		} else if (object.equals("Move made")) {
-			System.out.println(name + stoneColor + ": The move is made");
-			System.out.println(name + stoneColor + ": Waiting on opponent...");
+			System.out.println(name.toUpperCase() + stoneColor + ": The move is made");
+			System.out.println(name.toUpperCase() + stoneColor + ": Waiting on opponent...");
 		} else if (object.equals("Other move made")) {
-			System.out.println(name + stoneColor + ": Opponent made a move");
+			System.out.println(name.toUpperCase() + stoneColor + ": Opponent made a move");
 		} else if (object.equals("Unknown command")) {
-			System.out.println(name + ": Unknown command given to Go server");
-			System.out.println(name + ": Waiting on command...");
+			System.out.println(name.toUpperCase() + ": Unknown command given to Go server");
+			System.out.println(name.toUpperCase() + ": Waiting on command...");
 		} else if (object.equals("Invalid move time")) {
 			System.out.println("ERROR: Invalid move time argument");
-			System.out.println(name + ": Waiting on command...");
+			System.out.println(name.toUpperCase() + ": Waiting on command...");
 		} else if (((String) object).contains("The game is aborted")) {
 			System.out.println("ERROR: " + object);
 		} else if (((String) object).contains("aborted the game")) {
@@ -245,7 +245,7 @@ public class GoClientTUI implements Observer, Runnable {
 			System.out.println("ERROR: " + object);
 		} else if (object.equals("Connection lost")) {
 			System.out.println("ERROR: Connection lost with Go server");
-			System.out.println(name + ": Waiting on command...");
+			System.out.println(name.toUpperCase() + ": Waiting on command...");
 		}
 		
 	}

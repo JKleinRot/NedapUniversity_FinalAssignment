@@ -94,7 +94,7 @@ public abstract class AbstractPlayer extends Observable implements Player {
 	@Override
 	public void processPreviousMove(String move, String previousPlayer) {
 		if (!move.equals(Server.FIRST)) {
-			if (previousPlayer.equals(name.toUpperCase())) {
+			if (previousPlayer.equals(name)) {
 				if (!move.equals(Server.PASS)) {
 					previousBoard = board.copy();
 					String[] moveCoordinates = move.split(General.DELIMITER2); 

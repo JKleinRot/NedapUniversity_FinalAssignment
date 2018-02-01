@@ -96,11 +96,11 @@ public class GoClient extends Observable implements Runnable {
 				} else if (words.length == 6 && words[0].equals(Server.START)) {
 					goClientActor.setReceivedGameSettings(words[2], words[3], words[4], words[5]);
 				} else if (words.length == 4 && words[0].equals(Server.TURN) 
-						&& words[3].equals(name.toUpperCase())) {
+						&& words[3].equals(name)) {
 					goClientActor.getPlayer().processPreviousMove(words[2], words[1]);
 					goClientActor.getPlayer().determineMove();
 				} else if (words.length == 4 && words[0].equals(Server.TURN) 
-						&& !words[3].equals(name.toUpperCase())) {
+						&& !words[3].equals(name)) {
 					goClientActor.getPlayer().processPreviousMove(words[2], words[1]);
 				} else if (words.length == 3 && words[0].equals(Server.ERROR) && 
 						words[1].equals(Server.INVALID)) {

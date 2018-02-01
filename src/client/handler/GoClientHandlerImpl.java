@@ -93,7 +93,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12 && words[0].equals(Client.NAME)) {
-					goClientName = words[1].toUpperCase();
+					goClientName = words[1];
 					goClientHandlerActor.confirmConnection(words, name);
 				} else if (words.length == 3 && words[0].equals(Client.REQUESTGAME)) {
 					goClientHandlerActor.handleGameRequest();

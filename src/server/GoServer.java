@@ -86,8 +86,8 @@ public class GoServer {
 	 */
 	public boolean addGoClientHandler(GoClientHandler goClientHandler) {
 		for (GoClientHandler connectedGoClientHandler : goClientHandlers) {
-			if (connectedGoClientHandler.getGoClientName().toUpperCase()
-					.equals(goClientHandler.getGoClientName().toUpperCase())) {
+			if (connectedGoClientHandler.getGoClientName()
+					.equals(goClientHandler.getGoClientName())) {
 				return false;
 			}
 		}

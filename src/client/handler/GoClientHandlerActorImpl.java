@@ -42,10 +42,10 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 
 	@Override
 	public void confirmConnection(String[] words, String name) {
-		goClientName = words[1].toUpperCase();
+		goClientName = words[1];
 		isNameValid = goClientHandler.getGoServer().addGoClientHandler(goClientHandler);
 		if (isNameValid) {
-			System.out.println("GO SERVER: Client " + goClientName + " connected");
+			System.out.println("GO SERVER: Client " + goClientName.toUpperCase() + " connected");
 			goClientHandler.sendMessage(Server.NAME + General.DELIMITER1 + name + 
 					General.DELIMITER1 + Server.VERSION + General.DELIMITER1 + Server.VERSIONNO + 
 					General.DELIMITER1 + Server.EXTENSIONS + General.DELIMITER1 + 0 + 
@@ -56,7 +56,7 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			System.out.println("GO SERVER: Waiting for clients to connect...");
 		} else {
 			goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + Server.NAMETAKEN + 
-					General.DELIMITER1 + "The name " + goClientName.toUpperCase() + 
+					General.DELIMITER1 + "The name " + goClientName + 
 					" is already taken" + General.COMMAND_END);
 		}
 	}
@@ -69,7 +69,7 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	
 	@Override
 	public void handleGameRequest() {
-		System.out.println("GO SERVER: " + goClientName + " requested a game");
+		System.out.println("GO SERVER: " + goClientName.toUpperCase() + " requested a game");
 		setGoClientState(GoClientState.GAME_REQUESTED);
 	}
 
@@ -77,8 +77,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 	public void notifyOtherClientOfGameSettings(GoClientHandler opponent, String stoneColor, 
 			String boardSize) {
 		if (stoneColor.equals(General.WHITE)) {
-			System.out.println("GO SERVER: " + opponent.getGoClientName() + 
-					" plays with BLACK stones and " + goClientName + " plays with WHITE stones");
+			System.out.println("GO SERVER: " + opponent.getGoClientName().toUpperCase() + 
+					" plays with BLACK stones and " + goClientName.toUpperCase() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
 					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
@@ -90,8 +90,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
 		} else if (stoneColor.equals(General.BLACK)) {
-			System.out.println("GO SERVER: " + goClientName  + " plays with BLACK stones and " + 
-					opponent.getGoClientName() + " plays with WHITE stones");
+			System.out.println("GO SERVER: " + goClientName.toUpperCase()  + " plays with BLACK stones and " + 
+					opponent.getGoClientName().toUpperCase() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
 					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 

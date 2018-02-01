@@ -237,10 +237,10 @@ public class GoClientActorImpl extends Observable implements GoClientActor {
 				player.adjustBoard(boardSize, goGUI);
 			}
 		}
-		if (playerName.toUpperCase().equals(goClient.getName().toUpperCase())) {
-			opponentName = otherPlayerName.toUpperCase();
+		if (playerName.equals(goClient.getName())) {
+			opponentName = otherPlayerName;
 		} else {
-			opponentName = playerName.toUpperCase();
+			opponentName = playerName;
 		}
 		setChanged();
 		notifyObservers("Opponent " + opponentName + " is found");
