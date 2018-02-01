@@ -78,7 +78,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			String boardSize) {
 		if (stoneColor.equals(General.WHITE)) {
 			System.out.println("GO SERVER: " + opponent.getGoClientName().toUpperCase() + 
-					" plays with BLACK stones and " + goClientName.toUpperCase() + " plays with WHITE stones");
+					" plays with BLACK stones and " + goClientName.toUpperCase() + 
+					" plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.BLACK + General.DELIMITER1 + boardSize + General.DELIMITER1 + 
 					goClientName + General.DELIMITER1 + opponent.getGoClientName() + 
@@ -90,7 +91,8 @@ public class GoClientHandlerActorImpl implements GoClientHandlerActor {
 			opponent.setBoardSize(boardSize);
 			gameManager.startGame(opponent, goClientHandler);
 		} else if (stoneColor.equals(General.BLACK)) {
-			System.out.println("GO SERVER: " + goClientName.toUpperCase()  + " plays with BLACK stones and " + 
+			System.out.println("GO SERVER: " + goClientName.toUpperCase()  + 
+					" plays with BLACK stones and " + 
 					opponent.getGoClientName().toUpperCase() + " plays with WHITE stones");
 			opponent.sendMessage(Server.START + General.DELIMITER1 + 2 + General.DELIMITER1 + 
 					General.WHITE + General.DELIMITER1 + boardSize + General.DELIMITER1 + 

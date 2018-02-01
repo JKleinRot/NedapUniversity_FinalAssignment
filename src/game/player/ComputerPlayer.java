@@ -12,11 +12,6 @@ import protocol.Protocol.General;
 public class ComputerPlayer extends AbstractPlayer {
 	
 	/**
-	 * The amount of moves made.
-	 */
-	private int moveCount;
-	
-	/**
 	 * Create a computer player with a given name and stone color.
 	 * @param name
 	 * 			The name of the computer player.
@@ -25,7 +20,6 @@ public class ComputerPlayer extends AbstractPlayer {
 	 */
 	public ComputerPlayer(String name, StoneColor color) {
 		super(name, color);
-		moveCount = 0;
 	}
 
 	/**
@@ -33,19 +27,12 @@ public class ComputerPlayer extends AbstractPlayer {
 	 */
 	public void determineMove() {
 		long startTime = System.currentTimeMillis() / 1000;
-		if (moveCount <= 50) {
-			int x = (int) (Math.floor(Math.random() * getBoard().getSize()));
-			int y = (int) (Math.floor(Math.random() * getBoard().getSize()));
-			if (!getBoard().getIntersection(new Position(x, y)).isOccupied()  && 
-					(System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
-				makeMove(x + General.DELIMITER2 + y);
-				moveCount++;
-				return;
-			} else if ((System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
-				makeMove(Client.PASS);
-				moveCount++;
-				return;
-			}
+		int x = (int) (Math.floor(Math.random() * getBoard().getSize()));
+		int y = (int) (Math.floor(Math.random() * getBoard().getSize()));
+		if (!getBoard().getIntersection(new Position(x, y)).isOccupied()  && 
+				(System.currentTimeMillis() / 1000) < startTime + getMoveTime()) {
+			makeMove(x + General.DELIMITER2 + y);
+			return;
 		} else {
 			makeMove(Client.PASS);
 		}

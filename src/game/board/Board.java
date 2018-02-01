@@ -198,7 +198,7 @@ public class Board {
 			} else {
 				isWhite = false;
 			}
-			goGUI.addStone(x, y, isWhite);
+			goGUI.addStone(y, x, isWhite);
 		}
 		setInitialLiberties(x, y);
 		updateBoard(x, y);
@@ -476,10 +476,10 @@ public class Board {
 	private void removeStones(List<Intersection> intersectionsRemoved) {
 		for (Intersection intersection : intersectionsRemoved) {
 			if (isGoGUI) {
-				goGUI.removeStone(intersection.getPosition().getX(), 
-						intersection.getPosition().getY());
-				goGUI.removeStone(intersection.getPosition().getX(), 
-						intersection.getPosition().getY());
+				goGUI.removeStone(intersection.getPosition().getY(), 
+						intersection.getPosition().getX());
+				goGUI.removeStone(intersection.getPosition().getY(), 
+						intersection.getPosition().getX());
 			}
 			intersection.removeStone();
 		}
@@ -537,8 +537,8 @@ public class Board {
 	public void removeStone(Position position) {
 		this.getIntersection(position).removeStone();
 		if (isGoGUI) {
-			goGUI.removeStone(position.getX(), position.getY());
-			goGUI.removeStone(position.getX(), position.getY());
+			goGUI.removeStone(position.getY(), position.getX());
+			goGUI.removeStone(position.getY(), position.getX());
 		}
 		updateBoard(position.getX(), position.getY());
 	}
