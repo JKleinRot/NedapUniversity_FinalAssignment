@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import client.GoClientState;
 import game.GoClientStateListener;
@@ -50,6 +52,9 @@ public class GoClientHandlerImpl implements GoClientHandler {
 	/** The board size. */
 	private String boardSize;
 	
+	/** Lock for Bart. */
+	private Lock lock;
+	
 	/**
 	 * Creates a new client handler.
 	 * Initializes the actor.
@@ -68,6 +73,7 @@ public class GoClientHandlerImpl implements GoClientHandler {
 		goClientHandlerActor = new GoClientHandlerActorImpl(this, gameManager);
 		goClientState = GoClientState.UNCONNECTED;
 		goClientState.addGoClientStateListener(gameManager);
+		lock = new ReentrantLock();
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -93,10 +99,14 @@ public class GoClientHandlerImpl implements GoClientHandler {
 			while ((message = in.readLine()) != null) {
 				String[] words = message.split("\\" + General.DELIMITER1);
 				if (words.length == 12 && words[0].equals(Client.NAME)) {
+					lock.lock();
 					goClientName = words[1];
 					goClientHandlerActor.confirmConnection(words, name);
+					lock.unlock();
 				} else if (words.length == 3 && words[0].equals(Client.REQUESTGAME)) {
+					lock.lock();
 					goClientHandlerActor.handleGameRequest();
+					lock.unlock();
 				} else if (words.length == 3 && words[0].equals(Client.SETTINGS)) {
 					stoneColor = words[1];
 					boardSize = words[2];
