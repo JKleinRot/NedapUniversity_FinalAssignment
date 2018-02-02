@@ -173,8 +173,8 @@ public class GameImpl implements Game {
 								notifyAll();
 							} else {
 								goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
-										Server.INVALID + General.DELIMITER1 + "The move " + moveMade + 
-										" was invalid" + General.COMMAND_END);
+										Server.INVALID + General.DELIMITER1 + "The move " + 
+										moveMade + " was invalid" + General.COMMAND_END);
 							}
 						} catch (NumberFormatException e) {
 							goClientHandler.sendMessage(Server.ERROR + General.DELIMITER1 + 
@@ -186,7 +186,8 @@ public class GameImpl implements Game {
 						if (move.equals(previousMove)) {
 							calculateWinner();
 							System.out.println("GO SERVER: Game ended between " + 
-									firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
+									firstGoClientHandler.getGoClientName().toUpperCase() + 
+									" and " + 
 									secondGoClientHandler.getGoClientName().toUpperCase());
 						} else {
 							notifyAll();
@@ -195,10 +196,10 @@ public class GameImpl implements Game {
 					this.previousMove = moveMade;
 				}
 			} else {
-			calculateWinner();
-			System.out.println("GO SERVER: Game ended between " + 
-					firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
-					secondGoClientHandler.getGoClientName().toUpperCase());
+				calculateWinner();
+				System.out.println("GO SERVER: Game ended between " + 
+						firstGoClientHandler.getGoClientName().toUpperCase() + " and " + 
+						secondGoClientHandler.getGoClientName().toUpperCase());
 			}
 		}
 	}
